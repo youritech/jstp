@@ -142,7 +142,59 @@ fs.readFile('./person.jsrs', function(err, jsrs) {
 
 ## JSRM / JavaScript Record Metadata
 
+JSRM это метаданные, т.е. данные о структуре и типах JSRS данных, описанные на
+том же JSRS. Таким образом, для JSRM нам подходит тот же базовый парсер, но поля
+описываются при помощи дополнительного синтаксиса. Например: `number(4)` это
+число, имеющее не более 4 разрядов и поле не может принимать `undefined`, а
+`[number(2,4)]` это число от 2 до 4 разрадов или `undefined`. Еще примеры:
+
+```JavaScript
+// Файл: Person.jsrm
+{
+  name: 'string',
+  passport: '[string(8)]',
+  birth: '[Birth]',
+  age: function() {
+    var defference = new Date() - birth.date;
+    return Math.floor(defference / 31536000000);
+  },
+  address: '[Address]'
+}
+// Файл: Birth.jsrm
+{
+  date: 'Date',
+  place: '[string]'
+}
+// Файл: Address.jsrm
+{
+  country: 'string',
+  city: 'string',
+  zip: 'number(5)',
+  street: 'string',
+  building: 'string',
+  room: '[number]'
+}
+```
+Имена типов начинаются с маленькой буквы: `string`, `number`, `boolean`, а
+ссылки на другие записи начинаются с большой: `Birth`, `Address`. Все описания
+записей хранятся в специальном хранилище структур и могут кешироваться на
+серверах и пользовательских устройствах.
+
 ## JSRD / JavaScript Record Data
+
+```JavaScript
+['Marcus Aurelius','AE127095',['1990-02-15','Rome'],,['Ukraine','Kiev','03056','Pobedy','37','158']]
+```
 
 ## JSTP / JavaScript Transfer Protocol
 
+```JavaScript
+// Номер паката 17, вызов, имя интерфейса auth, метод newAccount
+{hdr:[17],call:['auth.newAccount',['Payload data in JSRD or JSRS format']]}
+
+// Ответ на пакет 17, результат done, идентификатор записи 15703
+{hdr:[17],return:['done',[15703]]}
+
+// Событие в пакете 18, интерфейс auth, имя события insert
+{hdr:[18],event:['auth.insert', ['Marcus Aurelius', 'AE127095']] }
+```
