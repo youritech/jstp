@@ -5,8 +5,15 @@
 Это семейство форматов данных и соответствующих библиотек для работы с ними,
 которые основаны на нескольких простых допущениях:
 * передавать данные в виде JavaScript кода можно красивее и удобнее, чем в
-формате сериализации JavaScript объектов JSON; и это даже не потребует
-специального парсера, т.к. он уже встроен в передающую и принимающую системы;
+формате сериализации JavaScript объектов JSON;
+  - это даже не потребует специального парсера, т.к. он уже встроен в передающую
+  и принимающую системы;
+  - человекочитаемый формат может быть почти таким же минималистичным, как
+  бинарный, не многим ему уступая в эффективности кодирования, но сильно
+  выигрывать от простоты просмотра пакетов;
+  - формат сериализации и методика моделирования данных должены быть максимально
+  однозначными и иметь понятные ответы на вопрос: почему именно так, а не иначе;
+  - возможность применять различное форматирование и комментарииж
 * передавать структуру вместе с данными каждый раз - это избыточно и нужно
 оптимизировать формат сериализации и протокол, выделив метамодель и передавать
 ее только если получающая система еще не имеет закешированной версии
@@ -46,14 +53,96 @@
 * количество структур данных, необходимых для работы большинства систем является
 конечным, а сами структуры должны стать фактическими стандартами в результате
 консенсуса специалистов с возможностью их версионного изменения;
-* не стандартизированные структуры данных могут передаваться между системами,
+* нестандартизированные структуры данных могут передаваться между системами,
 снабженные метаданными, которые позволяют их интерпретировать и до известной
 степени обеспечить универсальную обработку, если удаленные стороны доверяют друг
 другу, а формализация данных не имеет смысла;
 
 ## Структура семейства форматов
 
-* JSRS / JavaScript Record Serialization / *.jsrs files
-* JSRM / JavaScript Record Metadata / *.jsrm files
-* JSRD / JavaScript Record Data / *.jsrd files
-* JSTP / JavaScript Transfer Protocol / *.jstp files
+* JSRS / JavaScript Record Serialization
+`{ name: 'Marcus Aurelius', passport: 'AE127095' }`
+* JSRM / JavaScript Record Metadata
+`{ name: 'string', passport: '[string]' }`
+* JSRD / JavaScript Record Data
+`['Marcus Aurelius','AE127095']`
+* JSTP / JavaScript Transfer Protocol
+`{ hdr: [17], event: ['accounts.insert', ['Marcus Aurelius', 'AE127095']] }`
+
+## JavaScript Record Serialization
+
+JSRS это просто JavaScript описывающий структуру данных. В отличие от JSON в нем
+не нужно помещать ключи в двойные кавычки, можно вставлять комментарии, гибко
+форматировать и все остальное, что можно в обычном JavaScript. Например:
+```JavaScript
+{
+  name: 'Marcus Aurelius',
+  passport: 'AE127095',
+  birth: {
+    date: '1990-02-15',
+    place: 'Rome'
+  },
+  contacts: {
+    email: 'marcus@aurelius.it',
+    phone: '+380505551234',
+    address: {
+      country: 'Ukraine',
+      city: 'Kiev',
+      zip: '03056',
+      street: 'Pobedy',
+      building: '37',
+      floor: '1',
+      room: '158'
+    }
+  }
+}
+```
+В JSRS возможны выражения, обращения к функциям и объявления функций, например:
+```JavaScript
+{
+  name: ['Marcus', 'Aurelius'].join(' '),
+  passport: 'AE' + '127095',
+  birth: {
+    date: new Date('1990-02-15'),
+    place: 'Rome'
+  },
+  age: function() {
+    var defference = new Date() - birth.date;
+    return Math.floor(defference / 31536000000);
+  }
+}
+```
+Из примера видно, в функциях можно использовать ссылки на поля структуры,
+например: `birth.date`.
+
+Самый простой парсер JSRS на Node.js выглядит так:
+
+```JavaScript
+var JSRS = {};
+
+JSRS.parse = function(jsrs) {
+  var sandbox = vm.createContext({});
+  var js = vm.createScript('(' + jsrs + ')');
+  var exported = js.runInNewContext(sandbox);
+  for (var key in exported) {
+    sandbox[key] = exported[key];
+  }
+  return exported;
+};
+```
+А вот пример его использования:
+```JavaScript
+fs.readFile('./person.jsrs', function(err, jsrs) {
+  console.log('JavaScript Record Serialization');
+  var person = JSRS.parse(jsrs);
+  console.dir(person);
+  console.log('Age = ' + person.age());
+});
+```
+
+## JSRM / JavaScript Record Metadata
+
+## JSRD / JavaScript Record Data
+
+## JSTP / JavaScript Transfer Protocol
+
