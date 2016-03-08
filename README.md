@@ -65,9 +65,9 @@
 * [JSRM / JavaScript Record Metadata]([JSRM--JavaScript-Record-Metadata])
 `{ name: 'string', passport: '[string]' }`
 * [JSRD / JavaScript Record Data](JSRD--JavaScript-Record-Data)
-`['Marcus Aurelius','AE127095']`
+`[ 'Marcus Aurelius', 'AE127095' ]`
 * [JSTP / JavaScript Transfer Protocol](JSTP--JavaScript-Transfer-Protocol)
-`{ hdr: [17], event: ['accounts.insert', ['Marcus Aurelius', 'AE127095']] }`
+`{ event: [17, 'accounts'], insert: ['Marcus Aurelius', 'AE127095'] }`
 
 ## JSRS / JavaScript Record Serialization
 
@@ -213,35 +213,71 @@ JSRS.setField(data, metadata, 'name', 'Marcus');
 ## JSTP / JavaScript Transfer Protocol
 
 JSTP это протокол передачи данных, использующий в качестве формата кодирования
-данных JSRS, JSRD и поддерживающий метаданные в формате JSRM. Протокол имеет 4
-типа пакетов:
-* `call` - вызов процедуры из удаленного API
-* `return` - возврат из вызова удаленного API
-* `callback` - обратный вызов из удаленного API
+данных JSRS, JSRD и поддерживающий метаданные в формате JSRM. Протокол имеет 6
+типов пакетов:
+* `call` - вызов метода удаленного API
+* `callback` - ответ удаленного API
 * `event` - событие с прикрепленными к нему данными
-* `data` - пакет синхронизации данных
+* `state` - синхронизация данных
+* `handshake` - рукопожатие
+* `health` - служебные данные о состоянии и использовании ресурсов
+* протокол предполагает расширение типов пакетов
 
 ```JavaScript
 // Номер пакета 17, вызов, имя интерфейса auth, метод newAccount
-{hdr:[17],call:['auth.newAccount',['Payload data in JSRD or JSRS format']]}
+{call:[17,'auth'],newAccount:['Payload data in JSRD or JSRS format']}
 
 // Ответ на пакет 17, результат done, идентификатор записи 15703
-{hdr:[17],return:['done',[15703]]}
+{callback:[17],ok:[15703]}
 
 // Событие в пакете 18, интерфейс auth, имя события insert
-{hdr:[18],event:['auth.insert', ['Marcus Aurelius', 'AE127095']] }
+{event:[18,'auth'],insert:['Marcus Aurelius','AE127095']}
 ```
 
-### Идентификация пакетов
-
-### Идентификация интерфейсов, методов и событий
+Структура пакета:
+- пакет это объект, с несколькими ключами;
+- первый ключ - это заголовок, имя ключа - тип пакета; его элементы:
+  - `[0]` - номер пакета, идентифицирующий его в рамкаж соединения; пакет с
+  идентификатором `0` отправляет клиент (тот, кто инициировал установление
+  соединения) и начинает инкрементировать его на `1` в каждом следующем зпросе
+  от клиента; сервер имеет отдельный счетчик, он декрементирует его на `1` с
+  каждым запросом; если любая из сторон посылает запрос (пакет типа `call`),
+  то противоположная отвечает на него пакетом типа `callback` с тем же
+  идентификатором;
+  - `[1]` - идентификатор:
+    - в запросах `call` и `event` - идентификатор (имя) интерфейса;
+    - в запросе `state` - идентификатор изменяемого объекта (путь к нему);
+- второй ключ - идентификатор:
+  - в запросе `call` - идентификатор метода;
+  - в запросе `callback` - идентификатор статусв ответа: `ok` или `error`;
+  - в запросе `event` - идентификатор (имя) события;
+  - в запросе `state` - идентификатор метода: `inc`, `dec`, `del`, `set`;
 
 ### Пакет вызова call
 
-### Пакет ответа return
+Примеры:
+```JavaScript
+{call:[3,'interfaceName'],methodName:['Payload data in JSRD or JSRS format']}
+```
 
 ### Пакет обратного вызова callback
 
+Примеры:
+```JavaScript
+{callback:[14],ok:[15703]}
+
+{callback:[397],error:[4,'Data validation failed']}
+
+{callback:[-23],ok:[]}
+```
+
 ### Пакет события event
 
-### Пакет синхронизации данных data
+Примеры:
+```JavaScript
+{event:[-12,'chat'],message:['Marcus','Hello there!']}
+
+{event:[51,'game'],vote:[5]}
+
+{event:[-79,'db'],insert:['Marcus','Aurelius','Rome','AE127095']}
+```
