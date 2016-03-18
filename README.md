@@ -55,15 +55,15 @@
 
 ## Структура семейства форматов
 
-* [Record Serialization](#Record-Serialization)
+* [Record Serialization](#record-serialization)
 `{ name: 'Marcus Aurelius', passport: 'AE127095' }`
-* [Object Serialization](#Object-Serialization)
+* [Object Serialization](#object-serialization)
 `{ name: ['Marcus', 'Aurelius'].join(' '), passport: 'AE' + '127095' }`
-* [Record Metadata](#Record-Metadata)
+* [Record Metadata](#record-metadata)
 `{ name: 'string', passport: '[string]' }`
-* [Record Data](#Record-Data)
+* [Record Data](#record-data)
 `[ 'Marcus Aurelius', 'AE127095' ]`
-* [JavaScript Transfer Protocol](#JavaScript-Transfer-Protocol)
+* [JavaScript Transfer Protocol](#javascript-transfer-protocol)
 `{ event: [17, 'accounts'], insert: ['Marcus Aurelius', 'AE127095'] }`
 
 ## Record Serialization
@@ -95,7 +95,7 @@
 }
 ```
 
-Самый простой парсер на Node.js выглядит так:
+Самый простой способ распарсить этот формат на Node.js:
 ```JavaScript
 api.jstp.parse = function(s) {
   var sandbox = vm.createContext({});
@@ -111,7 +111,7 @@ fs.readFile('./person.record', function(err, s) {
 });
 ```
 
-* [Object Serialization](Object-Serialization)
+## Object Serialization
 
 Если немного усложнить парсер, перекладывая все ключи, которые он экспортирует
 к нему же в песочницу, то можно будет использовать выражения, вызовы функции и
