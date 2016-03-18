@@ -55,15 +55,15 @@
 
 ## Структура семейства форматов
 
-* [Record Serialization](Record-Serialization)
+* [Record Serialization](#Record-Serialization)
 `{ name: 'Marcus Aurelius', passport: 'AE127095' }`
-* [Object Serialization](Object-Serialization)
+* [Object Serialization](#Object-Serialization)
 `{ name: ['Marcus', 'Aurelius'].join(' '), passport: 'AE' + '127095' }`
-* [Record Metadata]([Record-Metadata])
+* [Record Metadata](#Record-Metadata)
 `{ name: 'string', passport: '[string]' }`
-* [Record Data](Record-Data)
+* [Record Data](#Record-Data)
 `[ 'Marcus Aurelius', 'AE127095' ]`
-* [JavaScript Transfer Protocol](JavaScript-Transfer-Protocol)
+* [JavaScript Transfer Protocol](#JavaScript-Transfer-Protocol)
 `{ event: [17, 'accounts'], insert: ['Marcus Aurelius', 'AE127095'] }`
 
 ## Record Serialization
