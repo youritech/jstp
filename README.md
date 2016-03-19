@@ -127,7 +127,7 @@ api.jstp.parse = function(s) {
   return exported;
 };
 ```
-Папример данных:
+Пример данных:
 ```JavaScript
 {
   name: ['Marcus', 'Aurelius'].join(' '),
@@ -223,6 +223,7 @@ JSTP это протокол передачи данных, использующ
 * `callback` - ответ удаленного API
 * `event` - событие с прикрепленными к нему данными
 * `state` - синхронизация данных
+* `stream` - передача потока данных
 * `handshake` - рукопожатие
 * `health` - служебные данные о состоянии и использовании ресурсов
 * предполагается расширение типов пакетов
@@ -256,6 +257,7 @@ JSTP это протокол передачи данных, использующ
   - в запросе `callback` - идентификатор статусв ответа: `ok` или `error`;
   - в запросе `event` - идентификатор (имя) события;
   - в запросе `state` - идентификатор метода: `inc`, `dec`, `del`, `set`;
+  - в запросе `stream` - нет значения
 
 ### Пакет вызова call
 
@@ -284,4 +286,23 @@ JSTP это протокол передачи данных, использующ
 {event:[51,'game'],vote:[5]}
 
 {event:[-79,'db'],insert:['Marcus','Aurelius','Rome','AE127095']}
+```
+
+### Пакет синхронизации данных state
+
+Примеры:
+```JavaScript
+{state:[-12,'object.path.value'],inc:5}
+{state:[-13,'object.path.value'],dec:1}
+{state:[-14,'object.path.value'],set:12}
+{state:[-15,'object.path.value'],del:[]}
+```
+
+### Пакет потока данных stream
+
+Примеры:
+```JavaScript
+{stream:[9],data:'Payload start...'}
+{stream:[9],data:'...continue...'}
+{stream:[9],data:'...end'}
 ```
