@@ -201,7 +201,7 @@ fs.readFile('./person.record', function(err, s) {
 
 Пример экземпляра записи `Person`:
 ```JavaScript
-['Marcus Aurelius','AE127095',['1990-02-15','Rome'],,['Ukraine','Kiev','03056','Pobedy','37','158']]
+['Marcus Aurelius','AE127095',['1990-02-15','Rome'],['Ukraine','Kiev','03056','Pobedy','37','158']]
 ```
 
 Если мы имеем данные и соответствующие метаданные, то можем развернуть из них
