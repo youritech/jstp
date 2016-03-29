@@ -256,7 +256,8 @@ JSTP это протокол передачи данных, использующ
   - в запросе `call` - идентификатор метода;
   - в запросе `callback` - идентификатор статусв ответа: `ok` или `error`;
   - в запросе `event` - идентификатор (имя) события;
-  - в запросе `state` - идентификатор метода: `inc`, `dec`, `del`, `set`;
+  - в запросе `state` - идентификатор метода: `inc`, `dec`, `delete`, `let`,
+  `push`, `pop`, `shift`, `unshift`;
   - в запросе `stream` - нет значения
 
 ### Пакет вызова call
@@ -292,10 +293,21 @@ JSTP это протокол передачи данных, использующ
 
 Примеры:
 ```JavaScript
-{state:[-12,'object.path.value'],inc:5}
-{state:[-13,'object.path.value'],dec:1}
-{state:[-14,'object.path.value'],set:12}
-{state:[-15,'object.path.value'],del:[]}
+{state:[-12,'object.path.prop1'],inc:5}
+{state:[-13,'object.path.prop2'],dec:1}
+{state:[-14,'object.path.prop3'],let:700}
+{state:[-15,'object.path.prop4'],let:'Hello'}
+{state:[-16,'object.path.prop5'],let:{f:55}}
+{state:[-17,'object.path.prop5'],let:[1,2,7]}
+{state:[-18,'object.path.prop6'],delete:0}
+{state:[-19,'object.path.set1'],let:['A','D']}
+{state:[-20,'object.path.set1'],push:'C'}
+{state:[-20,'object.path.set2'],let:[5,6,9]}
+{state:[-20,'object.path.set2'],push:12}
+{state:[-20,'object.path.set2'],pop:2}
+{state:[-20,'object.path.set2'],shift:3}
+{state:[-20,'object.path.set2'],delete:5}
+{state:[-20,'object.path.set2'],unshift:1}
 ```
 
 ### Пакет потока данных stream
