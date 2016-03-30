@@ -137,8 +137,8 @@ api.jstp.parse = function(s) {
     place: 'Rome'
   },
   age: function() {
-    var defference = new Date() - birth.date;
-    return Math.floor(defference / 31536000000);
+    var difference = new Date() - birth.date;
+    return Math.floor(difference / 31536000000);
   }
 }
 ```
