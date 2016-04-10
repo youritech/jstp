@@ -318,3 +318,15 @@ JSTP это протокол передачи данных, использующ
 {stream:[9],data:'...continue...'}
 {stream:[9],data:'...end'}
 ```
+
+### Ссылки на реализации
+
+* For node.js and Impress Application Server [Impress/lib/api.jstp.js](https://github.com/metarhia/Impress/blob/master/lib/api.jstp.js)
+* For C++ [NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) and for Qt [NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP)
+* For iOS & Swift [JSTPMobile/iOS](https://github.com/JSTPMobile/iOS)
+* For Android
+* For JavaEE
+* For C# [JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS)
+* For Python [mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python)
+* For Haskell [DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser)
+* For PHP [Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP)
