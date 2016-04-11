@@ -330,3 +330,4 @@ JSTP это протокол передачи данных, использующ
 * For Python [mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python)
 * For Haskell [DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser)
 * For PHP [Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP)
+* For GoLang [belochub/jstp-go](https://github.com/belochub/jstp-go)
