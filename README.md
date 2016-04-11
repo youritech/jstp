@@ -325,7 +325,7 @@ JSTP это протокол передачи данных, использующ
 * For C++ [NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) and for Qt [NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP)
 * For iOS & Swift [JSTPMobile/iOS](https://github.com/JSTPMobile/iOS)
 * For Android [JSTPMobile/Android](https://github.com/JSTPMobile/Android)
-* For JavaEE
+* For JavaEE [NikichXP/JSTPJavaEE](https://github.com/NikichXP/JSTPJavaEE)
 * For C# [JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS)
 * For Python [mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python)
 * For Haskell [DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser)
