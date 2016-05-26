@@ -319,6 +319,26 @@ JSTP это протокол передачи данных, использующ
 {stream:[9],data:'...end'}
 ```
 
+### Пакет рукопожатия handshake
+
+Удачное рукопожатие:
+```JavaScript
+C: {handshake:[1,'appName'],user:'passwordHash'}
+S: {handshake:[1],ok:'sessionHash'}
+```
+
+Приложение не найдено:
+```JavaScript
+C: {handshake:[1,'appName'],user:'passwordHash'}
+S: {handshake:[1],error:[10,'Application not found']}
+```
+
+Ошибка аутентификации:
+```JavaScript
+C: {handshake:[1,'appName'],user:'passwordHash'}
+S: {handshake:[1],error:[11,'Authentication failed']}
+```
+
 ### Передача данных
 
 Протокол TCP передает поток данных, поэтому последовательно переданные фрагменты
