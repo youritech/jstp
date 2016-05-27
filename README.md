@@ -321,22 +321,24 @@ JSTP это протокол передачи данных, использующ
 
 ### Пакет рукопожатия handshake
 
+Для пакетов рукопожатия номер пакета всегда `0`. Ответ содержит или ключ `ok` со значением - идентификатором сессии или `error` - массив с кодом ошибки и опциональным текстовым сообщением об ошибке.
+
 Удачное рукопожатие:
 ```JavaScript
-C: {handshake:[1,'appName'],user:'passwordHash'}
-S: {handshake:[1],ok:'sessionHash'}
+C: {handshake:[0,'appName'],user:'passwordHash'}
+S: {handshake:[0],ok:'sessionHash'}
 ```
 
 Приложение не найдено:
 ```JavaScript
-C: {handshake:[1,'appName'],user:'passwordHash'}
-S: {handshake:[1],error:[10,'Application not found']}
+C: {handshake:[0,'appName'],user:'passwordHash'}
+S: {handshake:[0],error:[10,'Application not found']}
 ```
 
 Ошибка аутентификации:
 ```JavaScript
-C: {handshake:[1,'appName'],user:'passwordHash'}
-S: {handshake:[1],error:[11,'Authentication failed']}
+C: {handshake:[0,'appName'],user:'passwordHash'}
+S: {handshake:[0],error:[11,'Authentication failed']}
 ```
 
 ### Передача данных
