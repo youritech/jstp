@@ -323,21 +323,27 @@ JSTP это протокол передачи данных, использующ
 
 Для пакетов рукопожатия номер пакета всегда `0`. Ответ содержит или ключ `ok` со значением - идентификатором сессии или `error` - массив с кодом ошибки и опциональным текстовым сообщением об ошибке.
 
-Удачное рукопожатие:
+Удачное рукопожатие при подключении клиента:
 ```JavaScript
-C: {handshake:[0,'appName'],user:'passwordHash'}
+C: {handshake:[0,'appName'],userName:'passwordHash'}
+S: {handshake:[0],ok:'sessionHash'}
+```
+
+Удачное рукопожатие при подключении воркера Impress к контроллеру приватного облака:
+```JavaScript
+C: {handshake:[0,'cloud'],S1N5:'accessKeyHach'}
 S: {handshake:[0],ok:'sessionHash'}
 ```
 
 Приложение не найдено:
 ```JavaScript
-C: {handshake:[0,'appName'],user:'passwordHash'}
+C: {handshake:[0,'appName'],userName:'passwordHash'}
 S: {handshake:[0],error:[10,'Application not found']}
 ```
 
 Ошибка аутентификации:
 ```JavaScript
-C: {handshake:[0,'appName'],user:'passwordHash'}
+C: {handshake:[0,'appName'],userName:'passwordHash'}
 S: {handshake:[0],error:[11,'Authentication failed']}
 ```
 
