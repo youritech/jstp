@@ -331,9 +331,10 @@ S: {handshake:[0],ok:'sessionHash'}
 
 Удачное рукопожатие при подключении воркера Impress к контроллеру приватного облака:
 ```JavaScript
-C: {handshake:[0,'cloud'],S1N5:'accessKeyHach'}
-S: {handshake:[0],ok:'sessionHash'}
+C: {handshake:[0,'cloud'],S1N5:'accessKeyHash'}
+S: {handshake:[0],ok:17}
 ```
+Тут `17` это cloudNodeIndex - индекс ноды приватного облака.
 
 Приложение не найдено:
 ```JavaScript
