@@ -325,26 +325,35 @@ JSTP это протокол передачи данных, использующ
 
 Удачное рукопожатие при подключении клиента:
 ```JavaScript
-C: {handshake:[0,'appName'],userName:'passwordHash'}
-S: {handshake:[0],ok:'sessionHash'}
+C: {handshake:[0,'example'],userName:'7b458e1a9dda....67cb7a3e'}
+S: {handshake:[0],ok:'9b71d224bd62...bcdec043'}
 ```
+Тут `example` это applicationName - имя приложения.
+
+Удачное рукопожатие при подключении клиента под ананимным аккаунтом:
+```JavaScript
+C: {handshake:[0,'example']}
+S: {handshake:[0],ok:'f3785d96d46a...def46f73'}
+```
+Это может быть необходимо для регистрации или публичного сервиса, 'f3785d96d46a...def46f73' - это идентификатор сессии.
 
 Удачное рукопожатие при подключении воркера Impress к контроллеру приватного облака:
 ```JavaScript
-C: {handshake:[0,'cloud'],S1N5:'accessKeyHash'}
-S: {handshake:[0],ok:17}
+C: {handshake:[0,'impress'],S1N5:'d3ea3d73319b...5c2e5c3a'}
+S: {handshake:[0],ok:'PrivateCloud'}
 ```
-Тут `17` это cloudNodeIndex - индекс ноды приватного облака.
+Тут `PrivateCloud` это cloudName - имя приватного облака, а 'd3ea3d73319b...5c2e5c3a' это хеш `sha512` ключа облака с солью.
 
 Приложение не найдено:
 ```JavaScript
-C: {handshake:[0,'appName'],userName:'passwordHash'}
+C: {handshake:[0,'appName'],marcus:'fbc2890caada...0c466347'}
 S: {handshake:[0],error:[10,'Application not found']}
 ```
+Тут `marcus` это имя пользователя, а `fbc2890caada...0c466347` это хеш пароля `sha512` с солью.
 
 Ошибка аутентификации:
 ```JavaScript
-C: {handshake:[0,'appName'],userName:'passwordHash'}
+C: {handshake:[0,'appName'],marcus:'e2dff7251967...14b8c5da'}
 S: {handshake:[0],error:[11,'Authentication failed']}
 ```
 
