@@ -218,14 +218,15 @@ console.dir(person);
 
 JSTP это протокол передачи данных, использующий в качестве формата кодирования
 данных синтаксис JavaScript объектов и поддерживающий метаданные. Протокол имеет
-6 типов пакетов:
-* `call` - вызов метода удаленного API
-* `callback` - ответ удаленного API
-* `event` - событие с прикрепленными к нему данными
-* `state` - синхронизация данных
-* `stream` - передача потока данных
-* `handshake` - рукопожатие
-* `health` - служебные данные о состоянии и использовании ресурсов
+8 типов пакетов:
+* `call` — вызов метода удаленного API
+* `callback` — ответ удаленного API
+* `event` — событие с прикрепленными к нему данными
+* `state` — синхронизация данных
+* `stream` — передача потока данных
+* `handshake` — рукопожатие
+* `health` — служебные данные о состоянии и использовании ресурсов
+* `inspect` — получение интроспекции API
 * предполагается расширение типов пакетов
 
 ```JavaScript
@@ -250,7 +251,7 @@ JSTP это протокол передачи данных, использующ
   то противоположная отвечает на него пакетом типа `callback` с тем же
   идентификатором;
   - `[1]` - идентификатор:
-    - в запросах `call` и `event` - идентификатор (имя) интерфейса;
+    - в запросах `call`, `event` и `inspect` - идентификатор (имя) интерфейса;
     - в запросе `state` - идентификатор изменяемого объекта (путь к нему);
 - второй ключ - идентификатор:
   - в запросе `call` - идентификатор метода;
@@ -258,6 +259,7 @@ JSTP это протокол передачи данных, использующ
   - в запросе `event` - идентификатор (имя) события;
   - в запросе `state` - идентификатор метода: `inc`, `dec`, `delete`, `let`,
   `push`, `pop`, `shift`, `unshift`;
+  - в запросе `inspect` - нет значения;
   - в запросе `stream` - нет значения
 
 ### Пакет вызова call
@@ -323,22 +325,59 @@ JSTP это протокол передачи данных, использующ
 
 Для пакетов рукопожатия номер пакета всегда `0`. Ответ содержит или ключ `ok` со значением - идентификатором сессии или `error` - массив с кодом ошибки и опциональным текстовым сообщением об ошибке.
 
-Удачное рукопожатие:
+Удачное рукопожатие при подключении клиента:
 ```JavaScript
-C: {handshake:[0,'appName'],user:'passwordHash'}
-S: {handshake:[0],ok:'sessionHash'}
+C: {handshake:[0,'example'],marcus:'7b458e1a9dda....67cb7a3e'}
+S: {handshake:[0],ok:'9b71d224bd62...bcdec043'}
 ```
+Тут `example` это applicationName - имя приложения, `marcus` - имя пользователя, а `9b71d224bd62...bcdec043` - это идентификатор сессии.
+
+Удачное рукопожатие при подключении клиента под анонимным аккаунтом:
+```JavaScript
+C: {handshake:[0,'example']}
+S: {handshake:[0],ok:'f3785d96d46a...def46f73'}
+```
+Это может быть необходимо для регистрации или публичного сервиса. Сервер возвращает `f3785d96d46a...def46f73` - это идентификатор сессии.
+
+Удачное рукопожатие при подключении воркера Impress к контроллеру приватного облака:
+```JavaScript
+C: {handshake:[0,'impress'],S1N5:'d3ea3d73319b...5c2e5c3a'}
+S: {handshake:[0],ok:'PrivateCloud'}
+```
+Тут `PrivateCloud` это cloudName - имя приватного облака, а `d3ea3d73319b...5c2e5c3a` ключа облака (не хеш).
 
 Приложение не найдено:
 ```JavaScript
-C: {handshake:[0,'appName'],user:'passwordHash'}
+C: {handshake:[0,'example'],marcus:'fbc2890caada...0c466347'}
 S: {handshake:[0],error:[10,'Application not found']}
 ```
+Тут `marcus` это имя пользователя, а `fbc2890caada...0c466347` это хеш пароля `sha512` с солью.
 
 Ошибка аутентификации:
 ```JavaScript
-C: {handshake:[0,'appName'],user:'passwordHash'}
+C: {handshake:[0,'example'],marcus:'e2dff7251967...14b8c5da'}
 S: {handshake:[0],error:[11,'Authentication failed']}
+```
+
+### Пакет запроса интроспекции inspect
+
+Данный пакет передаётся для запроса интроспекции методов интерфейса на сервере
+или клиенте, и, соответственно, может передаваться любой стороной.
+
+Аналогично пакету `call`, обратная сторона отвечает на запрос пакетом `callback`.
+
+Пример удачного получения интроспекции:
+
+```javascript
+C: {inspect:[42,'interfaceName']}
+S: {callback:[42],ok:['method1','method2']}
+```
+
+Пример ошибки получения интроспекции:
+
+```javascript
+C: {inspect:[15,'unknownInterface']}
+S: {callback:[15],error:[12,'Interface not found']}
 ```
 
 ### Передача данных
@@ -365,8 +404,7 @@ S: {handshake:[0],error:[11,'Authentication failed']}
 * For node.js and Impress Application Server [Impress/lib/api.jstp.js](https://github.com/metarhia/Impress/blob/master/lib/api.jstp.js)
 * For C++ [NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) and for Qt [NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP)
 * For iOS & Swift [JSTPMobile/iOS](https://github.com/JSTPMobile/iOS)
-* For Android [JSTPMobile/Android](https://github.com/JSTPMobile/Android)
-* For JavaEE [NikichXP/JSTPJavaEE](https://github.com/NikichXP/JSTPJavaEE)
+* For Java [JSTPMobile/Java](https://github.com/JSTPMobile/Java)
 * For C# [JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS)
 * For Python [mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python)
 * For Haskell [DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser)
