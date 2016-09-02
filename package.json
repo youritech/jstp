@@ -1,0 +1,30 @@
+{
+  "name": "impress-jstp",
+  "version": "0.1.2",
+  "author": "Timur Shemsedinov <timur.shemsedinov@gmail.com>",
+  "description": "JavaScript Transfer Protocol for Impress Application Server",
+  "license": "MIT",
+  "keywords": [
+    "api",
+    "rpc",
+    "impress",
+    "metarhia",
+    "javascript",
+    "json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metarhia/JSTP"
+  },
+  "bugs": {
+    "url": "https://github.com/metarhia/JSTP/issues",
+    "email": "timur.shemsedinov@gmail.com"
+  },
+  "main": "./jstp.js",
+  "dependencies": {
+  },
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "readmeFilename": "README.md"
+}
