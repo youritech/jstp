@@ -52,28 +52,3 @@ processing that are based on some simple assumptions:
   that will allow to interprete them and provide universal processing to the
   possible extent if the remote sides trust each other and formalization of
   data doesn't make sense.
-
-## Documentation
-
-See the [docs/](https://github.com/metarhia/JSTP/tree/master/docs) directory
-for documentation.
-
-* [Introduction](docs/intro.md)
-* [Data Formats](docs/data-formats.md)
-* [Network Protocol](docs/protocol.md)
-
-## Other Implementations
-
-| Platform or Language | Repository | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server | Status |
-| --- | --- | :---: | :---: | :---: | :---: | :---: | --- |
-| Node.js and Impress Application Server | [metarhia/Impress/lib/api.jstp.js](https://github.com/metarhia/Impress/blob/master/lib/api.jstp.js) | ✓ | ✓ | ✓ | ✗ | ✓ | proof of concept, will be replaced with this library soon |
-| JavaScript for web browsers | [metarhia/Impress/applications/example/static/js/impress.js](https://github.com/metarhia/Impress/blob/master/applications/example/static/js/impress.js) | ✓ | ✗ | ✗ | ✓ | ✗ | proof of concept, will be replaced with this library soon |
-| C++ | [NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Qt C++ | [NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| iOS (Swift) | [JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✗ | ✗ | ✗ | ✗ | in development |
-| Java | [JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
-| C# | [JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Python | [mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | partially | ✗ | ✗ | ✗ | ✗ | proof of concept |
-| Haskell | [DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser) | ✓ | ✓ | ✓ | ✗ | ✗ | stable |
-| PHP | [Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| GoLang | [belochub/jstp-go](https://github.com/belochub/jstp-go) | ✗ | ✗ | ✗ | ✗ | ✗ | in development |
