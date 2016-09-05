@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/metarhia/JSTP.svg?branch=master)](https://travis-ci.org/metarhia/JSTP)
+[![Dependency Status](https://david-dm.org/metarhia/JSTP.svg)](https://david-dm.org/metarhia/JSTP)
+
 # JSTP / JavaScript Transfer Protocol
 
 ## Concept
