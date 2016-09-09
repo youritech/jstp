@@ -11,7 +11,7 @@ processing that are based on some simple assumptions:
 * it is possible to trasfer data as plain JavaScript code easier and
   more efficient than using JSON:
   - in its simplest implementation it doesn't even require a specialized
-    pareser since it is already built into transferer and receiver systems;
+    parser since it is already built into transferer and receiver systems;
   - a human-readable format can be almost as minimalist as a binary one,
     losing coding efficiency very slightly yet winning from the simplicity
     of packet inspection;
