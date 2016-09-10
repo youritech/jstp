@@ -29,7 +29,7 @@
   },
   "scripts": {
     "test": "mocha tests --slow 0",
-    "install": "(node-gyp rebuild 2> builderror.log) || (exit 0)"
+    "install": "node-gyp rebuild 2> builderror.log || (cat builderror.log && exit 1)"
   },
   "engines": {
     "node": ">=0.4.0"
