@@ -28,7 +28,8 @@
     "mocha": "^3.0.2"
   },
   "scripts": {
-    "test": "mocha tests --slow 0"
+    "test": "mocha tests --slow 0",
+    "install": "node-gyp rebuild 2> builderror.log || (cat builderror.log && exit 1)"
   },
   "engines": {
     "node": ">=0.4.0"
