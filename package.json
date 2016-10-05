@@ -21,18 +21,26 @@
     "email": "timur.shemsedinov@gmail.com"
   },
   "main": "./jstp.js",
+  "browser": "./browser/index.js",
   "dependencies": {},
   "devDependencies": {
     "eslint": "^3.4.0",
     "expect.js": "^0.3.1",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-detect-browsers": "^2.1.0",
+    "karma-expect": "^1.1.3",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-mocha": "^1.2.0",
+    "karma-safari-launcher": "^1.0.0",
     "mocha": "^3.0.2"
   },
   "scripts": {
-    "test": "mocha tests --slow 0",
+    "test": "mocha tests --slow 0 && karma start && eslint lib browser tests",
     "install": "node-gyp rebuild 2> builderror.log || (cat builderror.log && exit 1)"
   },
   "engines": {
-    "node": ">=0.4.0"
+    "node": ">=4.0.0"
   },
   "readmeFilename": "README.md"
 }
