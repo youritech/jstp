@@ -67,16 +67,16 @@ for documentation.
 
 ## Other Implementations
 
-| Platform or Language | Repository | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server | Status |
-| --- | --- | :---: | :---: | :---: | :---: | :---: | --- |
-| Node.js and Impress Application Server | [metarhia/Impress](https://github.com/metarhia/Impress/blob/master/lib/api.jstp.js) | ✓ | ✓ | ✓ | ✗ | ✓ | proof of concept, will be replaced with this library soon |
-| JavaScript for web browsers | [metarhia/Impress](https://github.com/metarhia/Impress/blob/master/applications/example/static/js/impress.js) | ✓ | ✗ | ✗ | ✓ | ✗ | proof of concept, will be replaced with this library soon |
-| C++ | [NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Qt C++ | [NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| iOS (Swift) | [JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✗ | ✗ | ✗ | ✗ | in development |
-| Java | [JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
-| C# | [JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Python | [mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | partially | ✗ | ✗ | ✗ | ✗ | proof of concept |
-| Haskell | [DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser) | ✓ | ✓ | ✓ | ✗ | ✗ | stable |
-| PHP | [Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| GoLang | [belochub/jstp-go](https://github.com/belochub/jstp-go) | ✗ | ✗ | ✗ | ✗ | ✗ | in development |
+| Platform or Language | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server | Status |
+| --- | :---: | :---: | :---: | :---: | :---: | --- |
+| [Node.js and Impress Application Server](https://github.com/metarhia/Impress/blob/master/lib/api.jstp.js) | ✓ | ✓ | ✓ | ✗ | ✓ | proof of concept, will be replaced with this library soon |
+| [JavaScript for web browsers](https://github.com/metarhia/Impress/blob/master/applications/example/static/js/impress.js) | ✓ | ✗ | ✗ | ✓ | ✗ | proof of concept, will be replaced with this library soon |
+| C++<br>[NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| Qt C++<br>[NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| iOS (Swift)<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✗ | ✗ | ✗ | ✗ | in development |
+| Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
+| C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| Python<br>[mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | ± | ✗ | ✗ | ✗ | ✗ | proof of concept |
+| Haskell<br>[DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser) | ✓ | ✓ | ✓ | ✗ | ✗ | stable |
+| PHP<br>[Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| GoLang<br>[belochub/jstp-go](https://github.com/belochub/jstp-go) | ✗ | ✗ | ✗ | ✗ | ✗ | in development |
