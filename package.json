@@ -21,7 +21,9 @@
     "email": "timur.shemsedinov@gmail.com"
   },
   "main": "./jstp.js",
-  "browser": "./browser/index.js",
+  "browser": {
+    "./lib/record-serialization.js": "./lib/browser/record-serialization.js"
+  },
   "dependencies": {},
   "devDependencies": {
     "eslint": "^3.4.0",
@@ -33,11 +35,17 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.2.0",
     "karma-safari-launcher": "^1.0.0",
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "webpack": "^1.13.2"
   },
   "scripts": {
     "test": "mocha tests --slow 0 && karma start && eslint lib browser tests",
-    "install": "node-gyp rebuild 2> builderror.log || (cat builderror.log && exit 1)"
+    "install": "npm run build-node",
+    "build": "npm run build-node && npm run build-browser",
+    "build-node": "node-gyp rebuild 2> builderror.log || (cat builderror.log && exit 1)",
+    "build-browser": "webpack --progress --colors",
+    "prepublish": "npm run build-browser",
+    "pretest": "npm run build"
   },
   "engines": {
     "node": ">=4.0.0"
