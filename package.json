@@ -22,7 +22,7 @@
   },
   "main": "./jstp.js",
   "browser": {
-    "./lib/record-serialization.js": "./lib/browser/record-serialization.js"
+    "./lib/record-serialization.js": "./lib/record-serialization-nonnative.js"
   },
   "dependencies": {},
   "devDependencies": {
