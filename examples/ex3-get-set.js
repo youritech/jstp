@@ -1,6 +1,6 @@
 'use strict';
 
-// JSRS utilities
+// JSRD utilities
 
 var JSRD = {};
 
