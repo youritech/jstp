@@ -21,7 +21,7 @@
       "list-item-bullet-indent": false,
       "list-item-content-indent": true,
       "list-item-indent": "space",
-      "list-item-spacing": true,
+      "list-item-spacing": false,
       "maximum-heading-length": false,
       "maximum-line-length": 80,
       "no-auto-link-without-protocol": true,
