@@ -25,9 +25,12 @@ encoding format and supports metadata. The protocol has 8 types of packets:
 ```
 
 Packet structure:
+
 * a packet is an object with several keys;
+
 * the first one is a header, the name of this key is the packet type,
   its elements are:
+
   - `[0]` — unique number that identifies the packet inside the connection;
     packet with ID `0` is sent by a client (the side that initiated the
     connection) and the client increments it by `1` with each request;
@@ -35,16 +38,25 @@ Packet structure:
     each request or response to the client; if any of the sides sends a
     request (like `call` or `inspect`), another one responds with a
     `callback` packet with the same ID.
+
   - `[1]` — resource identifier:
+
     - in `call`, `event` and `inspect` — name of an interface;
     - in `state` — identifier of the mutating object;
+
 - the second key is identifier:
+
   - in `call` — method name;
+
   - in `callback` - response status (`ok` or `error`);
+
   - in `event` — event name;
+
   - in `state` — method identifier (`inc`, `dec`, `delete`, `let`, `push`,
     `pop`, `shift`, `unshift`);
+
   - in `inspect` — no value;
+
   - in `stream` — no value.
 
 ## Remote Call Packet `call`
@@ -155,7 +167,8 @@ C: {handshake:[0,'example'],marcus:'fbc2890caada...0c466347'}
 S: {handshake:[0],error:[10,'Application not found']}
 ```
 
-In this example `marcus` is username and `fbc2890caada...0c466347` is salted `sha512` hash of a password.
+In this example `marcus` is username and `fbc2890caada...0c466347` is salted
+`sha512` hash of a password.
 
 Authentication error:
 

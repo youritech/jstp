@@ -3,15 +3,19 @@
 ## Data Formats Structure
 
 * [Record Serialization](#record-serialization)
-`{ name: 'Marcus Aurelius', passport: 'AE127095' }`
+  `{ name: 'Marcus Aurelius', passport: 'AE127095' }`
+
 * [Object Serialization](#object-serialization)
-`{ name: ['Marcus', 'Aurelius'].join(' '), passport: 'AE' + '127095' }`
+  `{ name: ['Marcus', 'Aurelius'].join(' '), passport: 'AE' + '127095' }`
+
 * [Record Metadata](#record-metadata)
-`{ name: 'string', passport: '[string]' }`
+  `{ name: 'string', passport: '[string]' }`
+
 * [Record Data](#record-data)
-`[ 'Marcus Aurelius', 'AE127095' ]`
-* [JavaScript Transfer Protocol](#javascript-transfer-protocol)
-`{ event: [17, 'accounts'], insert: ['Marcus Aurelius', 'AE127095'] }`
+  `[ 'Marcus Aurelius', 'AE127095' ]`
+
+* [JavaScript Transfer Protocol](protocol.md)
+  `{ event: [17, 'accounts'], insert: ['Marcus Aurelius', 'AE127095'] }`
 
 ## Record Serialization
 
@@ -54,6 +58,7 @@ api.jstp.parse = function(s) {
   return js.runInNewContext(sandbox);
 };
 ```
+
 And here's the example of usage:
 
 ```javascript
