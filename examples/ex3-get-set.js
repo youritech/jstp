@@ -1,11 +1,10 @@
-var fs = require('fs'),
-    vm = require('vm');
+'use strict';
 
 // JSRS utilities
 
-var JSRS = {};
+var JSRD = {};
 
-JSRS.getField = function(data, metadata, field) {
+JSRD.getField = function(data, metadata, field) {
   var i = 0;
   for (var key in metadata) {
     if (key === field) {
@@ -15,7 +14,7 @@ JSRS.getField = function(data, metadata, field) {
   }
 };
 
-JSRS.setField = function(data, metadata, field, value) {
+JSRD.setField = function(data, metadata, field, value) {
   var i = 0;
   for (var key in metadata) {
     if (key === field) {
@@ -27,9 +26,9 @@ JSRS.setField = function(data, metadata, field, value) {
 
 // JSRD and JSRM usage example
 
-var data = ['Marcus Aurelius','AE127095'];
+var data = ['Marcus Aurelius', 'AE127095'];
 var metadata = { name: 'string', passport: '[string(8)]' };
-var name = JSRS.getField(data, metadata, 'name');
+var name = JSRD.getField(data, metadata, 'name');
 console.log('Name = ' + name);
-JSRS.setField(data, metadata, 'name', 'Marcus');
+JSRD.setField(data, metadata, 'name', 'Marcus');
 console.dir(data);

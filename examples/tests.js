@@ -12,7 +12,7 @@ let obj = {
   birth: new Date('1990-02-15'),
   age: 26,
   smart: true,
-  arr: [1,2,3,4,undefined,5,undefined],
+  arr: [1, 2, 3, 4, undefined, 5, undefined],
   sub: { key: 'val' },
   undefinedField: undefined,
   nullField: null,
@@ -38,32 +38,32 @@ let jsrd = api.jstp.jsrd(data, metadata);
 console.log('name: ' + jsrd.name);
 console.log(api.jstp.stringify(jsrd));
 
-data = { a: 4, b: 5, c:[], d: 'qwerty' };
+data = { a: 4, b: 5, c: [], d: 'qwerty' };
 data = [1, 2, 3, 4, 5, 'a'];
 data = ['Marcus Aurelius', 'AE127095', '1990-02-15', 26];
-data = [,,,,,,,,,];
+data = [, , , , , , , , , ];  // eslint-disable-line no-sparse-arrays
 data = obj;
 
 api.test.speed('JSTP', 10000, function() {
-  let s = api.jstp.stringify(data);
+  api.jstp.stringify(data);
 });
 
 api.test.speed('JSON', 10000, function() {
-  let s = JSON.stringify(data);
+  JSON.stringify(data);
 });
 
 api.test.speed('JSTP', 10000, function() {
-  let s = api.jstp.stringify(data);
+  api.jstp.stringify(data);
 });
 
 api.test.speed('JSON', 10000, function() {
-  let s = JSON.stringify(data);
+  JSON.stringify(data);
 });
 
 api.test.speed('JSTP', 10000, function() {
-  let s = api.jstp.stringify(data);
+  api.jstp.stringify(data);
 });
 
 api.test.speed('JSON', 10000, function() {
-  let s = JSON.stringify(data);
+  JSON.stringify(data);
 });

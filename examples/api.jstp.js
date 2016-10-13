@@ -18,7 +18,7 @@ api.jstp.parse = function(str) {
 //   str - array serialized to string
 //   return - deserialized JavaScript array
 //
-api.jstp.deserialize = function(str) {
+api.jstp.deserialize = function(str) {  // eslint-disable-line no-unused-vars
 
 };
 
@@ -30,7 +30,7 @@ api.jstp.deserialize = function(str) {
 api.jstp.interprete = function(str) {
   let sandbox = api.vm.createContext({});
   let script = api.vm.createScript('(' + str + ')');
-  let exported = str.runInNewContext(sandbox);
+  let exported = script.runInNewContext(sandbox);
   for (let key in exported) {
     sandbox[key] = exported[key];
   }
@@ -58,7 +58,7 @@ api.jstp.stringify.types = {
   number: function(n) { return n + ''; },
   string: function(s) { return '\'' + s + '\''; },
   boolean: function(b) { return b ? 'true' : 'false'; },
-  undefined: function(u, arr) { return !!arr ? '' : 'undefined'; },
+  undefined: function(u, arr) { return arr ? '' : 'undefined'; },
   function: function() { return 'undefined'; },
   date: function(d) {
     return '\'' + d.toISOString().split('T')[0] + '\'';
@@ -81,11 +81,9 @@ api.jstp.stringify.types = {
 // Serialize object to string, data and functions
 // functions will be serialized with source code
 //   obj - JavaScript object to be serialized
-//   i - (optional) array index, for internal use only
-//   arr - (optional) array, for internal use only
 //   return - object serialized to string
 //
-api.jstp.serialize = function(obj, i, arr) {
+api.jstp.serialize = function(obj) {  // eslint-disable-line no-unused-vars
 
 };
 
@@ -94,6 +92,7 @@ api.jstp.serialize = function(obj, i, arr) {
 //   metadata - metadata definition
 //   return - JavaScript object
 //
+// eslint-disable-next-line no-unused-vars
 api.jstp.dataToObject = function(data, metadata) {
 
 };
@@ -103,6 +102,7 @@ api.jstp.dataToObject = function(data, metadata) {
 //   metadata - metadata definition
 //   return - JavaScript object
 //
+// eslint-disable-next-line no-unused-vars
 api.jstp.objectToData = function(obj, metadata) {
 
 };
@@ -118,7 +118,7 @@ api.jstp.jsrd = function(data, metadata) {
   keys.forEach(function(fieldName, index) {
     Object.defineProperty(obj, fieldName, {
       enumerable: true,
-      get: function () {
+      get: function() {
         return data[index];
       },
       set: function(value) {
@@ -145,6 +145,7 @@ api.jstp.connect = function(name, host, port) {
     connection.socket.write(packet);
   };
 
+  // eslint-disable-next-line no-unused-vars
   connection.call = function(interfaceName, methodName, parameters, callback) {
     let packet = {};
     connection.packetId++;
@@ -153,6 +154,7 @@ api.jstp.connect = function(name, host, port) {
     connection.send(packet);
   };
 
+  // eslint-disable-next-line no-unused-vars
   connection.event = function(interfaceName, eventName, parameters) {
     let packet = {};
     connection.packetId++;
@@ -166,6 +168,7 @@ api.jstp.connect = function(name, host, port) {
     host: host,
   }, function() {
     socket.write();
+    // eslint-disable-next-line no-unused-vars
     socket.on('data', function(data) {
     });
   });

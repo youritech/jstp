@@ -39,7 +39,7 @@
     "webpack": "^1.13.2"
   },
   "scripts": {
-    "test": "mocha tests --slow 0 && karma start && eslint lib browser tests",
+    "test": "mocha tests --slow 0 && karma start && eslint .",
     "install": "npm run build-node",
     "build": "npm run build-node && npm run build-browser",
     "build-node": "node build-native",
