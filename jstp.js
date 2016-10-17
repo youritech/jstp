@@ -5,12 +5,9 @@ var common = require('./lib/common');
 var jstp = {};
 module.exports = jstp;
 
-loadPlugins(['record-serialization', 'object-serialization']);
+common.extend(jstp,
+  require('./lib/record-serialization'),
+  require('./lib/object-serialization')
+);
 
-function loadPlugins(plugins) {
-  var loadedPlugins = plugins.map(function(plugin) {
-    return require('./lib/' + plugin);
-  });
-  var args = [jstp].concat(loadedPlugins);
-  common.extend.apply(null, args);
-}
+jstp.RemoteError = require('./lib/remote-error');
