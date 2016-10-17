@@ -3,7 +3,7 @@
 
 var RemoteProxy;
 
-if (typeof(require) === undefined) {
+if (typeof(require) === 'undefined') {
   RemoteProxy = api.jstp.RemoteProxy;
 } else {
   RemoteProxy = require('..').RemoteProxy;
