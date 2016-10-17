@@ -35,10 +35,12 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.2.0",
     "karma-safari-launcher": "^1.0.0",
+    "karma-sinon": "^1.0.5",
     "mocha": "^3.0.2",
     "remark-cli": "^2.0.0",
     "remark-lint": "^5.1.0",
     "remark-validate-links": "^5.0.0",
+    "sinon": "^1.17.6",
     "webpack": "^1.13.2"
   },
   "scripts": {
