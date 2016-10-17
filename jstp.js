@@ -12,3 +12,4 @@ common.extend(jstp,
 
 jstp.RemoteError = require('./lib/remote-error');
 jstp.RemoteProxy = require('./lib/remote-proxy');
+jstp.Connection = require('./lib/connection');
