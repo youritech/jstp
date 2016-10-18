@@ -1,15 +1,12 @@
-/* global api */
 'use strict';
 
-var RemoteProxy;
+var chai = require('chai');
+var chaiSpies = require('chai-spies');
 
-if (typeof(require) === 'undefined') {
-  RemoteProxy = api.jstp.RemoteProxy;
-} else {
-  RemoteProxy = require('..').RemoteProxy;
-  var expect = require('expect.js');
-  var sinon = require('sinon');
-}
+var RemoteProxy = require('..').RemoteProxy;
+
+var expect = chai.expect;
+chai.use(chaiSpies);
 
 describe('RemoteProxy', function() {
   var proxy;
@@ -23,7 +20,7 @@ describe('RemoteProxy', function() {
     event: function() { },
 
     processEventPacket: function() {
-      proxy.emit('testInterface', 'testEvent', 'payload', true);
+      proxy.emit('testEvent', 'payload', true);
     }
   };
 
@@ -31,61 +28,58 @@ describe('RemoteProxy', function() {
   var eventSpy;
 
   beforeEach(function() {
-    callSpy = sinon.spy(connectionMock, 'call');
-    eventSpy = sinon.spy(connectionMock, 'event');
+    callSpy = chai.spy.on(connectionMock, 'call');
+    eventSpy = chai.spy.on(connectionMock, 'event');
 
     proxy = new RemoteProxy(connectionMock,
       'testInterface', ['method1', 'method2']);
   });
 
   afterEach(function() {
-    callSpy.restore();
-    eventSpy.restore();
+    callSpy.reset();
+    eventSpy.reset();
   });
 
   it('must call remote methods', function() {
-    var callback1 = sinon.spy();
-    var callback2 = sinon.spy();
+    var callback1 = chai.spy();
+    var callback2 = chai.spy();
 
     proxy.method1(callback1);
+    expect(callSpy).to.have.been.called.with(
+      'testInterface', 'method1', [], callback1);
+
     proxy.method2(1, 2, 3, callback2);
+    expect(callSpy).to.have.been.called.with(
+      'testInterface', 'method2', [1, 2, 3], callback2);
 
-    expect(callSpy.callCount).to.be(2);
+    expect(callSpy).to.have.been.called.exactly(2);
 
-    expect(callSpy.firstCall.args).to.eql([
-      'testInterface', 'method1', [], callback1
-    ]);
+    expect(callback1).to.have.been.called.exactly(1);
+    expect(callback1).to.have.been.called.with('result1');
 
-    expect(callSpy.secondCall.args).to.eql([
-      'testInterface', 'method2', [1, 2, 3], callback2
-    ]);
-
-    expect(callback1.callCount).to.be(1);
-    expect(callback1.firstCall.args).to.eql(['result1']);
-
-    expect(callback2.callCount).to.be(1);
-    expect(callback2.firstCall.args).to.eql(['result2']);
+    expect(callback2).to.have.been.called.exactly(1);
+    expect(callback2).to.have.been.called.with('result2');
   });
 
   it('must emit events through the network and locally', function() {
-    var handler = sinon.spy();
+    var handler = chai.spy();
     proxy.on('testEvent', handler);
     proxy.emit('testEvent', 'payload');
 
-    expect(eventSpy.callCount).to.be(1);
-    expect(eventSpy.firstCall.args).to.eql([
-      'testInterface', 'testEvent', 'payload'
-    ]);
+    expect(eventSpy).to.have.been.called.exactly(1);
+    expect(eventSpy).to.have.been.called.with(
+      'testInterface', 'testEvent', 'payload');
 
-    expect(handler.callCount).to.be(1);
-    expect(handler.firstCall.args).to.eql(['payload']);
+    expect(handler).to.have.been.called.exactly(1);
+    expect(handler).to.have.been.called.with('payload');
   });
 
   it('must not re-emit events back', function() {
-    var handler = sinon.spy();
+    var handler = chai.spy();
     proxy.on('testEvent', handler);
-
     connectionMock.processEventPacket();
-    expect(handler.callCount).to.be(0);
+
+    expect(handler).to.have.been.called.with('payload');
+    expect(eventSpy).to.not.have.been.called();
   });
 });

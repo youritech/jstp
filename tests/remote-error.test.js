@@ -1,36 +1,30 @@
-/* global api */
 'use strict';
 
-var RemoteError;
+var expect = require('chai').expect;
 
-if (typeof(require) === 'undefined') {
-  RemoteError = api.jstp.RemoteError;
-} else {
-  RemoteError = require('..').RemoteError;
-  var expect = require('expect.js');
-}
+var RemoteError = require('..').RemoteError;
 
 describe('RemoteError', function() {
   describe('instance', function() {
     it('must be a subclass of Error', function() {
       var error = new RemoteError(0);
-      expect(error).to.be.an(Error);
+      expect(error).to.be.an.instanceof(Error);
     });
 
     it('must have error name equal to \'RemoteError\'', function() {
       var error = new RemoteError(0);
-      expect(error.name).to.be('RemoteError');
+      expect(error.name).to.equal('RemoteError');
     });
 
     it('must have the \'code\' property', function() {
       var error = new RemoteError(42);
-      expect(error.code).to.be(42);
+      expect(error.code).to.equal(42);
     });
 
     it('must accept an optional message', function() {
       var message = 'Sample message';
       var error = new RemoteError(0, message);
-      expect(error.message).to.be(message);
+      expect(error.message).to.equal(message);
     });
 
     it('must use a default message when the message is not specified and ' +
@@ -42,7 +36,7 @@ describe('RemoteError', function() {
     it('must use the code as a message when the message is not specified ' +
        'and the error code is unknown', function() {
       var error = new RemoteError(42);
-      expect(error.message).to.be('42');
+      expect(error.message).to.equal('42');
     });
   });
 
@@ -72,23 +66,23 @@ describe('RemoteError', function() {
   describe('fromJstpArray', function() {
     it('must create a standard error', function() {
       var error = RemoteError.fromJstpArray([10]);
-      expect(error).to.be.a(RemoteError);
-      expect(error.code).to.be(10);
-      expect(error.message).to.be(RemoteError.APP_NOT_FOUND.message);
+      expect(error).to.be.an.instanceof(RemoteError);
+      expect(error.code).to.equal(10);
+      expect(error.message).to.equal(RemoteError.APP_NOT_FOUND.message);
     });
 
     it('must create an error without description', function() {
       var error = RemoteError.fromJstpArray([42]);
-      expect(error).to.be.a(RemoteError);
-      expect(error.code).to.be(42);
-      expect(error.message).to.eql('42');
+      expect(error).to.be.an.instanceof(RemoteError);
+      expect(error.code).to.equal(42);
+      expect(error.message).to.equal('42');
     });
 
     it('must create an error with description', function() {
       var error = RemoteError.fromJstpArray([42, 'Message']);
-      expect(error).to.be.a(RemoteError);
-      expect(error.code).to.be(42);
-      expect(error.message).to.eql('Message');
+      expect(error).to.be.an.instanceof(RemoteError);
+      expect(error.code).to.equal(42);
+      expect(error.message).to.equal('Message');
     });
   });
 
@@ -128,7 +122,7 @@ describe('RemoteError', function() {
   });
 
   it('must have predefined protocol errors', function() {
-    expect(RemoteError).to.have.keys([
+    expect(RemoteError).to.contain.keys([
       'APP_NOT_FOUND',
       'AUTH_FAILED',
       'INTERFACE_NOT_FOUND',
