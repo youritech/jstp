@@ -63,12 +63,12 @@ processing that are based on some simple assumptions:
 
 ## Documentation
 
-See the [docs/](https://github.com/metarhia/JSTP/tree/master/docs) directory
+See the [doc/](https://github.com/metarhia/JSTP/tree/master/doc) directory
 for documentation.
 
-* [Introduction](docs/intro.md)
-* [Data Formats](docs/data-formats.md)
-* [Network Protocol](docs/protocol.md)
+* [Introduction](doc/intro.md)
+* [Data Formats](doc/data-formats.md)
+* [Network Protocol](doc/protocol.md)
 
 ## Other Implementations
 

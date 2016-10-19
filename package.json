@@ -45,7 +45,7 @@
   },
   "scripts": {
     "test": "npm run test-node && npm run test-browser && npm run lint",
-    "test-node": "mocha tests --slow 0",
+    "test-node": "mocha --slow 0",
     "test-browser": "karma start",
     "lint": "eslint . && remark .",
     "install": "npm run build-node",
