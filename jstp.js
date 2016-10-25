@@ -7,9 +7,9 @@ module.exports = jstp;
 
 common.extend(jstp,
   require('./lib/record-serialization'),
-  require('./lib/object-serialization')
+  require('./lib/object-serialization'),
+  require('./lib/errors')
 );
 
-jstp.RemoteError = require('./lib/remote-error');
 jstp.RemoteProxy = require('./lib/remote-proxy');
 jstp.Connection = require('./lib/connection');

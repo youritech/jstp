@@ -2,7 +2,8 @@
 
 var expect = require('chai').expect;
 
-var RemoteError = require('..').RemoteError;
+var jstp = require('..');
+var RemoteError = jstp.RemoteError;
 
 describe('RemoteError', function() {
   describe('instance', function() {
@@ -65,10 +66,11 @@ describe('RemoteError', function() {
 
   describe('fromJstpArray', function() {
     it('must create a standard error', function() {
-      var error = RemoteError.fromJstpArray([10]);
+      var error = RemoteError.fromJstpArray([jstp.ERR_APP_NOT_FOUND]);
       expect(error).to.be.an.instanceof(RemoteError);
-      expect(error.code).to.equal(10);
-      expect(error.message).to.equal(RemoteError.APP_NOT_FOUND.message);
+      expect(error.code).to.equal(jstp.ERR_APP_NOT_FOUND);
+      expect(error.message).to.equal(
+        RemoteError.defaultMessages[jstp.ERR_APP_NOT_FOUND]);
     });
 
     it('must create an error without description', function() {
@@ -122,13 +124,12 @@ describe('RemoteError', function() {
   });
 
   it('must have predefined protocol errors', function() {
-    expect(RemoteError).to.contain.keys([
-      'APP_NOT_FOUND',
-      'AUTH_FAILED',
-      'INTERFACE_NOT_FOUND',
-      'INTERFACE_INCOMPATIBLE',
-      'METHOD_NOT_FOUND',
-      'NOT_A_SERVER'
-    ]);
+    var errors = Object.keys(jstp).filter(function(key) {
+      return key.startsWith('ERR_');
+    }).map(function(key) {
+      return jstp[key].toString();
+    });
+
+    expect(RemoteError.defaultMessages).to.contain.keys(errors);
   });
 });
