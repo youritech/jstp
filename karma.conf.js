@@ -8,15 +8,15 @@ module.exports = function(config) {
       'detectBrowsers'
     ],
     files: [
-      { pattern: 'test/*.test.js', watched: false },
-      { pattern: 'test/**/*.test.js', watched: false }
+      { pattern: 'test/unit/*.test.js', watched: false },
+      { pattern: 'test/unit/**/*.test.js', watched: false }
     ],
     exclude: [
-      'test/server.test.js'
+      'test/unit/server.test.js'
     ],
     preprocessors: {
-      'test/*.test.js': ['webpack'],
-      'test/**/*.test.js': ['webpack']
+      'test/unit/*.test.js': ['webpack'],
+      'test/unit/**/*.test.js': ['webpack']
     },
     reporters: ['mocha'],
     port: 9876,

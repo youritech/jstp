@@ -3,7 +3,7 @@
 var chai = require('chai');
 var chaiSpies = require('chai-spies');
 
-var RemoteProxy = require('..').RemoteProxy;
+var RemoteProxy = require('../..').RemoteProxy;
 
 var expect = chai.expect;
 chai.use(chaiSpies);

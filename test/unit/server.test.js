@@ -3,7 +3,7 @@
 var chai = require('chai');
 var chaiSpies = require('chai-spies');
 
-var jstp = require('..');
+var jstp = require('../..');
 
 var RawServerMock = require('./mock/raw-server');
 var appsProvider = require('./mock/apps-provider')

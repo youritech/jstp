@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 
-var jstp = require('..');
+var jstp = require('../..');
 var RemoteError = jstp.RemoteError;
 
 describe('RemoteError', function() {

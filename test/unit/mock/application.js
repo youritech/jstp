@@ -1,6 +1,6 @@
 'use strict';
 
-var jstp = require('../..');
+var jstp = require('../../..');
 var constants = require('../constants');
 
 // Application mock

@@ -3,7 +3,7 @@
 var events = require('events');
 var util = require('util');
 
-var jstp = require('../..');
+var jstp = require('../../..');
 
 var constants = require('../constants');
 var applicationMock = require('./application');

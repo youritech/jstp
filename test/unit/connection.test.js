@@ -3,7 +3,7 @@
 var chai = require('chai');
 var chaiSpies = require('chai-spies');
 
-var jstp = require('..');
+var jstp = require('../..');
 
 var constants = require('./constants');
 var applicationMock = require('./mock/application');
