@@ -1,5 +1,7 @@
 'use strict';
 
+var metasync = require('metasync');
+
 var jstp = require('../..');
 
 console.log('TCP server/client integration test');
@@ -35,65 +37,40 @@ var client = jstp.tcp.createClient({
   port: 3000
 }, clientAppProvider);
 
-client.connect(function(error, connection) {
+client.connectAndInspect('testApp', null, null, ['testInterface'], onConnect);
+
+function onConnect(error, connection, sessionId, api) {
   if (error) {
     fatal(error);
   }
 
-  connection.handshake('testApp', null, null, function(error, sessionId) {
-    if (error) {
-      fatal(error);
-    }
+  console.log('Connected, session ID is', sessionId);
 
-    console.log('Handshake done, session ID is', sessionId);
-    console.log('Inspecting interface');
+  var collector = new metasync.DataCollector(2, function() {
+    console.log('Disconnecting client');
+    client.disconnect();
 
-    connection.inspect('testInterface', function(error, proxy) {
-      if (error) {
-        fatal(error);
-      }
-
-      console.log('Calling methods');
-      runMethods(proxy);
-    });
+    console.log('Stopping server');
+    server.close();
   });
-});
 
-function runMethods(testInterface) {
-  var firstMethod = false;
-  var secondMethod = false;
-
-  testInterface.add(2, 3, function(error, result) {
+  api.testInterface.add(2, 3, function(error, result) {
     if (error) {
       fatal(error);
     }
 
     console.log('RPC result for add:', result);
-
-    firstMethod = true;
-    exitIfReady();
+    collector.collect(1);
   });
 
-  testInterface.sayHi(function(error, result) {
+  api.testInterface.sayHi(function(error, result) {
     if (error) {
       fatal(error);
     }
 
     console.log('RPC result for sayHi:', result);
-
-    secondMethod = true;
-    exitIfReady();
+    collector.collect(2);
   });
-
-  function exitIfReady() {
-    if (firstMethod && secondMethod) {
-      console.log('Disconnecting client');
-      client.disconnect();
-
-      console.log('Stopping server');
-      server.close();
-    }
-  }
 }
 
 function fatal(error) {

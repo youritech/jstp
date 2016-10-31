@@ -27,7 +27,9 @@
     "./lib/transport.tcp.js": false,
     "./lib/auth-provider.js": false
   },
-  "dependencies": {},
+  "dependencies": {
+    "metasync": "0.0.8"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
