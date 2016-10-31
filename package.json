@@ -24,7 +24,8 @@
   "browser": {
     "./lib/record-serialization.js": "./lib/record-serialization-nonnative.js",
     "./lib/server.js": false,
-    "./lib/transport.tcp.js": false
+    "./lib/transport.tcp.js": false,
+    "./lib/auth-provider.js": false
   },
   "dependencies": {},
   "devDependencies": {
@@ -47,8 +48,11 @@
   },
   "scripts": {
     "test": "npm run test-node && npm run test-browser && npm run lint",
-    "test-node": "mocha test/unit --slow 0",
+    "test-node": "npm run test-node-unit && npm run test-node-integration",
     "test-browser": "karma start",
+    "test-node-unit": "mocha test/unit --slow 0",
+    "test-node-integration": "node test/integration/run-tests",
+    "test-browser-unit": "karma start",
     "lint": "eslint . && remark .",
     "install": "npm run build-node",
     "build": "npm run build-node && npm run build-browser",
