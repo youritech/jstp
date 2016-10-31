@@ -17,3 +17,5 @@ jstp.Connection = require('./lib/connection');
 jstp.Server = require('./lib/server');
 
 jstp.tcp = require('./lib/transport.tcp');
+
+jstp.simpleAuthProvider = require('./lib/auth-provider');
