@@ -1,10 +1,17 @@
 'use strict';
 
-var expect = require('chai').expect;
+var events = require('events');
+
+var chai = require('chai');
+var chaiSpies = require('chai-spies');
+
 var common = require('../lib/common');
 
+chai.use(chaiSpies);
+var expect = chai.expect;
+
 describe('Common functions library', function() {
-  describe('common.extend', function() {
+  describe('extend', function() {
     var sampleObject;
     var biggerObject;
 
@@ -83,6 +90,58 @@ describe('Common functions library', function() {
       expect(function() {
         common.extend();
       }).to.throw(TypeError);
+    });
+  });
+
+  describe('forwardEvent', function() {
+    it('must forward a single event', function() {
+      var sourceEventEmitter = new events.EventEmitter();
+      var targetEventEmitter = new events.EventEmitter();
+
+      var spy = chai.spy();
+
+      common.forwardEvent(sourceEventEmitter, targetEventEmitter, 'testEvent');
+      targetEventEmitter.on('testEvent', spy);
+
+      sourceEventEmitter.emit('testEvent');
+      expect(spy).to.be.called();
+    });
+  });
+
+  describe('forwardMultipleEvents', function() {
+    it('must forward multiple events', function() {
+      var sourceEventEmitter = new events.EventEmitter();
+      var targetEventEmitter = new events.EventEmitter();
+
+      var firstSpy = chai.spy();
+      var secondSpy = chai.spy();
+
+      common.forwardMultipleEvents(sourceEventEmitter, targetEventEmitter, [
+        'event1',
+        'event2'
+      ]);
+
+      targetEventEmitter.on('event1', firstSpy);
+      targetEventEmitter.on('event2', secondSpy);
+
+      sourceEventEmitter.emit('event1');
+      sourceEventEmitter.emit('event2');
+
+      expect(firstSpy).to.be.called();
+      expect(secondSpy).to.be.called();
+    });
+  });
+
+  describe('createZeroFilledBuffer', function() {
+    it('must create a zero-filled buffer of specified size', function() {
+      var size = 10;
+      var buffer = common.createZeroFilledBuffer(size);
+
+      expect(buffer.length).to.equal(size);
+
+      for (var i = 0; i < size; i++) {
+        expect(buffer[i]).to.equal(0);
+      }
     });
   });
 });

@@ -13,3 +13,6 @@ common.extend(jstp,
 
 jstp.RemoteProxy = require('./lib/remote-proxy');
 jstp.Connection = require('./lib/connection');
+jstp.Server = require('./lib/server');
+
+jstp.tcp = require('./lib/transport.tcp');

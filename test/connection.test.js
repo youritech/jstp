@@ -1,169 +1,19 @@
 'use strict';
 
-var events = require('events');
-var util = require('util');
-
 var chai = require('chai');
 var chaiSpies = require('chai-spies');
 
 var jstp = require('..');
 
+var constants = require('./constants');
+var applicationMock = require('./mock/application');
+var TransportMock = require('./mock/transport');
+var ServerMock = require('./mock/server');
+var ClientMock = require('./mock/client');
+
 var expect = chai.expect;
 chai.use(chaiSpies);
 
-// Constants
-
-var TEST_APPLICATION = 'testApp';
-var TEST_INTERFACE = 'testInterface';
-var TEST_USERNAME = 'user';
-var TEST_PASSWORD = 'password';
-var TEST_SESSION_ID = '12892e85-5bd7-4c77-a0c5-a0aecfcbc93a';
-var TEST_EVENT = 'testEvent';
-
-// Application mock
-//
-var applicationMock = {
-  name: TEST_APPLICATION,
-
-  callMethod: function(connection, interfaceName, methodName, args) {
-    if (interfaceName !== TEST_INTERFACE) {
-      throw new jstp.RemoteError(jstp.ERR_INTERFACE_NOT_FOUND);
-    }
-
-    if (methodName in applicationMock && methodName.startsWith('method')) {
-      applicationMock[methodName].apply(null, args);
-    } else {
-      throw new jstp.RemoteError(jstp.ERR_METHOD_NOT_FOUND);
-    }
-  },
-
-  getMethods: function(interfaceName) {
-    if (interfaceName === TEST_INTERFACE) {
-      return Object.keys(applicationMock).filter(function(key) {
-        return key.startsWith('method');
-      });
-    }
-  },
-
-  method1: function(callback) {
-    callback();
-  },
-
-  method2: function(first, second, callback) {
-    callback(null, first + second);
-  },
-
-  method3: function(callback) {
-    callback(new Error('Example error'));
-  },
-
-  method4: function() {
-    throw new Error('Internal error');
-  }
-};
-
-// Transport mock
-//
-function TransportMock() {
-  events.EventEmitter.call(this);
-  this.buffer = '';
-  this.closed = false;
-}
-
-util.inherits(TransportMock, events.EventEmitter);
-
-TransportMock.prototype.getRemoteAddress = function() {
-  return '127.0.0.1';
-};
-
-TransportMock.prototype.addDataToBuffer = function(data) {
-  if (data instanceof Buffer) {
-    data = data.toString();
-  }
-
-  this.buffer += data;
-
-  if (data.endsWith('}')) {
-    this.buffer += ',';
-  }
-};
-
-TransportMock.prototype.isBufferReady = function() {
-  return this.buffer.length > 0 && this.buffer.endsWith(',');
-};
-
-TransportMock.prototype.getBufferContent = function() {
-  var packets = '[' + this.buffer + ']';
-  this.buffer = '';
-
-  return packets;
-};
-
-TransportMock.prototype.send = function(data) {
-  if (!this.closed) {
-    this.emit('dataSent', data);
-  }
-};
-
-TransportMock.prototype.end = function(data) {
-  if (data) {
-    this.send(data);
-  }
-
-  this.closed = true;
-  this.emit('close');
-};
-
-// Server mock
-//
-function ServerMock() {
-  events.EventEmitter.call(this);
-}
-
-util.inherits(ServerMock, events.EventEmitter);
-
-ServerMock.prototype.startAuthenticatedSession =
-  function(connection, application, username, password, callback) {
-    if (application.name !== TEST_APPLICATION) {
-      return callback(new jstp.RemoteError(jstp.ERR_APP_NOT_FOUND));
-    }
-
-    if (username !== TEST_USERNAME || password !== TEST_PASSWORD) {
-      return callback(new jstp.RemoteError(jstp.ERR_AUTH_FAILED));
-    }
-
-    callback(null, TEST_SESSION_ID);
-  };
-
-ServerMock.prototype.startAnonymousSession =
-  function(connection, application, callback) {
-    if (application.name !== TEST_APPLICATION) {
-      return callback(new jstp.RemoteError(jstp.ERR_APP_NOT_FOUND));
-    }
-
-    callback(null, TEST_SESSION_ID);
-  };
-
-ServerMock.prototype.getApplication = function(applicationName) {
-  if (applicationName === TEST_APPLICATION) {
-    return applicationMock;
-  }
-};
-
-// Client mock
-//
-function ClientMock() {
-  events.EventEmitter.call(this);
-}
-
-util.inherits(ClientMock, events.EventEmitter);
-
-ClientMock.prototype.getApplication = function() {
-  return applicationMock;
-};
-
-// Connection tests
-//
 describe('JSTP Connection', function() {
   var serverTransportMock;
   var clientTransportMock;
@@ -173,14 +23,19 @@ describe('JSTP Connection', function() {
   var clientConnection;
 
   function performHandshakeFromClient(callback) {
-    clientConnection.handshake(TEST_APPLICATION, null, null, callback);
-    clientTransportMock.emit('data',
-      '{handshake:[0],ok:\'' + TEST_SESSION_ID + '\'}');
+    clientConnection.handshake(constants.TEST_APPLICATION,
+      null, null, callback);
+
+    clientTransportMock.emitData(jstp.stringify({
+      handshake: [0],
+      ok: constants.TEST_SESSION_ID
+    }));
   }
 
   function emulateHandshakeOnServer() {
-    serverTransportMock.emit('data',
-      '{handshake:[0,\'' + TEST_APPLICATION + '\']}');
+    serverTransportMock.emitData(jstp.stringify({
+      handshake: [0, constants.TEST_APPLICATION]
+    }));
   }
 
   function testPacketSending(packetType, test) {
@@ -216,7 +71,7 @@ describe('JSTP Connection', function() {
 
       var callback = chai.spy(function(error, sessionId) {
         expect(error).to.not.exist;
-        expect(sessionId).to.equal(TEST_SESSION_ID);
+        expect(sessionId).to.equal(constants.TEST_SESSION_ID);
 
         expect(clientConnection.authenticated).to.be.false;
         expect(clientConnection.handshakeDone).to.be.true;
@@ -224,13 +79,18 @@ describe('JSTP Connection', function() {
         clientTransportMock.send.reset();
       });
 
-      clientConnection.handshake(TEST_APPLICATION, null, null, callback);
+      clientConnection.handshake(constants.TEST_APPLICATION,
+        null, null, callback);
 
       expect(clientTransportMock.send)
-        .to.be.called.with('{handshake:[0,\'' + TEST_APPLICATION + '\']}');
+        .to.be.called.with(jstp.stringify({
+          handshake: [0, constants.TEST_APPLICATION]
+        }));
 
-      clientTransportMock.emit('data',
-        '{handshake:[0],ok:\'' + TEST_SESSION_ID + '\'}');
+      clientTransportMock.emitData(jstp.stringify({
+        handshake: [0],
+        ok: constants.TEST_SESSION_ID
+      }));
 
       expect(callback).to.be.called();
     });
@@ -240,7 +100,7 @@ describe('JSTP Connection', function() {
 
       var callback = chai.spy(function(error, sessionId) {
         expect(error).to.not.exist;
-        expect(sessionId).to.equal(TEST_SESSION_ID);
+        expect(sessionId).to.equal(constants.TEST_SESSION_ID);
 
         expect(clientConnection.authenticated).to.be.true;
         expect(clientConnection.handshakeDone).to.be.true;
@@ -248,15 +108,22 @@ describe('JSTP Connection', function() {
         clientTransportMock.send.reset();
       });
 
-      clientConnection.handshake(TEST_APPLICATION,
-        TEST_USERNAME, TEST_PASSWORD, callback);
+      clientConnection.handshake(constants.TEST_APPLICATION,
+        constants.TEST_USERNAME, constants.TEST_PASSWORD, callback);
 
-      expect(clientTransportMock.send).to.be.called.with('{handshake:[0,\'' +
-        TEST_APPLICATION + '\'],' + TEST_USERNAME + ':\'' +
-        TEST_PASSWORD + '\'}');
+      var handshakeRequest = {
+        handshake: [0, constants.TEST_APPLICATION]
+      };
 
-      clientTransportMock.emit('data',
-        '{handshake:[0],ok:\'' + TEST_SESSION_ID + '\'}');
+      handshakeRequest[constants.TEST_USERNAME] = constants.TEST_PASSWORD;
+
+      expect(clientTransportMock.send)
+        .to.be.called.with(jstp.stringify(handshakeRequest));
+
+      clientTransportMock.emitData(jstp.stringify({
+        handshake: [0],
+        ok: constants.TEST_SESSION_ID
+      }));
 
       expect(callback).to.be.called();
     });
@@ -271,7 +138,11 @@ describe('JSTP Connection', function() {
       });
 
       clientConnection.handshake('invalidApp', 'user', 'password', callback);
-      clientTransportMock.emit('data', '{handshake:[0],error:[10]}');
+      clientTransportMock.emitData(jstp.stringify({
+        handshake: [0],
+        error: [jstp.ERR_APP_NOT_FOUND]
+      }));
+
       expect(callback).to.be.called();
     });
 
@@ -284,10 +155,14 @@ describe('JSTP Connection', function() {
         expect(clientConnection.handshakeDone).to.be.false;
       });
 
-      clientConnection.handshake(TEST_APPLICATION,
-        TEST_USERNAME, TEST_PASSWORD, callback);
+      clientConnection.handshake(constants.TEST_APPLICATION,
+        constants.TEST_USERNAME, constants.TEST_PASSWORD, callback);
 
-      clientTransportMock.emit('data', '{handshake:[0],error:[11]}');
+      clientTransportMock.emitData(jstp.stringify({
+        handshake: [0],
+        error: [jstp.ERR_AUTH_FAILED]
+      }));
+
       expect(callback).to.be.called();
     });
 
@@ -295,13 +170,13 @@ describe('JSTP Connection', function() {
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
       var startSessisionSpy = chai.spy.on(serverMock, 'startAnonymousSession');
 
-      serverTransportMock.emit('data', jstp.stringify({
-        handshake: [0, TEST_APPLICATION]
+      serverTransportMock.emitData(jstp.stringify({
+        handshake: [0, constants.TEST_APPLICATION]
       }));
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
-        ok: TEST_SESSION_ID
+        ok: constants.TEST_SESSION_ID
       }));
 
       expect(startSessisionSpy).to.have.been.called.with(
@@ -317,20 +192,21 @@ describe('JSTP Connection', function() {
         chai.spy.on(serverMock, 'startAuthenticatedSession');
 
       var packet = {
-        handshake: [0, TEST_APPLICATION],
+        handshake: [0, constants.TEST_APPLICATION],
       };
 
-      packet[TEST_USERNAME] = TEST_PASSWORD;
+      packet[constants.TEST_USERNAME] = constants.TEST_PASSWORD;
 
-      serverTransportMock.emit('data', jstp.stringify(packet));
+      serverTransportMock.emitData(jstp.stringify(packet));
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
-        ok: TEST_SESSION_ID
+        ok: constants.TEST_SESSION_ID
       }));
 
       expect(startSessisionSpy).to.have.been.called.with(
-        serverConnection, applicationMock, TEST_USERNAME, TEST_PASSWORD);
+        serverConnection, applicationMock,
+        constants.TEST_USERNAME, constants.TEST_PASSWORD);
 
       sendSpy.reset();
       startSessisionSpy.reset();
@@ -342,14 +218,14 @@ describe('JSTP Connection', function() {
         chai.spy.on(serverMock, 'startAuthenticatedSession');
 
       var packet = {
-        handshake: [0, TEST_APPLICATION],
+        handshake: [0, constants.TEST_APPLICATION],
       };
 
       var password = 'illegal password';
 
-      packet[TEST_USERNAME] = password;
+      packet[constants.TEST_USERNAME] = password;
 
-      serverTransportMock.emit('data', jstp.stringify(packet));
+      serverTransportMock.emitData(jstp.stringify(packet));
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
@@ -357,7 +233,7 @@ describe('JSTP Connection', function() {
       }));
 
       expect(startSessisionSpy).to.have.been.called.with(
-        serverConnection, applicationMock, TEST_USERNAME, password);
+        serverConnection, applicationMock, constants.TEST_USERNAME, password);
 
       sendSpy.reset();
       startSessisionSpy.reset();
@@ -367,10 +243,10 @@ describe('JSTP Connection', function() {
       var sendSpy = chai.spy.on(clientTransportMock, 'send');
 
       var packet = {
-        handshake: [0, TEST_APPLICATION],
+        handshake: [0, constants.TEST_APPLICATION],
       };
 
-      clientTransportMock.emit('data', jstp.stringify(packet));
+      clientTransportMock.emitData(jstp.stringify(packet));
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
@@ -396,7 +272,7 @@ describe('JSTP Connection', function() {
         expect(packet.inspect).to.be.an('array');
 
         packetId = packet.inspect[0];
-        expect(packet.inspect[1]).to.equal(TEST_INTERFACE);
+        expect(packet.inspect[1]).to.equal(constants.TEST_INTERFACE);
       });
 
       var callback = chai.spy(function(error, proxy) {
@@ -406,10 +282,10 @@ describe('JSTP Connection', function() {
 
       transport.on('dataSent', sendSpy);
 
-      connection.inspect(TEST_INTERFACE, callback);
+      connection.inspect(constants.TEST_INTERFACE, callback);
       expect(sendSpy).to.have.been.called();
 
-      transport.emit('data', jstp.stringify({
+      transport.emitData(jstp.stringify({
         callback: [packetId],
         ok: methods
       }));
@@ -422,8 +298,8 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emit('data', jstp.stringify({
-        inspect: [1, TEST_INTERFACE]
+      serverTransportMock.emitData(jstp.stringify({
+        inspect: [1, constants.TEST_INTERFACE]
       }));
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
@@ -439,7 +315,7 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emit('data', jstp.stringify({
+      serverTransportMock.emitData(jstp.stringify({
         inspect: [1, 'no interface like that']
       }));
 
@@ -463,7 +339,7 @@ describe('JSTP Connection', function() {
         expect(packet.call).to.be.an('array');
 
         packetId = packet.call[0];
-        expect(packet.call[1]).to.equal(TEST_INTERFACE);
+        expect(packet.call[1]).to.equal(constants.TEST_INTERFACE);
       });
 
       var callback = chai.spy(function(error, result) {
@@ -473,10 +349,10 @@ describe('JSTP Connection', function() {
 
       transport.on('dataSent', sendSpy);
 
-      connection.call(TEST_INTERFACE, 'method1', [], callback);
+      connection.call(constants.TEST_INTERFACE, 'method1', [], callback);
       expect(sendSpy).to.have.been.called();
 
-      transport.emit('data', jstp.stringify({
+      transport.emitData(jstp.stringify({
         callback: [packetId],
         ok: [42]
       }));
@@ -489,8 +365,8 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emit('data', jstp.stringify({
-        call: [1, TEST_INTERFACE],
+      serverTransportMock.emitData(jstp.stringify({
+        call: [1, constants.TEST_INTERFACE],
         method1: []
       }));
 
@@ -507,8 +383,8 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emit('data', jstp.stringify({
-        call: [1, TEST_INTERFACE],
+      serverTransportMock.emitData(jstp.stringify({
+        call: [1, constants.TEST_INTERFACE],
         method2: [10, 20]
       }));
 
@@ -525,8 +401,8 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emit('data', jstp.stringify({
-        call: [1, TEST_INTERFACE],
+      serverTransportMock.emitData(jstp.stringify({
+        call: [1, constants.TEST_INTERFACE],
         method3: []
       }));
 
@@ -544,8 +420,8 @@ describe('JSTP Connection', function() {
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       expect(function() {
-        serverTransportMock.emit('data', jstp.stringify({
-          call: [1, TEST_INTERFACE],
+        serverTransportMock.emitData(jstp.stringify({
+          call: [1, constants.TEST_INTERFACE],
           method4: []
         }));
       }).to.throw();
@@ -563,7 +439,7 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emit('data', jstp.stringify({
+      serverTransportMock.emitData(jstp.stringify({
         call: [1, 'dummy interface'],
         method1: []
       }));
@@ -581,8 +457,8 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emit('data', jstp.stringify({
-        call: [1, TEST_INTERFACE],
+      serverTransportMock.emitData(jstp.stringify({
+        call: [1, constants.TEST_INTERFACE],
         methodThatDoesNotExist: []
       }));
 
@@ -627,9 +503,9 @@ describe('JSTP Connection', function() {
       });
 
       performHandshakeFromClient(function() {
-        clientConnection.call(TEST_INTERFACE, 'method', [], callback);
+        clientConnection.call(constants.TEST_INTERFACE, 'method', [], callback);
 
-        clientTransportMock.emit('data', jstp.stringify({
+        clientTransportMock.emitData(jstp.stringify({
           callback: [1],
           ok: ['result']
         }));
@@ -645,9 +521,9 @@ describe('JSTP Connection', function() {
       });
 
       performHandshakeFromClient(function() {
-        clientConnection.call(TEST_INTERFACE, 'method', [], callback);
+        clientConnection.call(constants.TEST_INTERFACE, 'method', [], callback);
 
-        clientTransportMock.emit('data', jstp.stringify({
+        clientTransportMock.emitData(jstp.stringify({
           callback: [1],
           error: [jstp.ERR_INTERNAL_API_ERROR]
         }));
@@ -663,18 +539,20 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy(function(data) {
         var packet = jstp.parse(data);
-        expect(packet).to.have.all.keys(['event', TEST_EVENT]);
+        expect(packet).to.have.all.keys(['event', constants.TEST_EVENT]);
 
         expect(packet.event).to.be.an('array');
         expect(packet.event[0]).to.be.a('number');
-        expect(packet.event[1]).to.equal(TEST_INTERFACE);
+        expect(packet.event[1]).to.equal(constants.TEST_INTERFACE);
 
-        expect(packet[TEST_EVENT]).to.eql(eventArgs);
+        expect(packet[constants.TEST_EVENT]).to.eql(eventArgs);
       });
 
       transport.on('dataSent', sendSpy);
 
-      connection.event(TEST_INTERFACE, TEST_EVENT, eventArgs);
+      connection.event(constants.TEST_INTERFACE,
+        constants.TEST_EVENT, eventArgs);
+
       expect(sendSpy).to.have.been.called();
     });
 
@@ -682,21 +560,21 @@ describe('JSTP Connection', function() {
       var payload = { key: 'value' };
 
       var event = {
-        event: [-1, TEST_INTERFACE]
+        event: [-1, constants.TEST_INTERFACE]
       };
 
-      event[TEST_EVENT] = payload;
+      event[constants.TEST_EVENT] = payload;
 
       var handler = chai.spy(function(eventArgs) {
-        expect(eventArgs.interfaceName).to.equal(TEST_INTERFACE);
-        expect(eventArgs.remoteEventName).to.equal(TEST_EVENT);
+        expect(eventArgs.interfaceName).to.equal(constants.TEST_INTERFACE);
+        expect(eventArgs.remoteEventName).to.equal(constants.TEST_EVENT);
         expect(eventArgs.remoteEventArgs).to.eql(payload);
       });
 
       clientConnection.on('event', handler);
 
       performHandshakeFromClient(function() {
-        clientTransportMock.emit('data', jstp.stringify(event));
+        clientTransportMock.emitData(jstp.stringify(event));
         expect(handler).to.be.called();
       });
     });
@@ -726,7 +604,7 @@ describe('JSTP Connection', function() {
       clientConnection.on('state', handler);
 
       performHandshakeFromClient(function() {
-        clientTransportMock.emit('data', jstp.stringify({
+        clientTransportMock.emitData(jstp.stringify({
           state: [-1, 'counter'],
           inc: 1
         }));

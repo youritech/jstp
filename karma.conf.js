@@ -11,7 +11,9 @@ module.exports = function(config) {
       { pattern: 'test/*.test.js', watched: false },
       { pattern: 'test/**/*.test.js', watched: false }
     ],
-    exclude: [],
+    exclude: [
+      'test/server.test.js'
+    ],
     preprocessors: {
       'test/*.test.js': ['webpack'],
       'test/**/*.test.js': ['webpack']
