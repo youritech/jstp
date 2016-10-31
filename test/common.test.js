@@ -106,6 +106,20 @@ describe('Common functions library', function() {
       sourceEventEmitter.emit('testEvent');
       expect(spy).to.be.called();
     });
+
+    it('must forward a single event under a new name', function() {
+      var sourceEventEmitter = new events.EventEmitter();
+      var targetEventEmitter = new events.EventEmitter();
+
+      var spy = chai.spy();
+
+      common.forwardEvent(sourceEventEmitter, targetEventEmitter,
+        'testEvent', 'renamedEvent');
+      targetEventEmitter.on('renamedEvent', spy);
+
+      sourceEventEmitter.emit('testEvent');
+      expect(spy).to.be.called();
+    });
   });
 
   describe('forwardMultipleEvents', function() {
