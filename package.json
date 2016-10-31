@@ -25,7 +25,7 @@
     "./lib/record-serialization.js": "./lib/record-serialization-nonnative.js",
     "./lib/server.js": false,
     "./lib/transport.tcp.js": false,
-    "./lib/transport.ws.js": false,
+    "./lib/transport.ws.js": "./lib/transport.ws.browser.js",
     "./lib/auth-provider.js": false
   },
   "dependencies": {
