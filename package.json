@@ -25,10 +25,12 @@
     "./lib/record-serialization.js": "./lib/record-serialization-nonnative.js",
     "./lib/server.js": false,
     "./lib/transport.tcp.js": false,
+    "./lib/transport.ws.js": false,
     "./lib/auth-provider.js": false
   },
   "dependencies": {
-    "metasync": "0.0.8"
+    "metasync": "0.0.8",
+    "websocket": "^1.0.23"
   },
   "devDependencies": {
     "chai": "^3.5.0",
