@@ -51,11 +51,11 @@
     "webpack": "^1.13.2"
   },
   "scripts": {
-    "test": "npm run test-node && npm run test-browser && npm run lint",
-    "test-node": "npm run test-node-unit && npm run test-node-integration",
-    "test-browser": "karma start",
-    "test-node-unit": "mocha test/unit --slow 0",
-    "test-node-integration": "node test/integration/run-tests",
+    "test": "npm run test-unit && npm run test-integration && npm run lint",
+    "test-unit": "npm run test-unit-node && npm run test-unit-browser",
+    "test-unit-node": "mocha test/unit --slow 0",
+    "test-unit-browser": "karma start",
+    "test-integration": "node test/integration/run-tests",
     "test-browser-unit": "karma start",
     "lint": "eslint . && remark .",
     "install": "npm run build-node",
