@@ -40,4 +40,6 @@ common.runScript = function(script, callback) {
 
     callback(error);
   }
+
+  return process;
 };
