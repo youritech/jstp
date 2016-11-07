@@ -282,7 +282,7 @@ describe('JSTP Connection', function() {
 
       transport.on('dataSent', sendSpy);
 
-      connection.inspect(constants.TEST_INTERFACE, callback);
+      connection.inspectInterface(constants.TEST_INTERFACE, callback);
       expect(sendSpy).to.have.been.called();
 
       transport.emitData(jstp.stringify({
@@ -349,7 +349,7 @@ describe('JSTP Connection', function() {
 
       transport.on('dataSent', sendSpy);
 
-      connection.call(constants.TEST_INTERFACE, 'method1', [], callback);
+      connection.callMethod(constants.TEST_INTERFACE, 'method1', [], callback);
       expect(sendSpy).to.have.been.called();
 
       transport.emitData(jstp.stringify({
@@ -503,7 +503,8 @@ describe('JSTP Connection', function() {
       });
 
       performHandshakeFromClient(function() {
-        clientConnection.call(constants.TEST_INTERFACE, 'method', [], callback);
+        clientConnection.callMethod(
+          constants.TEST_INTERFACE, 'method', [], callback);
 
         clientTransportMock.emitData(jstp.stringify({
           callback: [1],
@@ -521,7 +522,8 @@ describe('JSTP Connection', function() {
       });
 
       performHandshakeFromClient(function() {
-        clientConnection.call(constants.TEST_INTERFACE, 'method', [], callback);
+        clientConnection.callMethod(
+          constants.TEST_INTERFACE, 'method', [], callback);
 
         clientTransportMock.emitData(jstp.stringify({
           callback: [1],
@@ -550,7 +552,7 @@ describe('JSTP Connection', function() {
 
       transport.on('dataSent', sendSpy);
 
-      connection.event(constants.TEST_INTERFACE,
+      connection.emitRemoteEvent(constants.TEST_INTERFACE,
         constants.TEST_EVENT, eventArgs);
 
       expect(sendSpy).to.have.been.called();
@@ -590,7 +592,7 @@ describe('JSTP Connection', function() {
 
       transport.on('dataSent', sendSpy);
 
-      connection.state('stats.connections', 'inc', 1);
+      connection.notifyStateChange('stats.connections', 'inc', 1);
       expect(sendSpy).to.have.been.called();
     });
 

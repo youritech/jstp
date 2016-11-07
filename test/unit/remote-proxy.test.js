@@ -12,12 +12,12 @@ describe('RemoteProxy', function() {
   var proxy;
 
   var connectionMock = {
-    call: function(interfaceName, methodName, args, callback) {
+    callMethod: function(interfaceName, methodName, args, callback) {
       var results = { method1: 'result1', method2: 'result2' };
       callback(results[methodName]);
     },
 
-    event: function() { },
+    emitRemoteEvent: function() { },
 
     processEventPacket: function() {
       proxy.emit('testEvent', 'payload', true);
@@ -28,8 +28,8 @@ describe('RemoteProxy', function() {
   var eventSpy;
 
   beforeEach(function() {
-    callSpy = chai.spy.on(connectionMock, 'call');
-    eventSpy = chai.spy.on(connectionMock, 'event');
+    callSpy = chai.spy.on(connectionMock, 'callMethod');
+    eventSpy = chai.spy.on(connectionMock, 'emitRemoteEvent');
 
     proxy = new RemoteProxy(connectionMock,
       'testInterface', ['method1', 'method2']);
