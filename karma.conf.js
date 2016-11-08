@@ -1,12 +1,17 @@
 'use strict';
 
+var browsers = process.env.TRAVIS ?
+  ['Firefox'] :
+  ['Chrome', 'ChromeCanary', 'Firefox'];
+
+if (process.platform === 'darwin') {
+  browsers.push('Safari');
+}
+
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: [
-      'mocha',
-      'detectBrowsers'
-    ],
+    frameworks: ['mocha'],
     files: [
       { pattern: 'test/unit/*.test.js', watched: false },
       { pattern: 'test/unit/**/*.test.js', watched: false }
@@ -23,22 +28,8 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    browsers: [
-      'Chrome',
-      'ChromeCanary',
-      'Firefox',
-      'Safari'
-    ],
-    detectBrowsers: {
-      enabled: true,
-      usePhantomJS: false,
-      postDetection: function(browsers) {
-        return process.env.TRAVIS ?
-          ['Firefox'] :
-          browsers;
-      }
-    },
-    webpack: { },
+    browsers: browsers,
+    webpack: {},
     webpackMiddleware: {
       stats: 'errors-only'
     },
