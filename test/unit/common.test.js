@@ -158,4 +158,14 @@ describe('Common functions library', function() {
       }
     });
   });
+
+  describe('startsWith', function() {
+    it('must check whether a string starts with a substring', function() {
+      expect(common.startsWith('first second', 'first')).to.be.true;
+      expect(common.startsWith('first second', 'second')).to.be.false;
+
+      expect(common.startsWith('abcd', '')).to.be.true;
+      expect(common.startsWith('', 'abcd')).to.be.false;
+    });
+  });
 });

@@ -5,6 +5,8 @@ var expect = require('chai').expect;
 var jstp = require('../..');
 var RemoteError = jstp.RemoteError;
 
+var common = require('../../lib/common');
+
 describe('RemoteError', function() {
   describe('instance', function() {
     it('must be a subclass of Error', function() {
@@ -125,7 +127,7 @@ describe('RemoteError', function() {
 
   it('must have predefined protocol errors', function() {
     var errors = Object.keys(jstp).filter(function(key) {
-      return key.startsWith('ERR_');
+      return common.startsWith(key, 'ERR_');
     }).map(function(key) {
       return jstp[key].toString();
     });

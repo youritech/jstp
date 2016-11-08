@@ -5,6 +5,8 @@ var chaiSpies = require('chai-spies');
 
 var jstp = require('../..');
 
+var common = require('../../lib/common');
+
 var constants = require('./constants');
 var applicationMock = require('./mock/application');
 var TransportMock = require('./mock/transport');
@@ -259,7 +261,7 @@ describe('JSTP Connection', function() {
 
   describe('inspect', function() {
     var methods = Object.keys(applicationMock).filter(function(key) {
-      return key.startsWith('method');
+      return common.startsWith(key, 'method');
     });
 
     testPacketSending('inspect', function(connection, transport) {
