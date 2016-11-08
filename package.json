@@ -65,7 +65,7 @@
     "pretest": "npm run build-node"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=0.10.0"
   },
   "readmeFilename": "README.md"
 }
