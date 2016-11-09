@@ -70,15 +70,14 @@ for documentation.
 * [Data Formats](doc/data-formats.md)
 * [Network Protocol](doc/protocol.md)
 
-## Other Implementations
+## Implementations
 
 | Implementation | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server | Status |
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
-| [Node.js and Impress Application Server](https://github.com/metarhia/Impress/blob/master/lib/api.jstp.js) | ✓ | ✓ | ✓ | ✗ | ✓ | proof of concept, will be replaced with this library soon |
-| [JavaScript for web browsers](https://github.com/metarhia/Impress/blob/master/applications/example/static/js/impress.js) | ✓ | ✗ | ✗ | ✓ | ✗ | proof of concept, will be replaced with this library soon |
+| JavaScript<br>[metarhia/Impress](https://github.com/metarhia/JSTP) | ✓ | ✓ | ✓ | ✓ | ✓ | reference implementation |
 | C++<br>[NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
 | Qt C++<br>[NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| iOS (Swift)<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✗ | ✗ | ✗ | ✗ | in development |
+| Swift (iOS)<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✗ | ✗ | ✗ | ✗ | in development |
 | Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
 | C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
 | Python<br>[mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | ± | ✗ | ✗ | ✗ | ✗ | proof of concept |
