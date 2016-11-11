@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Formats - JSTP</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Formats";
+    var mkdocs_page_input_path = "data-formats.md";
+    var mkdocs_page_url = "/data-formats/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> JSTP</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Formats</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#jstp-data-formats-family">JSTP Data Formats Family</a></li>
+                
+                    <li><a class="toctree-l4" href="#data-formats-structure">Data Formats Structure</a></li>
+                
+                    <li><a class="toctree-l4" href="#record-serialization">Record Serialization</a></li>
+                
+                    <li><a class="toctree-l4" href="#object-serialization">Object Serialization</a></li>
+                
+                    <li><a class="toctree-l4" href="#record-metadata">Record Metadata</a></li>
+                
+                    <li><a class="toctree-l4" href="#record-data">Record Data</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../protocol/">Protocol</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>API</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../api/record-serialization/">Record Serialization</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../api/object-serialization/">Object Serialization</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">JSTP</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Formats</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/metarhia/JSTP/edit/master/doc/data-formats.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="jstp-data-formats-family">JSTP Data Formats Family</h1>
+<h2 id="data-formats-structure">Data Formats Structure</h2>
+<ul>
+<li>
+<p><a href="#record-serialization">Record Serialization</a>
+  <code>{ name: 'Marcus Aurelius', passport: 'AE127095' }</code></p>
+</li>
+<li>
+<p><a href="#object-serialization">Object Serialization</a>
+  <code>{ name: ['Marcus', 'Aurelius'].join(' '), passport: 'AE' + '127095' }</code></p>
+</li>
+<li>
+<p><a href="#record-metadata">Record Metadata</a>
+  <code>{ name: 'string', passport: '[string]' }</code></p>
+</li>
+<li>
+<p><a href="#record-data">Record Data</a>
+  <code>[ 'Marcus Aurelius', 'AE127095' ]</code></p>
+</li>
+<li>
+<p><a href="../protocol/">JavaScript Transfer Protocol</a>
+  <code>{ event: [17, 'accounts'], insert: ['Marcus Aurelius', 'AE127095'] }</code></p>
+</li>
+</ul>
+<h2 id="record-serialization">Record Serialization</h2>
+<p>It is in fact plain JavaScript that describes a data structure. Contrary
+to JSON it is not required to put keys into double quotes, it is possible
+to add comments, neat formatting and all you can do in JavaScript.</p>
+<p>For example:</p>
+<pre><code class="javascript">{
+  name: 'Marcus Aurelius',
+  passport: 'AE127095',
+  birth: {
+    date: '1990-02-15',
+    place: 'Rome'
+  },
+  contacts: {
+    email: 'marcus@aurelius.it',
+    phone: '+380505551234',
+    address: {
+      country: 'Ukraine',
+      city: 'Kiev',
+      zip: '03056',
+      street: 'Pobedy',
+      building: '37',
+      floor: '1',
+      room: '158'
+    }
+  }
+}
+</code></pre>
+
+<p>The simplest way to parse the data in Node.js:</p>
+<pre><code class="javascript">api.jstp.parse = function(s) {
+  var sandbox = vm.createContext({});
+  var js = vm.createScript('(' + s + ')');
+  return js.runInNewContext(sandbox);
+};
+</code></pre>
+
+<p>And here's the example of usage:</p>
+<pre><code class="javascript">fs.readFile('./person.record', function(err, s) {
+  var person = api.jstp.parse(s);
+  console.dir(person);
+});
+</code></pre>
+
+<p><strong>Warning:</strong> this excerpt, as well as next examples of code, is just a
+demonstration of concept; of course, it is far more complicated in real world
+to do it properly, and that's what this library does.</p>
+<h2 id="object-serialization">Object Serialization</h2>
+<p>If we complicate the parser a little bit, putting all the keys it exports into
+the same sandbox, we could use expressions and functions:</p>
+<pre><code class="javascript">api.jstp.parse = function(s) {
+  var sandbox = vm.createContext({});
+  var js = vm.createScript('(' + s + ')');
+  var exported = js.runInNewContext(sandbox);
+  for (var key in exported) {
+    sandbox[key] = exported[key];
+  }
+  return exported;
+};
+</code></pre>
+
+<p>Example of data:</p>
+<pre><code class="javascript">{
+  name: ['Marcus', 'Aurelius'].join(' '),
+  passport: 'AE' + '127095',
+  birth: {
+    date: new Date('1990-02-15'),
+    place: 'Rome'
+  },
+  age: function() {
+    var difference = new Date() - birth.date;
+    return Math.floor(difference / 31536000000);
+  }
+}
+</code></pre>
+
+<p>As you can see, it is possible to use links to structure fields, like
+<code>birth.date</code>.</p>
+<p>And here's an example of usage:</p>
+<pre><code class="javascript">fs.readFile('./person.record', function(err, s) {
+  var person = api.jstp.parse(s);
+  console.log('Age = ' + person.age());
+});
+</code></pre>
+
+<h2 id="record-metadata">Record Metadata</h2>
+<p>This is metadata, i.e., data about the structure data types, that are described
+in the same format of JavaScript objects. Field definitiions are described
+using special syntax. For example, <code>number(4)</code> is a number that has less or
+four digits and cannot be undefined, and <code>[number(2, 4)]</code> is a nullable number
+that has two to four digits (<strong>TODO</strong>: controversial syntax, better to use <code>?</code>
+for nullables and <code>[...]</code> for arrays, IMO).</p>
+<p>Examples:</p>
+<pre><code class="javascript">// File: Person.metadata
+{
+  name: 'string',
+  passport: '[string(8)]',
+  birth: '[Birth]',
+  address: '[Address]'
+}
+
+// File: Birth.metadata
+{
+  date: 'Date',
+  place: '[string]'
+}
+
+// File: Address.metadata
+{
+  country: 'string',
+  city: 'string',
+  zip: 'number(5)',
+  street: 'string',
+  building: 'string',
+  room: '[number]'
+}
+</code></pre>
+
+<p>Names of built-in types begin with a lowercase letter (<code>string</code>, <code>number</code>,
+<code>boolean</code>), and links to other records begin with a capital: <code>Birth</code>,
+<code>Address</code>. All record definitions are stored in a special structure storage and
+can be cached on servers and user devices.</p>
+<h2 id="record-data">Record Data</h2>
+<p>It is pure data without names of the fields and with objects replaced with
+arrays.  If a field doesn't have a value (i.e., <code>undefined</code>) then the value in
+the array is just omitted. For example, <code>[1,,,4]</code> means four fields, with the
+first and last having the values of <code>1</code> and <code>4</code> respectively and the second and
+third equal to <code>undefined</code>.</p>
+<p>Example of <code>Person</code> instance:</p>
+<pre><code class="javascript">['Marcus Aurelius','AE127095',['1990-02-15','Rome'],['Ukraine','Kiev','03056','Pobedy','37','158']]
+</code></pre>
+
+<p>If we have data data and corresponding metadata, we can restore the full
+document. For example:</p>
+<pre><code class="javascript">var data = ['Marcus Aurelius','AE127095'];
+var metadata = { name: 'string', passport: '[string(8)]' };
+var person = api.jstp.decode(data, metadata);
+console.dir(person);
+{ name: 'Marcus Aurelius', passport: 'AE127095' }
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../protocol/" class="btn btn-neutral float-right" title="Protocol">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/metarhia/JSTP/" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../protocol/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

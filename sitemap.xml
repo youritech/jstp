@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    
+    <url>
+     <loc>https://metarhia.github.io/JSTP//</loc>
+     <lastmod>2016-11-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://metarhia.github.io/JSTP//data-formats/</loc>
+     <lastmod>2016-11-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://metarhia.github.io/JSTP//protocol/</loc>
+     <lastmod>2016-11-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/record-serialization/</loc>
+     <lastmod>2016-11-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/object-serialization/</loc>
+     <lastmod>2016-11-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+</urlset>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Protocol - JSTP</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Protocol";
+    var mkdocs_page_input_path = "protocol.md";
+    var mkdocs_page_url = "/protocol/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> JSTP</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../data-formats/">Formats</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Protocol</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#javascript-transfer-protocol">JavaScript Transfer Protocol</a></li>
+                
+                    <li><a class="toctree-l4" href="#remote-call-packet-call">Remote Call Packet call</a></li>
+                
+                    <li><a class="toctree-l4" href="#remote-call-response-packet-callback">Remote Call Response Packet callback</a></li>
+                
+                    <li><a class="toctree-l4" href="#remote-event-packet-event">Remote Event Packet event</a></li>
+                
+                    <li><a class="toctree-l4" href="#data-synchronization-packet-state">Data Synchronization Packet state</a></li>
+                
+                    <li><a class="toctree-l4" href="#data-stream-packet-stream">Data Stream Packet stream</a></li>
+                
+                    <li><a class="toctree-l4" href="#handshake-packet-handshake">Handshake Packet handshake</a></li>
+                
+                    <li><a class="toctree-l4" href="#introspection-request-packet-inspect">Introspection Request Packet inspect</a></li>
+                
+                    <li><a class="toctree-l4" href="#data-transmission-and-packet-aggregation">Data Transmission and Packet Aggregation</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>API</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../api/record-serialization/">Record Serialization</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../api/object-serialization/">Object Serialization</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">JSTP</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Protocol</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/metarhia/JSTP/edit/master/doc/protocol.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="javascript-transfer-protocol">JavaScript Transfer Protocol</h1>
+<p>JSTP is a data transfer protocol that uses JavaScript objects syntax as the
+encoding format and supports metadata. The protocol has 8 types of packets:</p>
+<ul>
+<li><code>call</code> — remote API call;</li>
+<li><code>callback</code> — remote API response;</li>
+<li><code>event</code> — event with attached data;</li>
+<li><code>state</code> — data synchronization;</li>
+<li><code>stream</code> — data streaming;</li>
+<li><code>handshake</code> — protocol handshake;</li>
+<li><code>health</code> — system data about resource state and usage;</li>
+<li><code>inspect</code> — API introspection request;</li>
+<li>this list is a subject to change.</li>
+</ul>
+<pre><code class="javascript">// Packet ID 17, remote call, interface auth, method newAccount
+{call:[17,'auth'],newAccount:['Payload data']}
+
+// Response to packet 17, operation is successful, record ID is 15703
+{callback:[17],ok:[15703]}
+
+// Event in packet 18, interface auth, event named insert
+{event:[18,'auth'],insert:['Marcus Aurelius','AE127095']}
+</code></pre>
+
+<p>Packet structure:</p>
+<ul>
+<li>
+<p>a packet is an object with several keys;</p>
+</li>
+<li>
+<p>the first one is a header, the name of this key is the packet type,
+  its elements are:</p>
+</li>
+<li>
+<p><code>[0]</code> — unique number that identifies the packet inside the connection;
+    packet with ID <code>0</code> is sent by a client (the side that initiated the
+    connection) and the client increments it by <code>1</code> with each request;
+    a server has a separate counter that is being decremented by <code>1</code> with
+    each request or response to the client; if any of the sides sends a
+    request (like <code>call</code> or <code>inspect</code>), another one responds with a
+    <code>callback</code> packet with the same ID.</p>
+</li>
+<li>
+<p><code>[1]</code> — resource identifier:</p>
+<ul>
+<li>in <code>call</code>, <code>event</code> and <code>inspect</code> — name of an interface;</li>
+<li>in <code>state</code> — identifier of the mutating object;</li>
+</ul>
+</li>
+<li>
+<p>the second key is identifier:</p>
+</li>
+<li>
+<p>in <code>call</code> — method name;</p>
+</li>
+<li>
+<p>in <code>callback</code> - response status (<code>ok</code> or <code>error</code>);</p>
+</li>
+<li>
+<p>in <code>event</code> — event name;</p>
+</li>
+<li>
+<p>in <code>state</code> — method identifier (<code>inc</code>, <code>dec</code>, <code>delete</code>, <code>let</code>, <code>push</code>,
+    <code>pop</code>, <code>shift</code>, <code>unshift</code>);</p>
+</li>
+<li>
+<p>in <code>inspect</code> — no value;</p>
+</li>
+<li>
+<p>in <code>stream</code> — no value.</p>
+</li>
+</ul>
+<h2 id="remote-call-packet-call">Remote Call Packet <code>call</code></h2>
+<p>Example:</p>
+<pre><code class="javascript">{call:[3,'interfaceName'],methodName:['Payload data']}
+</code></pre>
+
+<h2 id="remote-call-response-packet-callback">Remote Call Response Packet <code>callback</code></h2>
+<p>Examples:</p>
+<pre><code class="javascript">{callback:[14],ok:[15703]}
+
+{callback:[397],error:[4,'Data validation failed']}
+
+{callback:[-23],ok:[]}
+</code></pre>
+
+<h2 id="remote-event-packet-event">Remote Event Packet <code>event</code></h2>
+<p>Examples:</p>
+<pre><code class="javascript">{event:[-12,'chat'],message:['Marcus','Hello there!']}
+
+{event:[51,'game'],vote:[5]}
+
+{event:[-79,'db'],insert:['Marcus','Aurelius','Rome','AE127095']}
+</code></pre>
+
+<h2 id="data-synchronization-packet-state">Data Synchronization Packet <code>state</code></h2>
+<p>Examples:</p>
+<pre><code class="javascript">{state:[-12,'object.path.prop1'],inc:5}
+{state:[-13,'object.path.prop2'],dec:1}
+{state:[-14,'object.path.prop3'],let:700}
+{state:[-15,'object.path.prop4'],let:'Hello'}
+{state:[-16,'object.path.prop5'],let:{f:55}}
+{state:[-17,'object.path.prop5'],let:[1,2,7]}
+{state:[-18,'object.path.prop6'],delete:0}
+{state:[-19,'object.path.set1'],let:['A','D']}
+{state:[-20,'object.path.set1'],push:'C'}
+{state:[-20,'object.path.set2'],let:[5,6,9]}
+{state:[-20,'object.path.set2'],push:12}
+{state:[-20,'object.path.set2'],pop:2}
+{state:[-20,'object.path.set2'],shift:3}
+{state:[-20,'object.path.set2'],delete:5}
+{state:[-20,'object.path.set2'],unshift:1}
+</code></pre>
+
+<h2 id="data-stream-packet-stream">Data Stream Packet <code>stream</code></h2>
+<p>Examples:</p>
+<pre><code class="javascript">{stream:[9],data:'Payload start...'}
+{stream:[9],data:'...continue...'}
+{stream:[9],data:'...end'}
+</code></pre>
+
+<h2 id="handshake-packet-handshake">Handshake Packet <code>handshake</code></h2>
+<p>Handshake packets always have ID equal to <code>0</code>. The response contains either
+the key <code>ok</code> with a value that is the session identifier or <code>error</code> that is
+an array with error code and optional error message.</p>
+<p>Successful handshake:</p>
+<pre><code class="javascript">C: {handshake:[0,'example'],marcus:'7b458e1a9dda....67cb7a3e'}
+S: {handshake:[0],ok:'9b71d224bd62...bcdec043'}
+</code></pre>
+
+<p>In this excerpt <code>'example'</code> is the name of an application, <code>marcus</code>
+is the user name and <code>9b71d224bd62...bcdec043</code> is the session id.</p>
+<p>Successful anonymous handshake:</p>
+<pre><code class="javascript">C: {handshake:[0,'example']}
+S: {handshake:[0],ok:'f3785d96d46a...def46f73'}
+</code></pre>
+
+<p>It may be necessary for registration or public service. Server responds
+with a session ID.</p>
+<p>Successfull handshake of <a href="https://github.com/metarhia/Impress">Impress</a> worker
+connecting to a private cloud controller:</p>
+<pre><code class="javascript">C: {handshake:[0,'impress'],S1N5:'d3ea3d73319b...5c2e5c3a'}
+S: {handshake:[0],ok:'PrivateCloud'}
+</code></pre>
+
+<p><code>PrivateCloud</code> is the name of a cloud and <code>d3ea3d73319b...5c2e5c3a</code> is the
+cloud access key.</p>
+<p>Application not found:</p>
+<pre><code class="javascript">C: {handshake:[0,'example'],marcus:'fbc2890caada...0c466347'}
+S: {handshake:[0],error:[10,'Application not found']}
+</code></pre>
+
+<p>In this example <code>marcus</code> is username and <code>fbc2890caada...0c466347</code> is salted
+<code>sha512</code> hash of a password.</p>
+<p>Authentication error:</p>
+<pre><code class="javascript">C: {handshake:[0,'example'],marcus:'e2dff7251967...14b8c5da'}
+S: {handshake:[0],error:[11,'Authentication failed']}
+</code></pre>
+
+<h2 id="introspection-request-packet-inspect">Introspection Request Packet <code>inspect</code></h2>
+<p>This packet is being sent for remote API introspection request and can be
+initiated by either side.</p>
+<p>Just like the <code>call</code> packet, the other side responds with a <code>callback</code> packet.</p>
+<p>Example of a successful introspection retrieval:</p>
+<pre><code class="javascript">C: {inspect:[42,'interfaceName']}
+S: {callback:[42],ok:['method1','method2']}
+</code></pre>
+
+<p>Error getting the introspection:</p>
+<pre><code class="javascript">C: {inspect:[15,'unknownInterface']}
+S: {callback:[15],error:[12,'Interface not found']}
+</code></pre>
+
+<h2 id="data-transmission-and-packet-aggregation">Data Transmission and Packet Aggregation</h2>
+<h3 id="tcp">TCP</h3>
+<p>TCP protocol transfers a stream of data, so fragments sent sequentially are
+glued and cut in any positions by the protocol. In order to split the stream
+into separate messages we must either specify the length of each packet or
+include message terminators. JSTP uses terminator that allows to accumulate
+and split the buffer quite efficiently.</p>
+<p>Each JSTP packet must end with a null character. When a TCP packet arrives,
+each null character is replaced with a comma and the result is put into
+the buffer (while the empty buffer always has the <code>[</code> character). As soon
+as the received packet ends with a terminator, after character replacement
+and putting the data into the buffer, the <code>]</code> character is placed into the
+buffer and its whole content is parsed.</p>
+<p>The previous version of JSTP used <code>,{\f},</code> (where <code>\f</code> is <code>0x0C</code> character)
+sequence as the packet delimiter.</p>
+<p>This plays nice with the Nagle algorithm reducing the number of sandbox
+instantiations significantly.</p>
+<h3 id="websocket">WebSocket</h3>
+<p>Since the WebSocket API used in browsers doesn't expose the vanilla frame-based
+or streaming API (though supported by WebSocket protocol) but only
+message-based one which splits messages into frames and aggregates them back
+together automatically, and all the major WebSocket implementations are capable
+of that too, there's no need to build the same mechanism again on top of
+WebSocket and induce unnecessary overhead because of situation that will never
+happen.</p>
+<p>On the other hand, when WebSocket is used as the transport protocol, each
+JSTP packet will be parsed independently.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api/record-serialization/" class="btn btn-neutral float-right" title="Record Serialization">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../data-formats/" class="btn btn-neutral" title="Formats"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/metarhia/JSTP/" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../data-formats/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../api/record-serialization/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>
