@@ -1,5 +1,29 @@
 # JSTP / JavaScript Transfer Protocol
 
+[![Build Status](https://travis-ci.org/metarhia/JSTP.svg?branch=master)](https://travis-ci.org/metarhia/JSTP)
+[![Dependency Status](https://david-dm.org/metarhia/JSTP.svg)](https://david-dm.org/metarhia/JSTP)
+
+# Installation
+
+JSTP works in Node.js and web browsers. To install it, simply run:
+
+```sh
+$ npm install --save-dev metarhia-impress
+```
+
+Then
+
+```javascript
+const jstp = require('metarhia-jstp');
+```
+
+in your code.
+
+Or, alternatively, if you are developing a client-side application in browser
+environment and don't use a module bundler like Webpack, you can grab
+[jstp.min.js](dist/jstp.min.js) and [jstp.min.js.map](dist/jstp.min.js.map).
+JSTP will be available globally as `api.jstp`.
+
 ## Concept
 
 JSTP is a family of data formats and corresponding libraries for their
@@ -57,3 +81,18 @@ processing that are based on some simple assumptions:
   that will allow to interprete them and provide universal processing to the
   possible extent if the remote sides trust each other and formalization of
   data doesn't make sense.
+
+## Implementations
+
+| Implementation | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server | Status |
+| --- | :---: | :---: | :---: | :---: | :---: | --- |
+| JavaScript<br>[metarhia/Impress](https://github.com/metarhia/JSTP) | ✓ | ✓ | ✓ | ✓ | ✓ | reference implementation |
+| C++<br>[NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| Qt C++<br>[NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| Swift (iOS)<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✗ | ✗ | ✗ | ✗ | in development |
+| Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
+| C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| Python<br>[mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | ± | ✗ | ✗ | ✗ | ✗ | proof of concept |
+| Haskell<br>[DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser) | ✓ | ✓ | ✓ | ✗ | ✗ | stable |
+| PHP<br>[Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
+| GoLang<br>[belochub/jstp-go](https://github.com/belochub/jstp-go) | ✗ | ✗ | ✗ | ✗ | ✗ | in development |

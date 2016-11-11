@@ -1,0 +1,13 @@
+site_name: JSTP
+site_url: https://metarhia.github.io/JSTP/
+repo_url: https://github.com/metarhia/JSTP/
+edit_uri: edit/master/doc/
+docs_dir: doc
+pages:
+  - Home: index.md
+  - Formats: data-formats.md
+  - Protocol: protocol.md
+  - API:
+    - 'Record Serialization': api/record-serialization.md
+    - 'Object Serialization': api/object-serialization.md
+theme: readthedocs
