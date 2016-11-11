@@ -31,9 +31,7 @@ const event = {
 };
 
 const serializedEvent = jstp.stringify(event);
-
-// serializedEvent:
-//   '{type:\'notification\',text:\'Hello!\'}'
+// '{type:\'notification\',text:\'Hello!\'}'
 ```
 
 ### jstp.parse(string)
@@ -51,10 +49,8 @@ const jstp = require('metarhia-jstp');
 
 const data = '{type:\'notification\',text:\'Hello!\'}';
 const object = jstp.parse(data);
-
-// object:
-//   {
-//     type: 'notification',
-//     text: 'Hello!'
-//   }
+// {
+//   type: 'notification',
+//   text: 'Hello!'
+// }
 ```
