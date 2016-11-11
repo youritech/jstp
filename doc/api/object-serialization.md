@@ -8,7 +8,7 @@ will also be used to store and transmit metadata (essentially, classes) when
 [JSTP Record Metadata](../data-formats.md#record-metadata) and [JSTP Record
 Data](../data-formats.md#record-data) are implemented.
 
-### jstp.dump(value)
+## jstp.dump(value)
 
 * `value` {any} any JavaScript value.
 * Return: {String} JSOS representation of this value.
@@ -54,7 +54,7 @@ const data = jstp.dump(person);
 // / 31536000000);\n}}'
 ```
 
-### jstp.interprete(string)
+## jstp.interprete(string)
 
 * string {String} a string to parse.
 * Return: {any} parsed value.

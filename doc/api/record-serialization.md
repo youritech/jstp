@@ -12,7 +12,7 @@ isn't currently faster than the JavaScript one. If you want to try it for some
 reason, change `USE_NATIVE_SERIALIZER` in `lib/record-serialization.js` to
 true.
 
-### jstp.stringify(value)
+## jstp.stringify(value)
 
 * `value` {any} any JavaScript value.
 * Return: {String} JSRS representation of this value.
@@ -34,7 +34,7 @@ const serializedEvent = jstp.stringify(event);
 // '{type:\'notification\',text:\'Hello!\'}'
 ```
 
-### jstp.parse(string)
+## jstp.parse(string)
 
 * string {String} a string to parse.
 * Return: {any} parsed value.
