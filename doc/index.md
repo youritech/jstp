@@ -8,7 +8,7 @@
 JSTP works in Node.js and web browsers. To install it, simply run:
 
 ```sh
-$ npm install --save-dev metarhia-impress
+$ npm install --save-dev metarhia-jstp
 ```
 
 Then
