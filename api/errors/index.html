@@ -92,6 +92,13 @@
         
             <ul>
             
+                <li class="toctree-l3"><a href="#errors">Errors</a></li>
+                
+                    <li><a class="toctree-l4" href="#predefined-error-codes">Predefined Error Codes</a></li>
+                
+                    <li><a class="toctree-l4" href="#class-remoteerror">Class: RemoteError</a></li>
+                
+            
             </ul>
         
     </li>
@@ -202,7 +209,88 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="errors">Errors</h1>
+<p>Many operations in JSTP may end up with an error instead of a result.  Following
+the common Node.js convention, errors are always being passed as the first
+argument of callbacks of these operations and if the operation was successful,
+this argument will be null.  This behavior is both consistent with the core
+Node.js API and allows the JSTP API to be wrapped into promises easily and even
+to be used with async/await, if you use these advanced features, while keeping
+compatibility with plain callback-based asynchronous code for those who prefer
+performance over convenience or those who are forced to use older versions of
+Node.js.</p>
+<p>Hanshakes, RPC invocations and introspection requests are special cases of such
+operations.  If they end up with an error, this error will be sent over
+network.  As you can see in
+<a href="../../protocol/#handshake-packet-handshake">handshake</a> and
+<a href="../../protocol/#remote-call-response-packet-callback">callback</a> packets
+description, such errors are serialized into arrays that contain an error code
+and an optional error description. A high-level abstraction for these arrays is
+the <a href="#class-remoteerror"><code>RemoteError</code></a> class.</p>
+<p>Callbacks of the operations stated above will receive instances of <code>RemoteError</code>
+as the first argument if an error occured. However, when returning an error
+from a remote method, you can pass any of the following to a callback:</p>
+<ul>
+<li><code>RemoteError</code> instance;</li>
+<li><code>Error</code> instance;</li>
+<li>numeric error code;</li>
+<li>error message as a string;</li>
+<li>any other object that will return an error message as a result
+  of its <code>toString</code> method.</li>
+</ul>
+<p>If an error code is unknown (i.e., in any case except the first and third ones)
+it will be equal to zero. However, it is recommended to leverage error codes
+even for custom errors and return them instead of <code>Error</code> instances as it is
+more efficient to send numbers than strings.</p>
+<p>If a method throws an exception, the calling side will receive
+<a href="#jstperr_internal_api_error">ERR_INTERNAL_API_ERROR</a>.</p>
+<h2 id="predefined-error-codes">Predefined Error Codes</h2>
+<h3 id="jstperr_app_not_found">jstp.ERR_APP_NOT_FOUND</h3>
+<p>Value: <code>10</code>.</p>
+<p>Default message: <code>Application not found</code>.</p>
+<h3 id="jstperr_auth_failed">jstp.ERR_AUTH_FAILED</h3>
+<p>Value: <code>11</code>.</p>
+<p>Default message: <code>Authentication failed</code>.</p>
+<h3 id="jstperr_interface_not_found">jstp.ERR_INTERFACE_NOT_FOUND</h3>
+<p>Value: <code>12</code>.</p>
+<p>Default message: <code>Interface not found</code>.</p>
+<h3 id="jstperr_interface_incompatible">jstp.ERR_INTERFACE_INCOMPATIBLE</h3>
+<p>Value: <code>13</code>.</p>
+<p>Default message: <code>Incompatible interface</code>.</p>
+<h3 id="jstperr_method_not_found">jstp.ERR_METHOD_NOT_FOUND</h3>
+<p>Value: <code>14</code>.</p>
+<p>Default message: <code>Method not found</code>.</p>
+<h3 id="jstperr_not_a_server">jstp.ERR_NOT_A_SERVER</h3>
+<p>Value: <code>15</code>.</p>
+<p>Default message: <code>Not a server</code>.</p>
+<h3 id="jstperr_internal_api_error">jstp.ERR_INTERNAL_API_ERROR</h3>
+<p>Value: <code>16</code>.</p>
+<p>Default message: <code>Internal API error</code>.</p>
+<h2 id="class-remoteerror">Class: RemoteError</h2>
+<h3 id="new-remoteerrorcode-91message93">new RemoteError(code, [message])</h3>
+<ul>
+<li>code {Number} error code.</li>
+<li>message {String} error message.</li>
+</ul>
+<p>If <code>message</code> is not provided and <code>code</code> is one of predefined codes, default
+message is used. If <code>message</code> is not provided and <code>code</code> is unknown, error code
+will become error message too.</p>
+<h3 id="errorcode">error.code</h3>
+<p>Error code.</p>
+<h3 id="errormessage">error.message</h3>
+<p>Error message.</p>
+<h3 id="errortojstparray">error.toJstpArray()</h3>
+<p>Returns an array for JSTP packets. This array will always contain the error
+code and, if the message is not equal to code and the code is not one of
+predefined error codes, the error message.</p>
+<h3 id="class-method-remoteerrorfromjstparrayarray">Class Method: RemoteError.fromJstpArray(array)</h3>
+<p>This factory method creates a <code>RemoteError</code> instance from an array found in a
+JSTP packet.</p>
+<h3 id="class-method-remoteerrorgetjstparrayforerror">Class Method: RemoteError.getJstpArrayFor(error)</h3>
+<p>This function returns an array suitable to be sent in a JSTP packet from a
+<code>RemoteError</code> instance, an <code>Error</code> instance, an error code or an error message.
+If there is no error code (i.e., an <code>Error</code> or a <code>String</code> is passed), the error
+code is assumed to be <code>0</code>.</p>
               
             </div>
           </div>
