@@ -39,6 +39,66 @@
      <changefreq>daily</changefreq>
     </url>
         
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/errors/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/auth-provider/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/apps-provider/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/remote-proxy/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/connection/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/server/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/client/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/transport.tcp/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/transport.ws/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://metarhia.github.io/JSTP//api/transport.ws.browser/</loc>
+     <lastmod>2016-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
 </urlset>

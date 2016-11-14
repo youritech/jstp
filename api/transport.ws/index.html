@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>Object Serialization - JSTP</title>
+  <title>WebSocket Transport (Node.js) - JSTP</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
@@ -17,9 +17,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Object Serialization";
-    var mkdocs_page_input_path = "api/object-serialization.md";
-    var mkdocs_page_url = "/api/object-serialization/";
+    var mkdocs_page_name = "WebSocket Transport (Node.js)";
+    var mkdocs_page_input_path = "api/transport.ws.md";
+    var mkdocs_page_url = "/api/transport.ws/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js"></script>
@@ -80,19 +80,8 @@
 
         
             
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Object Serialization</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#object-serialization">Object Serialization</a></li>
-                
-                    <li><a class="toctree-l4" href="#jstpdumpvalue">jstp.dump(value)</a></li>
-                
-                    <li><a class="toctree-l4" href="#jstpinterpretestring">jstp.interprete(string)</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../object-serialization/">Object Serialization</a>
         
     </li>
 
@@ -154,8 +143,12 @@
 
         
             
-    <li class="toctree-l1 ">
-        <a class="" href="../transport.ws/">WebSocket Transport (Node.js)</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">WebSocket Transport (Node.js)</a>
+        
+            <ul>
+            
+            </ul>
         
     </li>
 
@@ -196,10 +189,10 @@
         
       
     
-    <li>Object Serialization</li>
+    <li>WebSocket Transport (Node.js)</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/metarhia/JSTP/edit/master/doc/api/object-serialization.md"
+        <a href="https://github.com/metarhia/JSTP/edit/master/doc/api/transport.ws.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -209,94 +202,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="object-serialization">Object Serialization</h1>
-<p>This module provides parser and serializer for the <a href="../../data-formats/#object-serialization">JSTP Object Serialization
-format</a>.</p>
-<p>The format is especially useful for different kinds of configuration files and
-will also be used to store and transmit metadata (essentially, classes) when
-<a href="../../data-formats/#record-metadata">JSTP Record Metadata</a> and <a href="../../data-formats/#record-data">JSTP Record
-Data</a> are implemented.</p>
-<h2 id="jstpdumpvalue">jstp.dump(value)</h2>
-<ul>
-<li><code>value</code> {any} any JavaScript value.</li>
-<li>Return: {String} JSOS representation of this value.</li>
-</ul>
-<p>This function serializes a JavaScript value using the JSTP Object Serialization
-format and returns a string representing it.</p>
-<p>Examples:</p>
-<pre><code class="javascript">const jstp = require('metarhia-jstp');
-
-const event = {
-  type: 'notification',
-  text: 'Hello!'
-};
-
-const serializedEvent = jstp.stringify(event);
-// '{type:\'notification\',text:\'Hello!\'}'
-</code></pre>
-
-<pre><code class="javascript">const jstp = require('metarhia-jstp');
-
-const person = {
-  name: 'Marcus Aurelius',
-  passport: 'AE127095',
-  birth: {
-    date: new Date('1990-02-15'),
-    place: 'Rome'
-  },
-  age: function() {
-    var difference = new Date() - birth.date;
-    return Math.floor(difference / 31536000000);
-  }
-};
-
-const data = jstp.dump(person);
-// '{name:\'Marcus Aurelius\',passport:\'AE127095\',\
-// birth:{date:new Date(\'1990-02-15T00:00:00.000Z\'),\
-// place:\'Rome\'},age:function () {\nvar difference = \
-// new Date() - birth.date;\nreturn Math.floor(difference \
-// / 31536000000);\n}}'
-</code></pre>
-
-<h2 id="jstpinterpretestring">jstp.interprete(string)</h2>
-<ul>
-<li>string {String} a string to parse.</li>
-<li>Return: {any} parsed value.</li>
-</ul>
-<p>This function deserializes a string in the JSTP Object Serialization format into
-a JavaScript value and returns it.</p>
-<p>Examples:</p>
-<pre><code class="javascript">const jstp = require('metarhia-jstp');
-
-const data = '{type:\'notification\',text:\'Hello!\'}';
-const object = jstp.parse(data);
-// {
-//   type: 'notification',
-//   text: 'Hello!'
-// }
-</code></pre>
-
-<pre><code class="javascript">const jstp = require('metarhia-jstp');
-
-const data = `{
-  name: ['Marcus', 'Aurelius'].join(' '),
-  passport: 'AE' + '127095',
-  birth: {
-    date: new Date('1990-02-15'),
-    place: 'Rome'
-  },
-  age: function() {
-    var difference = new Date() - birth.date;
-    return Math.floor(difference / 31536000000);
-  }
-}`;
-
-const person = jstp.interprete(data);
-// { name: 'Marcus Aurelius',
-//   passport: 'AE127095',
-//   birth: { date: 1990-02-15T00:00:00.000Z, place: 'Rome' },
-//   age: [Function: age] }
-</code></pre>
+                
               
             </div>
           </div>
@@ -304,10 +210,10 @@ const person = jstp.interprete(data);
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../errors/" class="btn btn-neutral float-right" title="Errors">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../transport.ws.browser/" class="btn btn-neutral float-right" title="WebSocket Transport (Browser)">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../record-serialization/" class="btn btn-neutral" title="Record Serialization"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../transport.tcp/" class="btn btn-neutral" title="TCP Transport"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -335,10 +241,10 @@ const person = jstp.interprete(data);
           <a href="https://github.com/metarhia/JSTP/" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../record-serialization/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../transport.tcp/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../errors/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../transport.ws.browser/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
