@@ -333,10 +333,6 @@ the buffer (while the empty buffer always has the <code>[</code> character). As 
 as the received packet ends with a terminator, after character replacement
 and putting the data into the buffer, the <code>]</code> character is placed into the
 buffer and its whole content is parsed.</p>
-<p>The previous version of JSTP used <code>,{\f},</code> (where <code>\f</code> is <code>0x0C</code> character)
-sequence as the packet delimiter.</p>
-<p>This plays nice with the Nagle algorithm reducing the number of sandbox
-instantiations significantly.</p>
 <h3 id="websocket">WebSocket</h3>
 <p>Since the WebSocket API used in browsers doesn't expose the vanilla frame-based
 or streaming API (though supported by WebSocket protocol) but only
@@ -345,8 +341,6 @@ together automatically, and all the major WebSocket implementations are capable
 of that too, there's no need to build the same mechanism again on top of
 WebSocket and induce unnecessary overhead because of situation that will never
 happen.</p>
-<p>On the other hand, when WebSocket is used as the transport protocol, each
-JSTP packet will be parsed independently.</p>
               
             </div>
           </div>
