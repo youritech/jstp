@@ -61,14 +61,21 @@ processing that are based on some simple assumptions:
   possible extent if the remote sides trust each other and formalization of
   data doesn't make sense.
 
-## Documentation
+## Getting Started
 
-See the [doc/](https://github.com/metarhia/JSTP/tree/master/doc) directory
-for documentation.
+JSTP works in Node.js and web browsers. To install it, simply run:
 
-* [Introduction](doc/intro.md)
-* [Data Formats](doc/data-formats.md)
-* [Network Protocol](doc/protocol.md)
+```sh
+$ npm install --save-dev metarhia-jstp
+```
+
+Or, alternatively, if you are developing a client-side application for browser
+environment and don't use a module bundler like Webpack,
+[jstp.min.js](https://metarhia.github.io/JSTP/dist/jstp.min.js) and
+[jstp.min.js.map](https://metarhia.github.io/JSTP/dist/jstp.min.js.map) are
+also available.
+
+Then proceed to the documentation at <https://metarhia.github.io/JSTP/>.
 
 ## Implementations
 

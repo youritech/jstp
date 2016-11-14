@@ -19,7 +19,7 @@ const jstp = require('metarhia-jstp');
 
 in your code.
 
-Or, alternatively, if you are developing a client-side application in browser
+Or, alternatively, if you are developing a client-side application for browser
 environment and don't use a module bundler like Webpack, you can grab
 [jstp.min.js](dist/jstp.min.js) and [jstp.min.js.map](dist/jstp.min.js.map).
 JSTP will be available globally as `api.jstp`.
