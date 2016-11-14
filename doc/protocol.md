@@ -215,12 +215,6 @@ as the received packet ends with a terminator, after character replacement
 and putting the data into the buffer, the `]` character is placed into the
 buffer and its whole content is parsed.
 
-The previous version of JSTP used `,{\f},` (where `\f` is `0x0C` character)
-sequence as the packet delimiter.
-
-This plays nice with the Nagle algorithm reducing the number of sandbox
-instantiations significantly.
-
 ### WebSocket
 
 Since the WebSocket API used in browsers doesn't expose the vanilla frame-based
@@ -230,6 +224,3 @@ together automatically, and all the major WebSocket implementations are capable
 of that too, there's no need to build the same mechanism again on top of
 WebSocket and induce unnecessary overhead because of situation that will never
 happen.
-
-On the other hand, when WebSocket is used as the transport protocol, each
-JSTP packet will be parsed independently.
