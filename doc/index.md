@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/metarhia/JSTP.svg?branch=master)](https://travis-ci.org/metarhia/JSTP)
 [![Dependency Status](https://david-dm.org/metarhia/JSTP.svg)](https://david-dm.org/metarhia/JSTP)
 
-# Installation
+## Installation
 
 JSTP works in Node.js and web browsers. To install it, simply run:
 
@@ -21,7 +21,8 @@ in your code.
 
 Or, alternatively, if you are developing a client-side application for browser
 environment and don't use a module bundler like Webpack, you can grab
-[jstp.min.js](dist/jstp.min.js) and [jstp.min.js.map](dist/jstp.min.js.map).
+[jstp.min.js](https://metarhia.github.io/JSTP/dist/jstp.min.js) and
+[jstp.min.js.map](https://metarhia.github.io/JSTP/dist/jstp.min.js.map).
 JSTP will be available globally as `api.jstp`.
 
 ## Concept

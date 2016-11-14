@@ -43,7 +43,7 @@
       "no-literal-urls": false,
       "no-missing-blank-lines": { "exceptTightLists": true },
       "no-multiple-toplevel-headings": true,
-      "no-shell-dollars": true,
+      "no-shell-dollars": false,
       "no-shortcut-reference-image": true,
       "no-shortcut-reference-link": true,
       "no-table-indentation": true,
