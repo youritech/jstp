@@ -84,6 +84,9 @@ Default message: `Internal API error`.
 
 ## Class: RemoteError
 
+This class is a subclass of `Error` that represents an error that has been
+received from a remote method call over network.
+
 ### new RemoteError(code, \[message\])
 
 * code {Number} error code.
