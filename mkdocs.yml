@@ -11,7 +11,7 @@ pages:
     - 'Record Serialization': api/record-serialization.md
     - 'Object Serialization': api/object-serialization.md
     - 'Errors': api/errors.md
-    - 'Authentication Provider': api/auth-provider.md
+    - 'Authentication Providers': api/auth-provider.md
     - 'Application Provider': api/apps-provider.md
     - 'Remote Proxy': api/remote-proxy.md
     - 'Connection': api/connection.md
