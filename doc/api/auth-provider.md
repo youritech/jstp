@@ -42,7 +42,6 @@ Starts a new session with known user credentials.
 ### Implementation example
 
 ```javascript
-const crypto = require('crypto');
 const jstp = require('jstp');
 const auth = require('./auth');  // Some module of your application
 
