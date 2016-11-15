@@ -108,7 +108,7 @@
         
             
     <li class="toctree-l1 ">
-        <a class="" href="api/auth-provider/">Authentication Provider</a>
+        <a class="" href="api/auth-provider/">Authentication Providers</a>
         
     </li>
 
@@ -229,18 +229,20 @@ JSTP will be available globally as <code>api.jstp</code>.</p>
 <p>JSTP is a family of data formats and corresponding libraries for their
 processing that are based on some simple assumptions:</p>
 <ul>
-<li>it is possible to trasfer data as plain JavaScript code easier and
-  more efficient than using JSON:</li>
-<li>in its simplest implementation it doesn't even require a specialized
-    parser since it is already built into transferer and receiver systems;</li>
-<li>a human-readable format can be almost as minimalist as a binary one,
-    losing coding efficiency very slightly yet winning from the simplicity
-    of packet inspection;</li>
-<li>serialization format and data modeling must be maximally univocal and
-    must answer a question about why someone has done something this way;</li>
 <li>
-<p>there should be possibility to apply different formatting and use
-    comments;</p>
+<p>it is possible to trasfer data as plain JavaScript code easier and
+  more efficient than using JSON:</p>
+<ul>
+<li>in its simplest implementation it doesn't even require a specialized
+  parser since it is already built into transferer and receiver systems;</li>
+<li>a human-readable format can be almost as minimalist as a binary one,
+  losing coding efficiency very slightly yet winning from the simplicity
+  of packet inspection;</li>
+<li>serialization format and data modeling must be maximally univocal and
+  must answer a question about why someone has done something this way;</li>
+<li>there should be possibility to apply different formatting and use
+  comments;</li>
+</ul>
 </li>
 <li>
 <p>it is redundant to send a structure along with data each time, the
@@ -250,29 +252,30 @@ processing that are based on some simple assumptions:</p>
 <li>
 <p>the protocol of interaction between two JavaScript applications must
   have the following features:</p>
-</li>
+<ul>
 <li>two-way asynchronous data transfer with support of plentiful parallel
-    non-blocking interactions and packet indentifiers allowing, for example,
-    to find the correspondence between a request and a response;</li>
+  non-blocking interactions and packet indentifiers allowing, for example,
+  to find the correspondence between a request and a response;</li>
 <li>support of RPC and multiple APIs must be so transparent that application
-    shouldn't event know whether a function call is inside the address space
-    of the application or it is a remote call sent to another system for
-    execution;</li>
+  shouldn't event know whether a function call is inside the address space
+  of the application or it is a remote call sent to another system for
+  execution;</li>
 <li>direct call and response via callback support;</li>
 <li>support of translation of named events with bound data and named channels
-    for event grouping;</li>
+  for event grouping;</li>
 <li>support of automatic synchronization of objects in applications memory
-    if they are registered for synchronization;</li>
+  if they are registered for synchronization;</li>
 <li>only one of sides can initiate a connection but both sides can send data
-    over open channel;</li>
+  over open channel;</li>
 <li>the transport layer must guarantee reliable data transfer with connection
-    establishment and guaranteed delivery (TCP is the basic transport and we
-    also support WebSocket but anything can be used, even RS232 or USB);</li>
+  establishment and guaranteed delivery (TCP is the basic transport and we
+  also support WebSocket but anything can be used, even RS232 or USB);</li>
 <li>all packet types (call, response, callback, event, data etc.) may be split
-    into several parts if their body is too large;</li>
-<li>
-<p>there should be a possibility to stop data transfer if the data transmitted
-    in parts is too large and the last part hasn't been received yet;</p>
+  into several parts if their body is too large;</li>
+<li>there should be a possibility to stop data transfer if the data
+  transmitted in parts is too large and the last part hasn't been
+  received yet;</li>
+</ul>
 </li>
 <li>
 <p>it is required to minimize the transformation of data while tranferring them
@@ -445,5 +448,5 @@ processing that are based on some simple assumptions:</p>
 
 <!--
 MkDocs version : 0.16.0
-Build Date UTC : 2016-11-14 23:08:38
+Build Date UTC : 2016-11-15 13:32:49
 -->

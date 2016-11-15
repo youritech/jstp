@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>Authentication Provider - JSTP</title>
+  <title>Authentication Providers - JSTP</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
@@ -17,7 +17,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Authentication Provider";
+    var mkdocs_page_name = "Authentication Providers";
     var mkdocs_page_input_path = "api/auth-provider.md";
     var mkdocs_page_url = "/api/auth-provider/";
   </script>
@@ -95,9 +95,16 @@
         
             
     <li class="toctree-l1 current">
-        <a class="current" href="./">Authentication Provider</a>
+        <a class="current" href="./">Authentication Providers</a>
         
             <ul>
+            
+                <li class="toctree-l3"><a href="#authentication-providers">Authentication providers</a></li>
+                
+                    <li><a class="toctree-l4" href="#interface-iauthenticationprovider">Interface: IAuthenticationProvider</a></li>
+                
+                    <li><a class="toctree-l4" href="#jstpsimpleauthprovider">jstp.simpleAuthProvider</a></li>
+                
             
             </ul>
         
@@ -189,7 +196,7 @@
         
       
     
-    <li>Authentication Provider</li>
+    <li>Authentication Providers</li>
     <li class="wy-breadcrumbs-aside">
       
         <a href="https://github.com/metarhia/JSTP/edit/master/doc/api/auth-provider.md"
@@ -202,7 +209,113 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="authentication-providers">Authentication providers</h1>
+<p>Authentication provider is an abstraction that allows you to connect your
+authentication and session facilities to JSTP connections so that they will be
+triggered by JSTP handshakes.</p>
+<p>If you don't need such integration, then the default dummy
+<a href="#jstpsimpleauthprovider"><code>simpleAuthProvider</code></a> can be used.</p>
+<h2 id="interface-iauthenticationprovider">Interface: IAuthenticationProvider</h2>
+<h3 id="providerstartanonymoussessionconnection-application-callback">provider.startAnonymousSession(connection, application, callback)</h3>
+<ul>
+<li><code>connection</code> {<a href="../connection/#class-connection">Connection</a>}
+  a connection that received a handshake packet.</li>
+<li><code>application</code>
+  {<a href="../apps-provider/#interface-iapplication">IApplication</a>}
+  application that a client wants to connect to.</li>
+<li><code>callback</code> {Function}<ul>
+<li><code>error</code> {null | Error | <a href="../errors/#class-remoteerror"><code>RemoteError</code></a>
+  | Number | String} error to be sent as a response, if any.</li>
+<li><code>sessionId</code> {String} session ID.</li>
+</ul>
+</li>
+</ul>
+<p>Starts a new session without user credentials.</p>
+<h3 id="providerstartauthenticatedsessionconnection-application-username-password-callback">provider.startAuthenticatedSession(connection, application, username, password, callback)</h3>
+<ul>
+<li><code>connection</code> {<a href="../connection/#class-connection">Connection</a>}
+  a connection that received a handshake packet.</li>
+<li><code>application</code>
+  {<a href="../apps-provider/#interface-iapplication">IApplication</a>}
+  application that a client wants to connect to.</li>
+<li><code>username</code> {String} user login.</li>
+<li><code>password</code> {String} user password.</li>
+<li><code>callback</code> {Function}<ul>
+<li><code>error</code> {null | Error | <a href="../errors/#class-remoteerror"><code>RemoteError</code></a>
+  | Number | String} error to be sent as a response, if any.</li>
+<li><code>sessionId</code> {String} session ID.</li>
+</ul>
+</li>
+</ul>
+<p>Starts a new session with known user credentials.</p>
+<h3 id="implementation-example">Implementation example</h3>
+<pre><code class="javascript">const crypto = require('crypto');
+const jstp = require('jstp');
+const auth = require('./auth');  // Some module of your application
+
+const authProvider = {};
+const sessions = {};
+
+authProvider.startAnonymousSession = (connection, application, callback) =&gt; {
+  startSession(connection, callback);
+};
+
+authProvider.startAuthenticatedSession = (connection, application,
+                                          username, password, callback) =&gt; {
+  auth.signIn(application, username, password, (error) =&gt; {
+    if (error) {
+      return callback(jstp.ERR_AUTH_FAILED);
+    }
+
+    startSession(connection, callback);
+  });
+};
+
+function startSession(connection, callback) {
+  // For simplicity, sessions are bound to connections one-to-one in this
+  // example. However, you may want to restore sessions for authenticated
+  // handshakes so that when the connection is lost, you may reconnect
+  // transparently as though there was no connection break.
+
+  const sessionId = auth.generateSessionToken();
+  sessions[sessionId] = sessionId;
+
+  connection.on('close', () =&gt; {
+    delete sessions[sessionId];
+  });
+
+  callback(null, sessionId);
+}
+</code></pre>
+
+<h2 id="jstpsimpleauthprovider">jstp.simpleAuthProvider</h2>
+<p>Default authentication provider singleton.</p>
+<h3 id="event-session">Event: 'session'</h3>
+<ul>
+<li><code>sessionId</code> {String} session ID.</li>
+<li><code>connection</code> {<a href="../connection/#class-connection">Connection</a>}
+  a connection that received a handshake packet.</li>
+<li><code>application</code>
+  {<a href="../apps-provider/#interface-iapplication">IApplication</a>}
+  application that has got a new client.</li>
+</ul>
+<p>This event is emmitted when a new session is established using
+<code>simpleAuthProvider</code>.</p>
+<h3 id="simpleauthproviderstartanonymoussessionconnection-application-callback">simpleAuthProvider.startAnonymousSession(connection, application, callback)</h3>
+<ul>
+<li><code>connection</code> {<a href="../connection/#class-connection">Connection</a>}
+  a connection that received a handshake packet.</li>
+<li><code>application</code>
+  {<a href="../apps-provider/#interface-iapplication">IApplication</a>}
+  application that a client wants to connect to.</li>
+<li><code>callback</code> {Function}<ul>
+<li><code>error</code> {null}</li>
+<li><code>sessionId</code> {String}</li>
+</ul>
+</li>
+</ul>
+<h3 id="simpleauthproviderstartauthenticatedsessionconnection-application-username-password-callback">simpleAuthProvider.startAuthenticatedSession(connection, application, username, password, callback)</h3>
+<p>Always calls <code>callback</code> with <a href="../errors/#jstperr_auth_failed"><code>ERR_AUTH_FAILED</code></a>.</p>
               
             </div>
           </div>
