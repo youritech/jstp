@@ -1,6 +1,6 @@
 {
   "name": "metarhia-jstp",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "author": "Timur Shemsedinov <timur.shemsedinov@gmail.com>",
   "description": "JavaScript Transfer Protocol for Impress Application Server",
   "license": "MIT",
