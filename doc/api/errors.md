@@ -98,13 +98,15 @@ will become error message too.
 
 ### error.code
 
-Error code.
+Error code (number).
 
 ### error.message
 
-Error message.
+Error message (String).
 
 ### error.toJstpArray()
+
+* Return: {Array}
 
 Returns an array for JSTP packets. This array will always contain the error
 code and, if the message is not equal to code and the code is not one of
@@ -112,10 +114,17 @@ predefined error codes, the error message.
 
 ### Class Method: RemoteError.fromJstpArray(array)
 
+* `array` {Array} array from a JSTP packet.
+* Return: {[RemoteError](#class-remoteerror)}
+
 This factory method creates a `RemoteError` instance from an array found in a
 JSTP packet.
 
 ### Class Method: RemoteError.getJstpArrayFor(error)
+
+* `error` {[RemoteError](#class-remoteerror) | Error | Number | String}
+  error to be converted to an array for a JSTP packet.
+* Return: {Array}
 
 This function returns an array suitable to be sent in a JSTP packet from a
 `RemoteError` instance, an `Error` instance, an error code or an error message.
