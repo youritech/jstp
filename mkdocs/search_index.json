@@ -162,7 +162,7 @@
         }, 
         {
             "location": "/api/errors/", 
-            "text": "Errors\n\n\nMany operations in JSTP may end up with an error instead of a result.  Following\nthe common Node.js convention, errors are always being passed as the first\nargument of callbacks of these operations and if the operation was successful,\nthis argument will be null.  This behavior is both consistent with the core\nNode.js API and allows the JSTP API to be wrapped into promises easily and even\nto be used with async/await, if you use these advanced features, while keeping\ncompatibility with plain callback-based asynchronous code for those who prefer\nperformance over convenience or those who are forced to use older versions of\nNode.js.\n\n\nHanshakes, RPC invocations and introspection requests are special cases of such\noperations.  If they end up with an error, this error will be sent over\nnetwork.  As you can see in\n\nhandshake\n and\n\ncallback\n packets\ndescription, such errors are serialized into arrays that contain an error code\nand an optional error description. A high-level abstraction for these arrays is\nthe \nRemoteError\n class.\n\n\nCallbacks of the operations stated above will receive instances of \nRemoteError\n\nas the first argument if an error occured. However, when returning an error\nfrom a remote method, you can pass any of the following to a callback:\n\n\n\n\nRemoteError\n instance;\n\n\nError\n instance;\n\n\nnumeric error code;\n\n\nerror message as a string;\n\n\nany other object that will return an error message as a result\n  of its \ntoString\n method.\n\n\n\n\nIf an error code is unknown (i.e., in any case except the first and third ones)\nit will be equal to zero. However, it is recommended to leverage error codes\neven for custom errors and return them instead of \nError\n instances as it is\nmore efficient to send numbers than strings.\n\n\nIf a method throws an exception, the calling side will receive\n\nERR_INTERNAL_API_ERROR\n.\n\n\nPredefined Error Codes\n\n\njstp.ERR_APP_NOT_FOUND\n\n\nValue: \n10\n.\n\n\nDefault message: \nApplication not found\n.\n\n\njstp.ERR_AUTH_FAILED\n\n\nValue: \n11\n.\n\n\nDefault message: \nAuthentication failed\n.\n\n\njstp.ERR_INTERFACE_NOT_FOUND\n\n\nValue: \n12\n.\n\n\nDefault message: \nInterface not found\n.\n\n\njstp.ERR_INTERFACE_INCOMPATIBLE\n\n\nValue: \n13\n.\n\n\nDefault message: \nIncompatible interface\n.\n\n\njstp.ERR_METHOD_NOT_FOUND\n\n\nValue: \n14\n.\n\n\nDefault message: \nMethod not found\n.\n\n\njstp.ERR_NOT_A_SERVER\n\n\nValue: \n15\n.\n\n\nDefault message: \nNot a server\n.\n\n\njstp.ERR_INTERNAL_API_ERROR\n\n\nValue: \n16\n.\n\n\nDefault message: \nInternal API error\n.\n\n\nClass: RemoteError\n\n\nThis class is a subclass of \nError\n that represents an error that has been\nreceived from a remote method call over network.\n\n\nnew RemoteError(code, [message])\n\n\n\n\ncode {Number} error code.\n\n\nmessage {String} error message.\n\n\n\n\nIf \nmessage\n is not provided and \ncode\n is one of predefined codes, default\nmessage is used. If \nmessage\n is not provided and \ncode\n is unknown, error code\nwill become error message too.\n\n\nerror.code\n\n\nError code.\n\n\nerror.message\n\n\nError message.\n\n\nerror.toJstpArray()\n\n\nReturns an array for JSTP packets. This array will always contain the error\ncode and, if the message is not equal to code and the code is not one of\npredefined error codes, the error message.\n\n\nClass Method: RemoteError.fromJstpArray(array)\n\n\nThis factory method creates a \nRemoteError\n instance from an array found in a\nJSTP packet.\n\n\nClass Method: RemoteError.getJstpArrayFor(error)\n\n\nThis function returns an array suitable to be sent in a JSTP packet from a\n\nRemoteError\n instance, an \nError\n instance, an error code or an error message.\nIf there is no error code (i.e., an \nError\n or a \nString\n is passed), the error\ncode is assumed to be \n0\n.", 
+            "text": "Errors\n\n\nMany operations in JSTP may end up with an error instead of a result.  Following\nthe common Node.js convention, errors are always being passed as the first\nargument of callbacks of these operations and if the operation was successful,\nthis argument will be null.  This behavior is both consistent with the core\nNode.js API and allows the JSTP API to be wrapped into promises easily and even\nto be used with async/await, if you use these advanced features, while keeping\ncompatibility with plain callback-based asynchronous code for those who prefer\nperformance over convenience or those who are forced to use older versions of\nNode.js.\n\n\nHanshakes, RPC invocations and introspection requests are special cases of such\noperations.  If they end up with an error, this error will be sent over\nnetwork.  As you can see in\n\nhandshake\n and\n\ncallback\n packets\ndescription, such errors are serialized into arrays that contain an error code\nand an optional error description. A high-level abstraction for these arrays is\nthe \nRemoteError\n class.\n\n\nCallbacks of the operations stated above will receive instances of \nRemoteError\n\nas the first argument if an error occured. However, when returning an error\nfrom a remote method, you can pass any of the following to a callback:\n\n\n\n\nRemoteError\n instance;\n\n\nError\n instance;\n\n\nnumeric error code;\n\n\nerror message as a string;\n\n\nany other object that will return an error message as a result\n  of its \ntoString\n method.\n\n\n\n\nIf an error code is unknown (i.e., in any case except the first and third ones)\nit will be equal to zero. However, it is recommended to leverage error codes\neven for custom errors and return them instead of \nError\n instances as it is\nmore efficient to send numbers than strings.\n\n\nIf a method throws an exception, the calling side will receive\n\nERR_INTERNAL_API_ERROR\n.\n\n\nPredefined Error Codes\n\n\njstp.ERR_APP_NOT_FOUND\n\n\nValue: \n10\n.\n\n\nDefault message: \nApplication not found\n.\n\n\njstp.ERR_AUTH_FAILED\n\n\nValue: \n11\n.\n\n\nDefault message: \nAuthentication failed\n.\n\n\njstp.ERR_INTERFACE_NOT_FOUND\n\n\nValue: \n12\n.\n\n\nDefault message: \nInterface not found\n.\n\n\njstp.ERR_INTERFACE_INCOMPATIBLE\n\n\nValue: \n13\n.\n\n\nDefault message: \nIncompatible interface\n.\n\n\njstp.ERR_METHOD_NOT_FOUND\n\n\nValue: \n14\n.\n\n\nDefault message: \nMethod not found\n.\n\n\njstp.ERR_NOT_A_SERVER\n\n\nValue: \n15\n.\n\n\nDefault message: \nNot a server\n.\n\n\njstp.ERR_INTERNAL_API_ERROR\n\n\nValue: \n16\n.\n\n\nDefault message: \nInternal API error\n.\n\n\nClass: RemoteError\n\n\nThis class is a subclass of \nError\n that represents an error that has been\nreceived from a remote method call over network.\n\n\nnew RemoteError(code, [message])\n\n\n\n\ncode {Number} error code.\n\n\nmessage {String} error message.\n\n\n\n\nIf \nmessage\n is not provided and \ncode\n is one of predefined codes, default\nmessage is used. If \nmessage\n is not provided and \ncode\n is unknown, error code\nwill become error message too.\n\n\nerror.code\n\n\nError code (number).\n\n\nerror.message\n\n\nError message (String).\n\n\nerror.toJstpArray()\n\n\n\n\nReturn: {Array}\n\n\n\n\nReturns an array for JSTP packets. This array will always contain the error\ncode and, if the message is not equal to code and the code is not one of\npredefined error codes, the error message.\n\n\nClass Method: RemoteError.fromJstpArray(array)\n\n\n\n\narray\n {Array} array from a JSTP packet.\n\n\nReturn: {\nRemoteError\n}\n\n\n\n\nThis factory method creates a \nRemoteError\n instance from an array found in a\nJSTP packet.\n\n\nClass Method: RemoteError.getJstpArrayFor(error)\n\n\n\n\nerror\n {\nRemoteError\n | Error | Number | String}\n  error to be converted to an array for a JSTP packet.\n\n\nReturn: {Array}\n\n\n\n\nThis function returns an array suitable to be sent in a JSTP packet from a\n\nRemoteError\n instance, an \nError\n instance, an error code or an error message.\nIf there is no error code (i.e., an \nError\n or a \nString\n is passed), the error\ncode is assumed to be \n0\n.", 
             "title": "Errors"
         }, 
         {
@@ -222,27 +222,27 @@
         }, 
         {
             "location": "/api/errors/#errorcode", 
-            "text": "Error code.", 
+            "text": "Error code (number).", 
             "title": "error.code"
         }, 
         {
             "location": "/api/errors/#errormessage", 
-            "text": "Error message.", 
+            "text": "Error message (String).", 
             "title": "error.message"
         }, 
         {
             "location": "/api/errors/#errortojstparray", 
-            "text": "Returns an array for JSTP packets. This array will always contain the error\ncode and, if the message is not equal to code and the code is not one of\npredefined error codes, the error message.", 
+            "text": "Return: {Array}   Returns an array for JSTP packets. This array will always contain the error\ncode and, if the message is not equal to code and the code is not one of\npredefined error codes, the error message.", 
             "title": "error.toJstpArray()"
         }, 
         {
             "location": "/api/errors/#class-method-remoteerrorfromjstparrayarray", 
-            "text": "This factory method creates a  RemoteError  instance from an array found in a\nJSTP packet.", 
+            "text": "array  {Array} array from a JSTP packet.  Return: { RemoteError }   This factory method creates a  RemoteError  instance from an array found in a\nJSTP packet.", 
             "title": "Class Method: RemoteError.fromJstpArray(array)"
         }, 
         {
             "location": "/api/errors/#class-method-remoteerrorgetjstparrayforerror", 
-            "text": "This function returns an array suitable to be sent in a JSTP packet from a RemoteError  instance, an  Error  instance, an error code or an error message.\nIf there is no error code (i.e., an  Error  or a  String  is passed), the error\ncode is assumed to be  0 .", 
+            "text": "error  { RemoteError  | Error | Number | String}\n  error to be converted to an array for a JSTP packet.  Return: {Array}   This function returns an array suitable to be sent in a JSTP packet from a RemoteError  instance, an  Error  instance, an error code or an error message.\nIf there is no error code (i.e., an  Error  or a  String  is passed), the error\ncode is assumed to be  0 .", 
             "title": "Class Method: RemoteError.getJstpArrayFor(error)"
         }, 
         {
@@ -297,13 +297,63 @@
         }, 
         {
             "location": "/api/apps-provider/", 
-            "text": "Applications and Application Providers", 
+            "text": "Applications and Application Providers\n\n\nInterface: IApplication\n\n\napplication.name\n\n\nAn application object must have a String property called \nname\n that is equal\nto the name of the application.\n\n\napplication.callMethod(connection, interfaceName, methodName, args)\n\n\n\n\nconnection\n {\nConnection\n} connection that\n  received a call packet.\n\n\ninterfaceName\n {String} name of an interface.\n\n\nmethodName\n {String} name of a method.\n\n\nargs\n {Array} array of method arguments (there is always at least one item\n  in the array and the last one is always a callback).\n\n\n\n\nCalls a method of the application.\n\n\nIf the specified interface (or method) does not exist, then \ncallMethod\n should\ninvoke the callback with\n\nERR_INTERFACE_NOT_FOUND\n (or\n\nERR_METHOD_NOT_FOUND\n) or just throw a\ncorresponding \nRemoteError\n instance.\n\n\nIf an error occures, the method can pass any of the following to the callback:\n\n\n\n\na \nRemoteError\n instance;\n\n\nan \nError\n instance;\n\n\na number\n\n\na string.\n\n\n\n\nSee the \nErrors section\n for more info.\n\n\napplication.getMethods(interfaceName)\n\n\n\n\ninterfaceName\n {String}\n\n\n\n\nReturns an array of all methods in a specified interface. If the interface does\nnot exist, it should return any falsy value, such as null or undefined.\n\n\nInterface: IServerApplicationsProvider\n\n\nappsProvider.getApplication(applicationName)\n\n\n\n\napplicationName\n {String} application name.\n\n\nReturn: {\nIApplication\n} application object.\n\n\n\n\nReturns an application instance by name.\n\n\nInterface: IClientApplicationProvider\n\n\nClass: Application\n\n\nClass: ServerApplicationsProvider\n\n\nClass: ClientApplicationsProvider", 
             "title": "Applications and Application Providers"
         }, 
         {
             "location": "/api/apps-provider/#applications-and-application-providers", 
             "text": "", 
             "title": "Applications and Application Providers"
+        }, 
+        {
+            "location": "/api/apps-provider/#interface-iapplication", 
+            "text": "", 
+            "title": "Interface: IApplication"
+        }, 
+        {
+            "location": "/api/apps-provider/#applicationname", 
+            "text": "An application object must have a String property called  name  that is equal\nto the name of the application.", 
+            "title": "application.name"
+        }, 
+        {
+            "location": "/api/apps-provider/#applicationcallmethodconnection-interfacename-methodname-args", 
+            "text": "connection  { Connection } connection that\n  received a call packet.  interfaceName  {String} name of an interface.  methodName  {String} name of a method.  args  {Array} array of method arguments (there is always at least one item\n  in the array and the last one is always a callback).   Calls a method of the application.  If the specified interface (or method) does not exist, then  callMethod  should\ninvoke the callback with ERR_INTERFACE_NOT_FOUND  (or ERR_METHOD_NOT_FOUND ) or just throw a\ncorresponding  RemoteError  instance.  If an error occures, the method can pass any of the following to the callback:   a  RemoteError  instance;  an  Error  instance;  a number  a string.   See the  Errors section  for more info.", 
+            "title": "application.callMethod(connection, interfaceName, methodName, args)"
+        }, 
+        {
+            "location": "/api/apps-provider/#applicationgetmethodsinterfacename", 
+            "text": "interfaceName  {String}   Returns an array of all methods in a specified interface. If the interface does\nnot exist, it should return any falsy value, such as null or undefined.", 
+            "title": "application.getMethods(interfaceName)"
+        }, 
+        {
+            "location": "/api/apps-provider/#interface-iserverapplicationsprovider", 
+            "text": "", 
+            "title": "Interface: IServerApplicationsProvider"
+        }, 
+        {
+            "location": "/api/apps-provider/#appsprovidergetapplicationapplicationname", 
+            "text": "applicationName  {String} application name.  Return: { IApplication } application object.   Returns an application instance by name.", 
+            "title": "appsProvider.getApplication(applicationName)"
+        }, 
+        {
+            "location": "/api/apps-provider/#interface-iclientapplicationprovider", 
+            "text": "", 
+            "title": "Interface: IClientApplicationProvider"
+        }, 
+        {
+            "location": "/api/apps-provider/#class-application", 
+            "text": "", 
+            "title": "Class: Application"
+        }, 
+        {
+            "location": "/api/apps-provider/#class-serverapplicationsprovider", 
+            "text": "", 
+            "title": "Class: ServerApplicationsProvider"
+        }, 
+        {
+            "location": "/api/apps-provider/#class-clientapplicationsprovider", 
+            "text": "", 
+            "title": "Class: ClientApplicationsProvider"
         }, 
         {
             "location": "/api/remote-proxy/", 

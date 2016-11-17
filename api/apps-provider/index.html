@@ -108,6 +108,18 @@
             
                 <li class="toctree-l3"><a href="#applications-and-application-providers">Applications and Application Providers</a></li>
                 
+                    <li><a class="toctree-l4" href="#interface-iapplication">Interface: IApplication</a></li>
+                
+                    <li><a class="toctree-l4" href="#interface-iserverapplicationsprovider">Interface: IServerApplicationsProvider</a></li>
+                
+                    <li><a class="toctree-l4" href="#interface-iclientapplicationprovider">Interface: IClientApplicationProvider</a></li>
+                
+                    <li><a class="toctree-l4" href="#class-application">Class: Application</a></li>
+                
+                    <li><a class="toctree-l4" href="#class-serverapplicationsprovider">Class: ServerApplicationsProvider</a></li>
+                
+                    <li><a class="toctree-l4" href="#class-clientapplicationsprovider">Class: ClientApplicationsProvider</a></li>
+                
             
             </ul>
         
@@ -206,6 +218,50 @@
             <div class="section">
               
                 <h1 id="applications-and-application-providers">Applications and Application Providers</h1>
+<h2 id="interface-iapplication">Interface: IApplication</h2>
+<h3 id="applicationname">application.name</h3>
+<p>An application object must have a String property called <code>name</code> that is equal
+to the name of the application.</p>
+<h3 id="applicationcallmethodconnection-interfacename-methodname-args">application.callMethod(connection, interfaceName, methodName, args)</h3>
+<ul>
+<li><code>connection</code> {<a href="../connection/#class-connection">Connection</a>} connection that
+  received a call packet.</li>
+<li><code>interfaceName</code> {String} name of an interface.</li>
+<li><code>methodName</code> {String} name of a method.</li>
+<li><code>args</code> {Array} array of method arguments (there is always at least one item
+  in the array and the last one is always a callback).</li>
+</ul>
+<p>Calls a method of the application.</p>
+<p>If the specified interface (or method) does not exist, then <code>callMethod</code> should
+invoke the callback with
+<a href="../errors/#jstperr_interface_not_found"><code>ERR_INTERFACE_NOT_FOUND</code></a> (or
+<a href="../errors/#jstperr_method_not_found"><code>ERR_METHOD_NOT_FOUND</code></a>) or just throw a
+corresponding <a href="../errors/#class-remoteerror"><code>RemoteError</code></a> instance.</p>
+<p>If an error occures, the method can pass any of the following to the callback:</p>
+<ul>
+<li>a <a href="../errors/#class-remote-error"><code>RemoteError</code></a> instance;</li>
+<li>an <code>Error</code> instance;</li>
+<li>a number</li>
+<li>a string.</li>
+</ul>
+<p>See the <a href="../errors/">Errors section</a> for more info.</p>
+<h3 id="applicationgetmethodsinterfacename">application.getMethods(interfaceName)</h3>
+<ul>
+<li><code>interfaceName</code> {String}</li>
+</ul>
+<p>Returns an array of all methods in a specified interface. If the interface does
+not exist, it should return any falsy value, such as null or undefined.</p>
+<h2 id="interface-iserverapplicationsprovider">Interface: IServerApplicationsProvider</h2>
+<h3 id="appsprovidergetapplicationapplicationname">appsProvider.getApplication(applicationName)</h3>
+<ul>
+<li><code>applicationName</code> {String} application name.</li>
+<li>Return: {<a href="#interface-iapplication">IApplication</a>} application object.</li>
+</ul>
+<p>Returns an application instance by name.</p>
+<h2 id="interface-iclientapplicationprovider">Interface: IClientApplicationProvider</h2>
+<h2 id="class-application">Class: Application</h2>
+<h2 id="class-serverapplicationsprovider">Class: ServerApplicationsProvider</h2>
+<h2 id="class-clientapplicationsprovider">Class: ClientApplicationsProvider</h2>
               
             </div>
           </div>
