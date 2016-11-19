@@ -8,11 +8,11 @@ module.exports = servers;
 
 var application = new jstp.Application('testApp', {
   testInterface: {
-    add: function(first, second, callback) {
+    add: function(connection, first, second, callback) {
       callback(null, first + second);
     },
 
-    sayHi: function(callback) {
+    sayHi: function(connection, callback) {
       callback(null, 'hi');
     }
   }

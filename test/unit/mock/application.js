@@ -8,15 +8,16 @@ var constants = require('../constants');
 var applicationMock = {
   name: constants.TEST_APPLICATION,
 
-  callMethod: function(connection, interfaceName, methodName, args) {
+  callMethod: function(connection, interfaceName, methodName, args, callback) {
     if (interfaceName !== constants.TEST_INTERFACE) {
-      throw new jstp.RemoteError(jstp.ERR_INTERFACE_NOT_FOUND);
+      return callback(jstp.ERR_INTERFACE_NOT_FOUND);
     }
 
     if (methodName in applicationMock && methodName.startsWith('method')) {
-      applicationMock[methodName].apply(null, args);
+      applicationMock[methodName].apply(null,
+        [connection].concat(args, callback));
     } else {
-      throw new jstp.RemoteError(jstp.ERR_METHOD_NOT_FOUND);
+      return callback(jstp.ERR_METHOD_NOT_FOUND);
     }
   },
 
@@ -28,15 +29,15 @@ var applicationMock = {
     }
   },
 
-  method1: function(callback) {
+  method1: function(connection, callback) {
     callback();
   },
 
-  method2: function(first, second, callback) {
+  method2: function(connection, first, second, callback) {
     callback(null, first + second);
   },
 
-  method3: function(callback) {
+  method3: function(connection, callback) {
     callback(new Error('Example error'));
   },
 
