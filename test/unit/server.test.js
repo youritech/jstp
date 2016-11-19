@@ -8,14 +8,13 @@ var jstp = require('../..');
 var RawServerMock = require('./mock/raw-server');
 var appsProvider = require('./mock/apps-provider')
   .createServerApplicationsProviderMock();
-var authProvider = require('./mock/auth-provider');
 
 var expect = chai.expect;
 chai.use(chaiSpies);
 
 var rawServer = new RawServerMock();
 
-var server = new jstp.Server(rawServer, appsProvider, authProvider);
+var server = new jstp.Server(rawServer, appsProvider);
 
 describe('Server', function() {
   it('must forward listen call to raw server', function() {
@@ -36,24 +35,9 @@ describe('Server', function() {
     spy.reset();
   });
 
-  it('must forward startAnonymousSession call to authentication provider',
+  it('must have dynamically created startSession method',
     function() {
-      var spy = chai.spy.on(authProvider, 'startAnonymousSession');
-
-      server.startAnonymousSession(null, null, function() {});
-      expect(spy).to.be.called();
-
-      spy.reset();
-    });
-
-  it('must forward startAuthenticatedSession call to authentication provider',
-    function() {
-      var spy = chai.spy.on(authProvider, 'startAuthenticatedSession');
-
-      server.startAuthenticatedSession(null, null, null, null, function() {});
-      expect(spy).to.be.called();
-
-      spy.reset();
+      expect(server.startSession).to.be.a('function');
     });
 
   // TODO: test getClients(), broadcast(),

@@ -21,15 +21,13 @@ var application = new jstp.Application('testApp', {
 var serverAppsProvider = new jstp.ServerApplicationsProvider();
 serverAppsProvider.registerApplication(application);
 
-var tcpServer = jstp.tcp.createServer({ port: common.TCP_PORT },
-  serverAppsProvider, jstp.simpleAuthProvider);
+var tcpServer = jstp.tcp.createServer(common.TCP_PORT, serverAppsProvider);
 
 tcpServer.on('error', function(error) {
   common.fatal('TCP server error: ' + error);
 });
 
-var wsServer = jstp.ws.createServer({ port: common.WS_PORT },
-  serverAppsProvider, jstp.simpleAuthProvider);
+var wsServer = jstp.ws.createServer(common.WS_PORT, serverAppsProvider);
 
 wsServer.on('error', function(error) {
   common.fatal('WebSocket server error: ' + error);

@@ -26,7 +26,7 @@
     "./lib/server.js": false,
     "./lib/transport.tcp.js": false,
     "./lib/transport.ws.js": "./lib/transport.ws.browser.js",
-    "./lib/auth-provider.js": false
+    "./lib/simple-auth.js": false
   },
   "dependencies": {
     "metasync": "0.0.8",

@@ -168,7 +168,7 @@ describe('JSTP Connection', function() {
 
     it('must process anonymous handshake packets on server', function() {
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
-      var startSessisionSpy = chai.spy.on(serverMock, 'startAnonymousSession');
+      var startSessisionSpy = chai.spy.on(serverMock, 'startSession');
 
       serverTransportMock.emitData(jstp.stringify({
         handshake: [0, constants.TEST_APPLICATION]
@@ -189,7 +189,7 @@ describe('JSTP Connection', function() {
     it('must process authenticated handshake packets on a server', function() {
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
       var startSessisionSpy =
-        chai.spy.on(serverMock, 'startAuthenticatedSession');
+        chai.spy.on(serverMock, 'startSession');
 
       var packet = {
         handshake: [0, constants.TEST_APPLICATION],
@@ -215,7 +215,7 @@ describe('JSTP Connection', function() {
     it('must process handshake packets with invalid credentials', function() {
       var sendSpy = chai.spy.on(serverTransportMock, 'end');
       var startSessisionSpy =
-        chai.spy.on(serverMock, 'startAuthenticatedSession');
+        chai.spy.on(serverMock, 'startSession');
 
       var packet = {
         handshake: [0, constants.TEST_APPLICATION],
