@@ -11,10 +11,8 @@ module.exports = ClientMock;
 //
 function ClientMock() {
   events.EventEmitter.call(this);
+
+  this.application = applicationMock;
 }
 
 util.inherits(ClientMock, events.EventEmitter);
-
-ClientMock.prototype.getApplication = function() {
-  return applicationMock;
-};

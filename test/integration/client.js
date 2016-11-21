@@ -3,12 +3,10 @@
 var jstp = require('../..');
 var common = require('./common');
 
-var clientAppProvider = new jstp.ClientApplicationProvider('testApp', {});
-
 var tcpClient = jstp.tcp.createClient({
   host: 'localhost',
   port: common.TCP_PORT
-}, clientAppProvider);
+});
 
 console.log('Connecting a client via TCP');
 tcpClient.connectAndInspect('testApp', null, null,
@@ -20,7 +18,7 @@ tcpClient.on('error', function(error) {
 
 var wsClient = jstp.ws.createClient({
   url: 'ws://localhost:' + common.WS_PORT
-}, clientAppProvider);
+});
 
 console.log('Connecting a client via WebSocket');
 wsClient.connectAndInspect('testApp', null, null,

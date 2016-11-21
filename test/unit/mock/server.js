@@ -14,6 +14,9 @@ module.exports = ServerMock;
 //
 function ServerMock() {
   events.EventEmitter.call(this);
+
+  this.applications = {};
+  this.applications[constants.TEST_APPLICATION] = applicationMock;
 }
 
 util.inherits(ServerMock, events.EventEmitter);
@@ -42,9 +45,3 @@ ServerMock.prototype.startSession =
 
     callback(null, constants.TEST_SESSION_ID);
   };
-
-ServerMock.prototype.getApplication = function(applicationName) {
-  if (applicationName === constants.TEST_APPLICATION) {
-    return applicationMock;
-  }
-};

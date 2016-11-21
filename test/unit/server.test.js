@@ -6,15 +6,14 @@ var chaiSpies = require('chai-spies');
 var jstp = require('../..');
 
 var RawServerMock = require('./mock/raw-server');
-var appsProvider = require('./mock/apps-provider')
-  .createServerApplicationsProviderMock();
+var applicationMock = require('./mock/application');
 
 var expect = chai.expect;
 chai.use(chaiSpies);
 
 var rawServer = new RawServerMock();
 
-var server = new jstp.Server(rawServer, appsProvider);
+var server = new jstp.Server(rawServer, [applicationMock]);
 
 describe('Server', function() {
   it('must forward listen call to raw server', function() {
@@ -26,13 +25,10 @@ describe('Server', function() {
     spy.reset();
   });
 
-  it('must forward getApplication call to applications provider', function() {
-    var spy = chai.spy.on(appsProvider, 'getApplication');
-
-    server.getApplication('testApp');
-    expect(spy).to.be.called();
-
-    spy.reset();
+  it('must contain applications index', function() {
+    expect(server.applications).to.be.an('object');
+    expect(server.applications[applicationMock.name])
+      .to.equal(applicationMock);
   });
 
   it('must have dynamically created startSession method',

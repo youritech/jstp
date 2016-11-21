@@ -9,7 +9,7 @@ common.extend(jstp,
   require('./lib/record-serialization'),
   require('./lib/object-serialization'),
   require('./lib/errors'),
-  require('./lib/apps-provider')
+  require('./lib/applications')
 );
 
 jstp.RemoteProxy = require('./lib/remote-proxy');
