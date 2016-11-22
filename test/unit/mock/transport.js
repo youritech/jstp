@@ -34,6 +34,6 @@ TransportMock.prototype.end = function(data) {
   this.emit('close');
 };
 
-TransportMock.prototype.emitData = function(data) {
-  this.emit('data', '[' + data + ']');
+TransportMock.prototype.emitPacket = function(packet) {
+  this.emit('packet', packet);
 };

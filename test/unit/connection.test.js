@@ -26,16 +26,16 @@ describe('JSTP Connection', function() {
     clientConnection.handshake(constants.TEST_APPLICATION,
       null, null, callback);
 
-    clientTransportMock.emitData(jstp.stringify({
+    clientTransportMock.emitPacket({
       handshake: [0],
       ok: constants.TEST_SESSION_ID
-    }));
+    });
   }
 
   function emulateHandshakeOnServer() {
-    serverTransportMock.emitData(jstp.stringify({
+    serverTransportMock.emitPacket({
       handshake: [0, constants.TEST_APPLICATION]
-    }));
+    });
   }
 
   function testPacketSending(packetType, test) {
@@ -87,10 +87,10 @@ describe('JSTP Connection', function() {
           handshake: [0, constants.TEST_APPLICATION]
         }));
 
-      clientTransportMock.emitData(jstp.stringify({
+      clientTransportMock.emitPacket({
         handshake: [0],
         ok: constants.TEST_SESSION_ID
-      }));
+      });
 
       expect(callback).to.be.called();
     });
@@ -120,10 +120,10 @@ describe('JSTP Connection', function() {
       expect(clientTransportMock.send)
         .to.be.called.with(jstp.stringify(handshakeRequest));
 
-      clientTransportMock.emitData(jstp.stringify({
+      clientTransportMock.emitPacket({
         handshake: [0],
         ok: constants.TEST_SESSION_ID
-      }));
+      });
 
       expect(callback).to.be.called();
     });
@@ -138,10 +138,10 @@ describe('JSTP Connection', function() {
       });
 
       clientConnection.handshake('invalidApp', 'user', 'password', callback);
-      clientTransportMock.emitData(jstp.stringify({
+      clientTransportMock.emitPacket({
         handshake: [0],
         error: [jstp.ERR_APP_NOT_FOUND]
-      }));
+      });
 
       expect(callback).to.be.called();
     });
@@ -158,10 +158,10 @@ describe('JSTP Connection', function() {
       clientConnection.handshake(constants.TEST_APPLICATION,
         constants.TEST_USERNAME, constants.TEST_PASSWORD, callback);
 
-      clientTransportMock.emitData(jstp.stringify({
+      clientTransportMock.emitPacket({
         handshake: [0],
         error: [jstp.ERR_AUTH_FAILED]
-      }));
+      });
 
       expect(callback).to.be.called();
     });
@@ -170,9 +170,9 @@ describe('JSTP Connection', function() {
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
       var startSessisionSpy = chai.spy.on(serverMock, 'startSession');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         handshake: [0, constants.TEST_APPLICATION]
-      }));
+      });
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
@@ -197,7 +197,7 @@ describe('JSTP Connection', function() {
 
       packet[constants.TEST_USERNAME] = constants.TEST_PASSWORD;
 
-      serverTransportMock.emitData(jstp.stringify(packet));
+      serverTransportMock.emitPacket(packet);
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
@@ -225,7 +225,7 @@ describe('JSTP Connection', function() {
 
       packet[constants.TEST_USERNAME] = password;
 
-      serverTransportMock.emitData(jstp.stringify(packet));
+      serverTransportMock.emitPacket(packet);
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
@@ -246,7 +246,7 @@ describe('JSTP Connection', function() {
         handshake: [0, constants.TEST_APPLICATION],
       };
 
-      clientTransportMock.emitData(jstp.stringify(packet));
+      clientTransportMock.emitPacket(packet);
 
       expect(sendSpy).to.have.been.called.with(jstp.stringify({
         handshake: [0],
@@ -285,10 +285,10 @@ describe('JSTP Connection', function() {
       connection.inspectInterface(constants.TEST_INTERFACE, callback);
       expect(sendSpy).to.have.been.called();
 
-      transport.emitData(jstp.stringify({
+      transport.emitPacket({
         callback: [packetId],
         ok: methods
-      }));
+      });
 
       expect(callback).to.have.been.called();
     });
@@ -298,9 +298,9 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         inspect: [1, constants.TEST_INTERFACE]
-      }));
+      });
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
@@ -315,9 +315,9 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         inspect: [1, 'no interface like that']
-      }));
+      });
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
@@ -352,10 +352,10 @@ describe('JSTP Connection', function() {
       connection.callMethod(constants.TEST_INTERFACE, 'method1', [], callback);
       expect(sendSpy).to.have.been.called();
 
-      transport.emitData(jstp.stringify({
+      transport.emitPacket({
         callback: [packetId],
         ok: [42]
-      }));
+      });
 
       expect(callback).to.have.been.called();
     });
@@ -365,10 +365,10 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
         method1: []
-      }));
+      });
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
@@ -383,10 +383,10 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
         method2: [10, 20]
-      }));
+      });
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
@@ -401,10 +401,10 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
         method3: []
-      }));
+      });
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
@@ -420,10 +420,10 @@ describe('JSTP Connection', function() {
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       expect(function() {
-        serverTransportMock.emitData(jstp.stringify({
+        serverTransportMock.emitPacket({
           call: [1, constants.TEST_INTERFACE],
           method4: []
-        }));
+        });
       }).to.throw();
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
@@ -439,10 +439,10 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         call: [1, 'dummy interface'],
         method1: []
-      }));
+      });
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
@@ -457,10 +457,10 @@ describe('JSTP Connection', function() {
 
       var sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      serverTransportMock.emitData(jstp.stringify({
+      serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
         methodThatDoesNotExist: []
-      }));
+      });
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
@@ -506,10 +506,10 @@ describe('JSTP Connection', function() {
         clientConnection.callMethod(
           constants.TEST_INTERFACE, 'method', [], callback);
 
-        clientTransportMock.emitData(jstp.stringify({
+        clientTransportMock.emitPacket({
           callback: [1],
           ok: ['result']
-        }));
+        });
 
         expect(callback).to.be.called();
       });
@@ -525,10 +525,10 @@ describe('JSTP Connection', function() {
         clientConnection.callMethod(
           constants.TEST_INTERFACE, 'method', [], callback);
 
-        clientTransportMock.emitData(jstp.stringify({
+        clientTransportMock.emitPacket({
           callback: [1],
           error: [jstp.ERR_INTERNAL_API_ERROR]
-        }));
+        });
 
         expect(callback).to.be.called();
       });
@@ -576,7 +576,7 @@ describe('JSTP Connection', function() {
       clientConnection.on('event', handler);
 
       performHandshakeFromClient(function() {
-        clientTransportMock.emitData(jstp.stringify(event));
+        clientTransportMock.emitPacket(event);
         expect(handler).to.be.called();
       });
     });
@@ -606,10 +606,10 @@ describe('JSTP Connection', function() {
       clientConnection.on('state', handler);
 
       performHandshakeFromClient(function() {
-        clientTransportMock.emitData(jstp.stringify({
+        clientTransportMock.emitPacket({
           state: [-1, 'counter'],
           inc: 1
-        }));
+        });
 
         expect(handler).to.be.called();
       });
