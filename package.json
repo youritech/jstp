@@ -29,7 +29,7 @@
     "./lib/simple-auth.js": false
   },
   "dependencies": {
-    "metasync": "0.0.8",
+    "metasync": "0.0.12",
     "websocket": "^1.0.23"
   },
   "devDependencies": {
