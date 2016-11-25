@@ -22,7 +22,7 @@
   },
   "main": "./jstp.js",
   "browser": {
-    "./lib/record-serialization.js": "./lib/record-serialization-nonnative.js",
+    "./lib/record-serialization.js": "./lib/record-serialization-fallback.js",
     "./lib/server.js": false,
     "./lib/transport.tcp.js": false,
     "./lib/transport.ws.js": "./lib/transport.ws.browser.js",
