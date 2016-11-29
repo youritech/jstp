@@ -73,7 +73,7 @@ describe('JSTP Connection', function() {
         expect(error).to.not.exist;
         expect(sessionId).to.equal(constants.TEST_SESSION_ID);
 
-        expect(clientConnection.authenticated).to.be.false;
+        expect(clientConnection.username).to.be.null;
         expect(clientConnection.handshakeDone).to.be.true;
 
         clientTransportMock.send.reset();
@@ -102,7 +102,7 @@ describe('JSTP Connection', function() {
         expect(error).to.not.exist;
         expect(sessionId).to.equal(constants.TEST_SESSION_ID);
 
-        expect(clientConnection.authenticated).to.be.true;
+        expect(clientConnection.username).to.eql(constants.TEST_USERNAME);
         expect(clientConnection.handshakeDone).to.be.true;
 
         clientTransportMock.send.reset();
@@ -133,7 +133,7 @@ describe('JSTP Connection', function() {
         expect(error.code).to.equal(jstp.ERR_APP_NOT_FOUND);
         expect(sessionId).to.not.exist;
 
-        expect(clientConnection.authenticated).to.be.false;
+        expect(clientConnection.username).to.be.null;
         expect(clientConnection.handshakeDone).to.be.false;
       });
 
@@ -151,7 +151,7 @@ describe('JSTP Connection', function() {
         expect(error.code).to.equal(jstp.ERR_AUTH_FAILED);
         expect(sessionId).to.not.exist;
 
-        expect(clientConnection.authenticated).to.be.false;
+        expect(clientConnection.username).to.be.null;
         expect(clientConnection.handshakeDone).to.be.false;
       });
 
