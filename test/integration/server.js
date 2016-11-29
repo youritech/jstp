@@ -54,9 +54,9 @@ servers.start = function(callback) {
 };
 
 servers.stop = function() {
-  console.log('Stopping TCP sever');
+  console.log('Stopping TCP server');
   tcpServer.close();
 
-  console.log('Stopping WebSocket sever');
+  console.log('Stopping WebSocket server');
   wsServer.close();
 };
