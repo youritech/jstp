@@ -8,12 +8,12 @@ var RemoteError = jstp.RemoteError;
 describe('RemoteError', function() {
   describe('instance', function() {
     it('must be a subclass of Error', function() {
-      var error = new RemoteError(0);
+      var error = new RemoteError(1);
       expect(error).to.be.an.instanceof(Error);
     });
 
     it('must have error name equal to \'RemoteError\'', function() {
-      var error = new RemoteError(0);
+      var error = new RemoteError(1);
       expect(error.name).to.equal('RemoteError');
     });
 
@@ -24,7 +24,7 @@ describe('RemoteError', function() {
 
     it('must accept an optional message', function() {
       var message = 'Sample message';
-      var error = new RemoteError(0, message);
+      var error = new RemoteError(1, message);
       expect(error.message).to.equal(message);
     });
 
@@ -103,7 +103,7 @@ describe('RemoteError', function() {
     it('must return an array for Error', function() {
       var error = new TypeError('Invalid argument');
       var array = RemoteError.getJstpArrayFor(error);
-      expect(array).to.eql([0, 'TypeError: Invalid argument']);
+      expect(array).to.eql([1, 'TypeError: Invalid argument']);
     });
 
     it('must return correctly formatted arrays untouched', function() {
@@ -119,7 +119,7 @@ describe('RemoteError', function() {
 
     it('must return an array for string', function() {
       var array = RemoteError.getJstpArrayFor('Sample message');
-      expect(array).to.eql([0, 'Sample message']);
+      expect(array).to.eql([1, 'Sample message']);
     });
   });
 

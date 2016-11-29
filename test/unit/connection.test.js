@@ -408,7 +408,7 @@ describe('JSTP Connection', function() {
 
       expect(sendSpy).to.be.called.with(jstp.stringify({
         callback: [1],
-        error: [0, 'Error: Example error']
+        error: [1, 'Error: Example error']
       }));
 
       sendSpy.reset();
