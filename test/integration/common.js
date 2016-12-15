@@ -8,6 +8,7 @@ module.exports = common;
 
 common.TCP_PORT = 3000;
 common.WS_PORT = 8080;
+common.UNIX_SOCKET = 'jstp.sock';
 
 common.fatal = function(message) {
   console.error(message);

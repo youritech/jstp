@@ -25,6 +25,8 @@
     "./lib/record-serialization.js": "./lib/record-serialization-fallback.js",
     "./lib/server.js": false,
     "./lib/transport.tcp.js": false,
+    "./lib/transport.ipc.js": false,
+    "./lib/transport.socket.js": false,
     "./lib/transport.ws.js": "./lib/transport.ws.browser.js",
     "./lib/simple-auth.js": false
   },

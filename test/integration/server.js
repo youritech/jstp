@@ -24,6 +24,12 @@ tcpServer.on('error', function(error) {
   common.fatal('TCP server error: ' + error);
 });
 
+var ipcServer = jstp.ipc.createServer(common.UNIX_SOCKET, [application]);
+
+ipcServer.on('error', function(error) {
+  common.fatal('IPC server error: ' + error);
+});
+
 var wsServer = jstp.ws.createServer(common.WS_PORT, [application]);
 
 wsServer.on('error', function(error) {
@@ -32,11 +38,18 @@ wsServer.on('error', function(error) {
 
 servers.start = function(callback) {
   var tcpStarted = false;
+  var ipcStarted = false;
   var wsStarted = false;
 
   tcpServer.listen(function() {
     console.log('TCP server listening on port', common.TCP_PORT);
     tcpStarted = true;
+    checkCompletion();
+  });
+
+  ipcServer.listen(function() {
+    console.log('IPC server listening on socket', common.UNIX_SOCKET);
+    ipcStarted = true;
     checkCompletion();
   });
 
@@ -47,7 +60,7 @@ servers.start = function(callback) {
   });
 
   function checkCompletion() {
-    if (tcpStarted && wsStarted) {
+    if (tcpStarted && ipcStarted && wsStarted) {
       callback();
     }
   }
@@ -56,6 +69,9 @@ servers.start = function(callback) {
 servers.stop = function() {
   console.log('Stopping TCP server');
   tcpServer.close();
+
+  console.log('Stopping IPC server');
+  ipcServer.close();
 
   console.log('Stopping WebSocket server');
   wsServer.close();

@@ -16,6 +16,16 @@ tcpClient.on('error', function(error) {
   common.fatal('TCP client error: ' + error);
 });
 
+var ipcClient = jstp.ipc.createClient(common.UNIX_SOCKET);
+
+console.log('Connecting a client via IPC');
+ipcClient.connectAndInspect('testApp', null, null,
+  ['testInterface'], onConnect.bind(null, ipcClient));
+
+ipcClient.on('error', function(error) {
+  common.fatal('IPC client error: ' + error);
+});
+
 var wsClient = jstp.ws.createClient({
   url: 'ws://localhost:' + common.WS_PORT
 });
