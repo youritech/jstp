@@ -85,7 +85,7 @@ Then proceed to the documentation at <https://metarhia.github.io/JSTP/>.
 | JavaScript<br>[metarhia/Impress](https://github.com/metarhia/JSTP) | ✓ | ✓ | ✓ | ✓ | ✓ | reference implementation |
 | C++<br>[NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
 | Qt C++<br>[NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Swift (iOS)<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✗ | ✗ | ✗ | ✗ | in development |
+| Swift (iOS)<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
 | Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
 | C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
 | Python<br>[mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | ± | ✗ | ✗ | ✗ | ✗ | proof of concept |
