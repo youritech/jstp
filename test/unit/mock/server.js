@@ -1,12 +1,12 @@
 'use strict';
 
-var events = require('events');
-var util = require('util');
+const events = require('events');
+const util = require('util');
 
-var jstp = require('../../..');
+const jstp = require('../../..');
 
-var constants = require('../constants');
-var applicationMock = require('./application');
+const constants = require('../constants');
+const applicationMock = require('./application');
 
 module.exports = ServerMock;
 
@@ -29,7 +29,7 @@ ServerMock.prototype.getClients = function() {
   return [];
 };
 
-ServerMock.prototype.broadcast = function() {  };
+ServerMock.prototype.broadcast = function() { };
 
 ServerMock.prototype.startSession =
   function(connection, application, username, password, callback) {

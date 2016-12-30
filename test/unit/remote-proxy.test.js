@@ -1,33 +1,33 @@
 'use strict';
 
-var chai = require('chai');
-var chaiSpies = require('chai-spies');
+const chai = require('chai');
+const chaiSpies = require('chai-spies');
 
-var RemoteProxy = require('../..').RemoteProxy;
+const RemoteProxy = require('../..').RemoteProxy;
 
-var expect = chai.expect;
+const expect = chai.expect;
 chai.use(chaiSpies);
 
-describe('RemoteProxy', function() {
-  var proxy;
+describe('RemoteProxy', () => {
+  let proxy;
 
-  var connectionMock = {
-    callMethod: function(interfaceName, methodName, args, callback) {
-      var results = { method1: 'result1', method2: 'result2' };
+  const connectionMock = {
+    callMethod(interfaceName, methodName, args, callback) {
+      const results = { method1: 'result1', method2: 'result2' };
       callback(results[methodName]);
     },
 
-    emitRemoteEvent: function() { },
+    emitRemoteEvent() { },
 
-    processEventPacket: function() {
+    processEventPacket() {
       proxy.emit('testEvent', 'payload', true);
     }
   };
 
-  var callSpy;
-  var eventSpy;
+  let callSpy;
+  let eventSpy;
 
-  beforeEach(function() {
+  beforeEach(() => {
     callSpy = chai.spy.on(connectionMock, 'callMethod');
     eventSpy = chai.spy.on(connectionMock, 'emitRemoteEvent');
 
@@ -35,14 +35,14 @@ describe('RemoteProxy', function() {
       'testInterface', ['method1', 'method2']);
   });
 
-  afterEach(function() {
+  afterEach(() => {
     callSpy.reset();
     eventSpy.reset();
   });
 
-  it('must call remote methods', function() {
-    var callback1 = chai.spy();
-    var callback2 = chai.spy();
+  it('must call remote methods', () => {
+    const callback1 = chai.spy();
+    const callback2 = chai.spy();
 
     proxy.method1(callback1);
     expect(callSpy).to.have.been.called.with(
@@ -61,8 +61,8 @@ describe('RemoteProxy', function() {
     expect(callback2).to.have.been.called.with('result2');
   });
 
-  it('must emit events through the network and locally', function() {
-    var handler = chai.spy();
+  it('must emit events through the network and locally', () => {
+    const handler = chai.spy();
     proxy.on('testEvent', handler);
     proxy.emit('testEvent', 'payload');
 
@@ -74,8 +74,8 @@ describe('RemoteProxy', function() {
     expect(handler).to.have.been.called.with('payload');
   });
 
-  it('must not re-emit events back', function() {
-    var handler = chai.spy();
+  it('must not re-emit events back', () => {
+    const handler = chai.spy();
     proxy.on('testEvent', handler);
     connectionMock.processEventPacket();
 

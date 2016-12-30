@@ -1,10 +1,10 @@
 'use strict';
 
-var common = require('./common');
-var servers = require('./server');
+const common = require('./common');
+const servers = require('./server');
 
-servers.start(function() {
-  common.runScript('clients-launcher', function(error) {
+servers.start(() => {
+  common.runScript('clients-launcher', (error) => {
     if (error) {
       throw error;
     }

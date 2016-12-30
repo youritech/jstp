@@ -1,6 +1,6 @@
 'use strict';
 
-var constants = {};
+const constants = {};
 module.exports = constants;
 
 constants.TEST_APPLICATION = 'testApp';

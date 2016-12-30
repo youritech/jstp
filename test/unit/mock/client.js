@@ -1,9 +1,9 @@
 'use strict';
 
-var events = require('events');
-var util = require('util');
+const events = require('events');
+const util = require('util');
 
-var applicationMock = require('./application');
+const applicationMock = require('./application');
 
 module.exports = ClientMock;
 

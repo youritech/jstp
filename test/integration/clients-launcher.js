@@ -1,15 +1,15 @@
 'use strict';
 
-var common = require('./common');
+const common = require('./common');
 
-var CLIENTS_COUNT = 50;
+const CLIENTS_COUNT = 50;
 
-var childProcesses = [];
+const childProcesses = [];
 
-for (var i = 0; i < CLIENTS_COUNT; i++) {
-  var process = common.runScript('client', function(error) {
+for (let i = 0; i < CLIENTS_COUNT; i++) {
+  const process = common.runScript('client', (error) => {
     if (error) {
-      childProcesses.forEach(function(process) {
+      childProcesses.forEach((process) => {
         process.kill();
       });
 

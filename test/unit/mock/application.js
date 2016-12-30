@@ -1,14 +1,14 @@
 'use strict';
 
-var jstp = require('../../..');
-var constants = require('../constants');
+const jstp = require('../../..');
+const constants = require('../constants');
 
 // Application mock
 //
-var applicationMock = {
+const applicationMock = {
   name: constants.TEST_APPLICATION,
 
-  callMethod: function(connection, interfaceName, methodName, args, callback) {
+  callMethod(connection, interfaceName, methodName, args, callback) {
     if (interfaceName !== constants.TEST_INTERFACE) {
       return callback(jstp.ERR_INTERFACE_NOT_FOUND);
     }
@@ -21,27 +21,26 @@ var applicationMock = {
     }
   },
 
-  getMethods: function(interfaceName) {
+  getMethods(interfaceName) {
     if (interfaceName === constants.TEST_INTERFACE) {
-      return Object.keys(applicationMock).filter(function(key) {
-        return key.startsWith('method');
-      });
+      return Object.keys(applicationMock)
+        .filter(key => key.startsWith('method'));
     }
   },
 
-  method1: function(connection, callback) {
+  method1(connection, callback) {
     callback();
   },
 
-  method2: function(connection, first, second, callback) {
+  method2(connection, first, second, callback) {
     callback(null, first + second);
   },
 
-  method3: function(connection, callback) {
+  method3(connection, callback) {
     callback(new Error('Example error'));
   },
 
-  method4: function() {
+  method4() {
     throw new Error('Internal error');
   }
 };

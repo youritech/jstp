@@ -1,9 +1,9 @@
 'use strict';
 
-var childProcess = require('child_process');
-var path = require('path');
+const childProcess = require('child_process');
+const path = require('path');
 
-var common = {};
+const common = {};
 module.exports = common;
 
 common.TCP_PORT = 3000;
@@ -16,16 +16,16 @@ common.fatal = function(message) {
 };
 
 common.runScript = function(script, callback) {
-  var scriptPath = path.join(__dirname, script);
-  var callbackCalled = false;
-  var process = childProcess.fork(scriptPath);
+  const scriptPath = path.join(__dirname, script);
+  const process = childProcess.fork(scriptPath);
+  let callbackCalled = false;
 
-  process.on('error', function(error) {
+  process.on('error', (error) => {
     invokeCallback(error);
   });
 
-  process.on('exit', function(code) {
-    var error = code === 0 ?
+  process.on('exit', (code) => {
+    const error = code === 0 ?
       null :
       new Error('Child process failed with exit code ' + code);
 
@@ -38,7 +38,6 @@ common.runScript = function(script, callback) {
     }
 
     callbackCalled = true;
-
     callback(error);
   }
 

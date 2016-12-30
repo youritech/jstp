@@ -1,11 +1,9 @@
 'use strict';
 
-var common = require('./lib/common');
-
-var jstp = {};
+const jstp = {};
 module.exports = jstp;
 
-common.extend(jstp,
+Object.assign(jstp,
   require('./lib/record-serialization'),
   require('./lib/object-serialization'),
   require('./lib/errors'),

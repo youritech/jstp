@@ -1,26 +1,26 @@
 'use strict';
 
-var chai = require('chai');
-var chaiSpies = require('chai-spies');
+const chai = require('chai');
+const chaiSpies = require('chai-spies');
 
-var jstp = require('../..');
+const jstp = require('../..');
 
-var constants = require('./constants');
-var applicationMock = require('./mock/application');
-var TransportMock = require('./mock/transport');
-var ServerMock = require('./mock/server');
-var ClientMock = require('./mock/client');
+const constants = require('./constants');
+const applicationMock = require('./mock/application');
+const TransportMock = require('./mock/transport');
+const ServerMock = require('./mock/server');
+const ClientMock = require('./mock/client');
 
-var expect = chai.expect;
+const expect = chai.expect;
 chai.use(chaiSpies);
 
-describe('JSTP Connection', function() {
-  var serverTransportMock;
-  var clientTransportMock;
-  var serverMock;
-  var clientMock;
-  var serverConnection;
-  var clientConnection;
+describe('JSTP Connection', () => {
+  let serverTransportMock;
+  let clientTransportMock;
+  let serverMock;
+  let clientMock;
+  let serverConnection;
+  let clientConnection;
 
   function performHandshakeFromClient(callback) {
     clientConnection.handshake(constants.TEST_APPLICATION,
@@ -39,21 +39,21 @@ describe('JSTP Connection', function() {
   }
 
   function testPacketSending(packetType, test) {
-    var description = 'must send ' + packetType + ' packets';
+    const description = 'must send ' + packetType + ' packets';
 
-    it(description + ' (client)', function() {
-      performHandshakeFromClient(function() {
+    it(description + ' (client)', () => {
+      performHandshakeFromClient(() => {
         test(clientConnection, clientTransportMock);
       });
     });
 
-    it(description + ' (server)', function() {
+    it(description + ' (server)', () => {
       emulateHandshakeOnServer();
       test(serverConnection, serverTransportMock);
     });
   }
 
-  beforeEach(function() {
+  beforeEach(() => {
     clientTransportMock = new TransportMock();
     serverTransportMock = new TransportMock();
 
@@ -65,11 +65,11 @@ describe('JSTP Connection', function() {
       new jstp.Connection(clientTransportMock, null, clientMock);
   });
 
-  describe('handshake', function() {
-    it('must send anonymous handshake from a client', function() {
+  describe('handshake', () => {
+    it('must send anonymous handshake from a client', () => {
       chai.spy.on(clientTransportMock, 'send');
 
-      var callback = chai.spy(function(error, sessionId) {
+      const callback = chai.spy((error, sessionId) => {
         expect(error).to.not.exist;
         expect(sessionId).to.equal(constants.TEST_SESSION_ID);
 
@@ -95,10 +95,10 @@ describe('JSTP Connection', function() {
       expect(callback).to.be.called();
     });
 
-    it('must send authenticated handshake from a client', function() {
+    it('must send authenticated handshake from a client', () => {
       chai.spy.on(clientTransportMock, 'send');
 
-      var callback = chai.spy(function(error, sessionId) {
+      const callback = chai.spy((error, sessionId) => {
         expect(error).to.not.exist;
         expect(sessionId).to.equal(constants.TEST_SESSION_ID);
 
@@ -111,7 +111,7 @@ describe('JSTP Connection', function() {
       clientConnection.handshake(constants.TEST_APPLICATION,
         constants.TEST_USERNAME, constants.TEST_PASSWORD, callback);
 
-      var handshakeRequest = {
+      const handshakeRequest = {
         handshake: [0, constants.TEST_APPLICATION]
       };
 
@@ -128,8 +128,8 @@ describe('JSTP Connection', function() {
       expect(callback).to.be.called();
     });
 
-    it('must handle inexistent application error', function() {
-      var callback = chai.spy(function(error, sessionId) {
+    it('must handle inexistent application error', () => {
+      const callback = chai.spy((error, sessionId) => {
         expect(error.code).to.equal(jstp.ERR_APP_NOT_FOUND);
         expect(sessionId).to.not.exist;
 
@@ -146,8 +146,8 @@ describe('JSTP Connection', function() {
       expect(callback).to.be.called();
     });
 
-    it('must handle authentication error', function() {
-      var callback = chai.spy(function(error, sessionId) {
+    it('must handle authentication error', () => {
+      const callback = chai.spy((error, sessionId) => {
         expect(error.code).to.equal(jstp.ERR_AUTH_FAILED);
         expect(sessionId).to.not.exist;
 
@@ -166,9 +166,9 @@ describe('JSTP Connection', function() {
       expect(callback).to.be.called();
     });
 
-    it('must process anonymous handshake packets on server', function() {
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
-      var startSessisionSpy = chai.spy.on(serverMock, 'startSession');
+    it('must process anonymous handshake packets on server', () => {
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const startSessisionSpy = chai.spy.on(serverMock, 'startSession');
 
       serverTransportMock.emitPacket({
         handshake: [0, constants.TEST_APPLICATION]
@@ -186,12 +186,12 @@ describe('JSTP Connection', function() {
       startSessisionSpy.reset();
     });
 
-    it('must process authenticated handshake packets on a server', function() {
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
-      var startSessisionSpy =
+    it('must process authenticated handshake packets on a server', () => {
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const startSessisionSpy =
         chai.spy.on(serverMock, 'startSession');
 
-      var packet = {
+      const packet = {
         handshake: [0, constants.TEST_APPLICATION],
       };
 
@@ -212,16 +212,16 @@ describe('JSTP Connection', function() {
       startSessisionSpy.reset();
     });
 
-    it('must process handshake packets with invalid credentials', function() {
-      var sendSpy = chai.spy.on(serverTransportMock, 'end');
-      var startSessisionSpy =
+    it('must process handshake packets with invalid credentials', () => {
+      const sendSpy = chai.spy.on(serverTransportMock, 'end');
+      const startSessisionSpy =
         chai.spy.on(serverMock, 'startSession');
 
-      var packet = {
+      const packet = {
         handshake: [0, constants.TEST_APPLICATION],
       };
 
-      var password = 'illegal password';
+      const password = 'illegal password';
 
       packet[constants.TEST_USERNAME] = password;
 
@@ -239,10 +239,10 @@ describe('JSTP Connection', function() {
       startSessisionSpy.reset();
     });
 
-    it('must not process handshakes on a client', function() {
-      var sendSpy = chai.spy.on(clientTransportMock, 'send');
+    it('must not process handshakes on a client', () => {
+      const sendSpy = chai.spy.on(clientTransportMock, 'send');
 
-      var packet = {
+      const packet = {
         handshake: [0, constants.TEST_APPLICATION],
       };
 
@@ -257,16 +257,15 @@ describe('JSTP Connection', function() {
     });
   });
 
-  describe('inspect', function() {
-    var methods = Object.keys(applicationMock).filter(function(key) {
-      return key.startsWith('method');
-    });
+  describe('inspect', () => {
+    const methods = Object.keys(applicationMock).
+      filter(key => key.startsWith('method'));
 
-    testPacketSending('inspect', function(connection, transport) {
-      var packetId;
+    testPacketSending('inspect', (connection, transport) => {
+      let packetId;
 
-      var sendSpy = chai.spy(function(data) {
-        var packet = jstp.parse(data);
+      const sendSpy = chai.spy((data) => {
+        const packet = jstp.parse(data);
 
         expect(packet).to.have.all.keys(['inspect']);
         expect(packet.inspect).to.be.an('array');
@@ -275,7 +274,7 @@ describe('JSTP Connection', function() {
         expect(packet.inspect[1]).to.equal(constants.TEST_INTERFACE);
       });
 
-      var callback = chai.spy(function(error, proxy) {
+      const callback = chai.spy((error, proxy) => {
         expect(error).to.not.exist;
         expect(proxy).to.be.an.instanceof(jstp.RemoteProxy);
       });
@@ -293,10 +292,10 @@ describe('JSTP Connection', function() {
       expect(callback).to.have.been.called();
     });
 
-    it('must process inspect packets', function() {
+    it('must process inspect packets', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       serverTransportMock.emitPacket({
         inspect: [1, constants.TEST_INTERFACE]
@@ -310,10 +309,10 @@ describe('JSTP Connection', function() {
       sendSpy.reset();
     });
 
-    it('must return an error when interface does not exist', function() {
+    it('must return an error when interface does not exist', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       serverTransportMock.emitPacket({
         inspect: [1, 'no interface like that']
@@ -328,12 +327,12 @@ describe('JSTP Connection', function() {
     });
   });
 
-  describe('call', function() {
-    testPacketSending('call', function(connection, transport) {
-      var packetId;
+  describe('call', () => {
+    testPacketSending('call', (connection, transport) => {
+      let packetId;
 
-      var sendSpy = chai.spy(function(data) {
-        var packet = jstp.parse(data);
+      const sendSpy = chai.spy((data) => {
+        const packet = jstp.parse(data);
 
         expect(packet).to.have.all.keys(['call', 'method1']);
         expect(packet.call).to.be.an('array');
@@ -342,7 +341,7 @@ describe('JSTP Connection', function() {
         expect(packet.call[1]).to.equal(constants.TEST_INTERFACE);
       });
 
-      var callback = chai.spy(function(error, result) {
+      const callback = chai.spy((error, result) => {
         expect(error).to.not.exist;
         expect(result).to.equal(42);
       });
@@ -360,10 +359,10 @@ describe('JSTP Connection', function() {
       expect(callback).to.have.been.called();
     });
 
-    it('must process a method call with no arguments and result', function() {
+    it('must process a method call with no arguments and result', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
@@ -378,10 +377,10 @@ describe('JSTP Connection', function() {
       sendSpy.reset();
     });
 
-    it('must process a method call with arguments and a result', function() {
+    it('must process a method call with arguments and a result', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
@@ -396,10 +395,10 @@ describe('JSTP Connection', function() {
       sendSpy.reset();
     });
 
-    it('must process a method call that returns an error', function() {
+    it('must process a method call that returns an error', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
@@ -414,12 +413,12 @@ describe('JSTP Connection', function() {
       sendSpy.reset();
     });
 
-    it('must process a method that throws an error', function() {
+    it('must process a method that throws an error', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
-      expect(function() {
+      expect(() => {
         serverTransportMock.emitPacket({
           call: [1, constants.TEST_INTERFACE],
           method4: []
@@ -434,10 +433,10 @@ describe('JSTP Connection', function() {
       sendSpy.reset();
     });
 
-    it('must return an error when an interface does not exist', function() {
+    it('must return an error when an interface does not exist', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       serverTransportMock.emitPacket({
         call: [1, 'dummy interface'],
@@ -452,10 +451,10 @@ describe('JSTP Connection', function() {
       sendSpy.reset();
     });
 
-    it('must return an error when a method does not exist', function() {
+    it('must return an error when a method does not exist', () => {
       emulateHandshakeOnServer();
 
-      var sendSpy = chai.spy.on(serverTransportMock, 'send');
+      const sendSpy = chai.spy.on(serverTransportMock, 'send');
 
       serverTransportMock.emitPacket({
         call: [1, constants.TEST_INTERFACE],
@@ -471,10 +470,10 @@ describe('JSTP Connection', function() {
     });
   });
 
-  describe('callback', function() {
-    testPacketSending('callback', function(connection, transport) {
-      var sendSpy = chai.spy(function(data) {
-        var packet = jstp.parse(data);
+  describe('callback', () => {
+    testPacketSending('callback', (connection, transport) => {
+      const sendSpy = chai.spy((data) => {
+        const packet = jstp.parse(data);
 
         expect(packet).to.contain.all.keys(['callback']);
         expect(packet).to.contain.any.keys(['ok', 'error']);
@@ -496,13 +495,13 @@ describe('JSTP Connection', function() {
       expect(sendSpy).to.have.been.called.twice;
     });
 
-    it('must process a callback packet with a result', function() {
-      var callback = chai.spy(function(error, result) {
+    it('must process a callback packet with a result', () => {
+      const callback = chai.spy((error, result) => {
         expect(error).to.not.exist;
         expect(result).to.equal('result');
       });
 
-      performHandshakeFromClient(function() {
+      performHandshakeFromClient(() => {
         clientConnection.callMethod(
           constants.TEST_INTERFACE, 'method', [], callback);
 
@@ -515,13 +514,13 @@ describe('JSTP Connection', function() {
       });
     });
 
-    it('must process a callback packet with an error', function() {
-      var callback = chai.spy(function(error) {
+    it('must process a callback packet with an error', () => {
+      const callback = chai.spy((error) => {
         expect(error).to.be.an.instanceof(jstp.RemoteError);
         expect(error.code).to.equal(jstp.ERR_INTERNAL_API_ERROR);
       });
 
-      performHandshakeFromClient(function() {
+      performHandshakeFromClient(() => {
         clientConnection.callMethod(
           constants.TEST_INTERFACE, 'method', [], callback);
 
@@ -535,12 +534,12 @@ describe('JSTP Connection', function() {
     });
   });
 
-  describe('event', function() {
-    testPacketSending('event', function(connection, transport) {
-      var eventArgs = { arg: 'value' };
+  describe('event', () => {
+    testPacketSending('event', (connection, transport) => {
+      const eventArgs = { arg: 'value' };
 
-      var sendSpy = chai.spy(function(data) {
-        var packet = jstp.parse(data);
+      const sendSpy = chai.spy((data) => {
+        const packet = jstp.parse(data);
         expect(packet).to.have.all.keys(['event', constants.TEST_EVENT]);
 
         expect(packet.event).to.be.an('array');
@@ -558,16 +557,16 @@ describe('JSTP Connection', function() {
       expect(sendSpy).to.have.been.called();
     });
 
-    it('must process event packets', function() {
-      var payload = { key: 'value' };
+    it('must process event packets', () => {
+      const payload = { key: 'value' };
 
-      var event = {
+      const event = {
         event: [-1, constants.TEST_INTERFACE]
       };
 
       event[constants.TEST_EVENT] = payload;
 
-      var handler = chai.spy(function(eventArgs) {
+      const handler = chai.spy((eventArgs) => {
         expect(eventArgs.interfaceName).to.equal(constants.TEST_INTERFACE);
         expect(eventArgs.remoteEventName).to.equal(constants.TEST_EVENT);
         expect(eventArgs.remoteEventArgs).to.eql(payload);
@@ -575,17 +574,17 @@ describe('JSTP Connection', function() {
 
       clientConnection.on('event', handler);
 
-      performHandshakeFromClient(function() {
+      performHandshakeFromClient(() => {
         clientTransportMock.emitPacket(event);
         expect(handler).to.be.called();
       });
     });
   });
 
-  describe('state', function() {
-    testPacketSending('state', function(connection, transport) {
-      var sendSpy = chai.spy(function(data) {
-        var packet = jstp.parse(data);
+  describe('state', () => {
+    testPacketSending('state', (connection, transport) => {
+      const sendSpy = chai.spy((data) => {
+        const packet = jstp.parse(data);
         expect(packet).to.have.all.keys(['state', 'inc']);
         expect(packet.state).to.be.an('array');
       });
@@ -596,8 +595,8 @@ describe('JSTP Connection', function() {
       expect(sendSpy).to.have.been.called();
     });
 
-    it('must process state packets', function() {
-      var handler = chai.spy(function(stateChange) {
+    it('must process state packets', () => {
+      const handler = chai.spy((stateChange) => {
         expect(stateChange.path).to.equal('counter');
         expect(stateChange.verb).to.equal('inc');
         expect(stateChange.value).to.equal(1);
@@ -605,7 +604,7 @@ describe('JSTP Connection', function() {
 
       clientConnection.on('state', handler);
 
-      performHandshakeFromClient(function() {
+      performHandshakeFromClient(() => {
         clientTransportMock.emitPacket({
           state: [-1, 'counter'],
           inc: 1

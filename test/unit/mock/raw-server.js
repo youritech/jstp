@@ -1,9 +1,9 @@
 'use strict';
 
-var events = require('events');
-var util = require('util');
+const events = require('events');
+const util = require('util');
 
-var TransportMock = require('./transport');
+const TransportMock = require('./transport');
 
 module.exports = RawServerMock;
 

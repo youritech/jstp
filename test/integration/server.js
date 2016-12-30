@@ -1,59 +1,59 @@
 'use strict';
 
-var jstp = require('../..');
-var common = require('./common');
+const jstp = require('../..');
+const common = require('./common');
 
-var servers = {};
+const servers = {};
 module.exports = servers;
 
-var application = new jstp.Application('testApp', {
+const application = new jstp.Application('testApp', {
   testInterface: {
-    add: function(connection, first, second, callback) {
+    add(connection, first, second, callback) {
       callback(null, first + second);
     },
 
-    sayHi: function(connection, callback) {
+    sayHi(connection, callback) {
       callback(null, 'hi');
     }
   }
 });
 
-var tcpServer = jstp.tcp.createServer(common.TCP_PORT, [application]);
+const tcpServer = jstp.tcp.createServer(common.TCP_PORT, [application]);
 
-tcpServer.on('error', function(error) {
+tcpServer.on('error', (error) => {
   common.fatal('TCP server error: ' + error);
 });
 
-var ipcServer = jstp.ipc.createServer(common.UNIX_SOCKET, [application]);
+const ipcServer = jstp.ipc.createServer(common.UNIX_SOCKET, [application]);
 
-ipcServer.on('error', function(error) {
+ipcServer.on('error', (error) => {
   common.fatal('IPC server error: ' + error);
 });
 
-var wsServer = jstp.ws.createServer(common.WS_PORT, [application]);
+const wsServer = jstp.ws.createServer(common.WS_PORT, [application]);
 
-wsServer.on('error', function(error) {
+wsServer.on('error', (error) => {
   common.fatal('WebSocket server error: ' + error);
 });
 
 servers.start = function(callback) {
-  var tcpStarted = false;
-  var ipcStarted = false;
-  var wsStarted = false;
+  let tcpStarted = false;
+  let ipcStarted = false;
+  let wsStarted = false;
 
-  tcpServer.listen(function() {
+  tcpServer.listen(() => {
     console.log('TCP server listening on port', common.TCP_PORT);
     tcpStarted = true;
     checkCompletion();
   });
 
-  ipcServer.listen(function() {
+  ipcServer.listen(() => {
     console.log('IPC server listening on socket', common.UNIX_SOCKET);
     ipcStarted = true;
     checkCompletion();
   });
 
-  wsServer.listen(function() {
+  wsServer.listen(() => {
     console.log('WebSocket server listening on port', common.WS_PORT);
     wsStarted = true;
     checkCompletion();
