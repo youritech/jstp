@@ -92,6 +92,6 @@ Then proceed to the documentation at <https://metarhia.github.io/JSTP/>.
 | Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
 | C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
 | Python<br>[mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | ± | ✗ | ✗ | ✗ | ✗ | proof of concept |
-| Haskell<br>[DzyubSpirit/JSTPHaskellParser](https://github.com/DzyubSpirit/JSTPHaskellParser) | ✓ | ✓ | ✓ | ✗ | ✗ | stable |
+| Haskell<br>[DzyubSpirit/JSTPHaskell](https://github.com/DzyubSpirit/JSTPHaskell) | ✓ | ✓ | ✓ | ✗ | ✗ | stable |
 | PHP<br>[Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
 | GoLang<br>[belochub/jstp-go](https://github.com/belochub/jstp-go) | ✗ | ✗ | ✗ | ✗ | ✗ | in development |
