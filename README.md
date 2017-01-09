@@ -83,15 +83,9 @@ Then proceed to the documentation at <https://metarhia.github.io/JSTP/>.
 
 ## Implementations
 
-| Implementation | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server | Status |
+| Implementation | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server |
 | --- | :---: | :---: | :---: | :---: | :---: | --- |
-| JavaScript<br>[metarhia/Impress](https://github.com/metarhia/JSTP) | ✓ | ✓ | ✓ | ✓ | ✓ | reference implementation |
-| C++<br>[NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Qt C++<br>[NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Swift (iOS)<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
-| Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ | stable |
-| C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| Python<br>[mitchsvik/JSTP-Python](https://github.com/mitchsvik/JSTP-Python) | ± | ✗ | ✗ | ✗ | ✗ | proof of concept |
-| Haskell<br>[DzyubSpirit/JSTPHaskell](https://github.com/DzyubSpirit/JSTPHaskell) | ✓ | ✓ | ✓ | ✗ | ✗ | stable |
-| PHP<br>[Romm17/JSTPParserInPHP](https://github.com/Romm17/JSTPParserInPHP) | ✓ | ✗ | ✗ | ✗ | ✗ | stable |
-| GoLang<br>[belochub/jstp-go](https://github.com/belochub/jstp-go) | ✗ | ✗ | ✗ | ✗ | ✗ | in development |
+| JavaScript<br>[metarhia/Impress](https://github.com/metarhia/JSTP) | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Swift<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✓ | ✗ | ✗ | ✗ |
+| Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ |
+| Haskell<br>[DzyubSpirit/JSTPHaskell](https://github.com/DzyubSpirit/JSTPHaskell) | ✓ | ✓ | ✓ | ✗ | ✗ |
