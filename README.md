@@ -1,6 +1,5 @@
 [![TravisCI](https://img.shields.io/travis/metarhia/JSTP.svg?branch=master&style=flat-square)](https://travis-ci.org/metarhia/JSTP)
-[![Dependency](https://img.shields.io/david/metarhia/JSTP.svg?style=flat-square)](https://david-dm.org/metarhia/JSTP)
-[![devDependencies](https://david-dm.org/metarhia/JSTP/dev-status.svg?style=flat-square)](https://david-dm.org/metarhia/JSTP?type=dev)
+[![bitHound](https://img.shields.io/bithound/dependencies/github/metarhia/JSTP.svg?style=flat-square)](https://www.bithound.io/github/metarhia/JSTP)
 [![NPM Version](https://img.shields.io/npm/v/metarhia-jstp.svg?style=flat-square)](https://www.npmjs.com/package/metarhia-jstp)
 [![NPM Downloads/Month](https://img.shields.io/npm/dm/metarhia-jstp.svg?style=flat-square)](https://www.npmjs.com/package/metarhia-jstp)
 [![NPM Downloads](https://img.shields.io/npm/dt/metarhia-jstp.svg?style=flat-square)](https://www.npmjs.com/package/metarhia-jstp)
