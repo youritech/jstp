@@ -46,7 +46,6 @@
     "karma-chrome-launcher": "^2.0.0",
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.1",
     "karma-safari-launcher": "^1.0.0",
     "karma-webpack": "^1.8.1",
     "mocha": "^3.2.0",
@@ -58,7 +57,7 @@
   "scripts": {
     "test": "npm run test-unit && npm run test-integration && npm run lint",
     "test-unit": "npm run test-unit-node && npm run test-unit-browser",
-    "test-unit-node": "mocha test/unit --slow 0",
+    "test-unit-node": "mocha -R progress test/unit",
     "test-unit-browser": "karma start",
     "test-integration": "node test/integration/run-tests",
     "test-browser-unit": "karma start",

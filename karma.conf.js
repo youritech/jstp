@@ -23,7 +23,7 @@ module.exports = (config) => {
       'test/unit/*.test.js': ['webpack'],
       'test/unit/**/*.test.js': ['webpack']
     },
-    reporters: ['mocha'],
+    reporters: ['progress'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
