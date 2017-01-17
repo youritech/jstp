@@ -96,6 +96,8 @@ processing that are based on some simple assumptions:
 
 Old and abandoned implementations based on the early draft specs:
 
+| Implementation | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server |
+| --- | :---: | :---: | :---: | :---: | :---: | --- |
 | C++<br>[NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ |
 | Qt C++<br>[NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ |
 | C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ |
