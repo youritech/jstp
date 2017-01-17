@@ -209,7 +209,8 @@
               
                 <h1 id="jstp-javascript-transfer-protocol">JSTP / JavaScript Transfer Protocol</h1>
 <p><a href="https://travis-ci.org/metarhia/JSTP"><img alt="Build Status" src="https://travis-ci.org/metarhia/JSTP.svg?branch=master" /></a>
-<a href="https://david-dm.org/metarhia/JSTP"><img alt="Dependency Status" src="https://david-dm.org/metarhia/JSTP.svg" /></a></p>
+<a href="https://david-dm.org/metarhia/JSTP"><img alt="Dependency Status" src="https://david-dm.org/metarhia/JSTP.svg" /></a>
+<a href="https://david-dm.org/metarhia/JSTP"><img alt="DevDependency Status" src="https://david-dm.org/metarhia/JSTP/dev-status.svg" /></a></p>
 <h2 id="installation">Installation</h2>
 <p>JSTP works in Node.js and web browsers. To install it, simply run:</p>
 <pre><code class="sh">$ npm install --save-dev metarhia-jstp
@@ -304,7 +305,7 @@ processing that are based on some simple assumptions:</p>
 <th align="center">TCP Server</th>
 <th align="center">WebSocket Client</th>
 <th align="center">WebSocket Server</th>
-<th>Status</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -315,34 +316,16 @@ processing that are based on some simple assumptions:</p>
 <td align="center">✓</td>
 <td align="center">✓</td>
 <td align="center">✓</td>
-<td>reference implementation</td>
+<td></td>
 </tr>
 <tr>
-<td>C++<br><a href="https://github.com/NechaiDO/JSTP-cpp">NechaiDO/JSTP-cpp</a></td>
+<td>Swift<br><a href="https://github.com/JSTPMobile/iOS">JSTPMobile/iOS</a></td>
+<td align="center">✓</td>
 <td align="center">✓</td>
 <td align="center">✗</td>
 <td align="center">✗</td>
 <td align="center">✗</td>
-<td align="center">✗</td>
-<td>stable</td>
-</tr>
-<tr>
-<td>Qt C++<br><a href="https://github.com/NechaiDO/QJSTP">NechaiDO/QJSTP</a></td>
-<td align="center">✓</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td>stable</td>
-</tr>
-<tr>
-<td>Swift (iOS)<br><a href="https://github.com/JSTPMobile/iOS">JSTPMobile/iOS</a></td>
-<td align="center">✓</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td>in development</td>
+<td></td>
 </tr>
 <tr>
 <td>Java<br><a href="https://github.com/JSTPMobile/Java">JSTPMobile/Java</a></td>
@@ -351,55 +334,25 @@ processing that are based on some simple assumptions:</p>
 <td align="center">✗</td>
 <td align="center">✗</td>
 <td align="center">✗</td>
-<td>stable</td>
+<td></td>
 </tr>
 <tr>
-<td>C#<br><a href="https://github.com/JSTPKPI/JSTP-CS">JSTPKPI/JSTP-CS</a></td>
-<td align="center">✓</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td>stable</td>
-</tr>
-<tr>
-<td>Python<br><a href="https://github.com/mitchsvik/JSTP-Python">mitchsvik/JSTP-Python</a></td>
-<td align="center">±</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td>proof of concept</td>
-</tr>
-<tr>
-<td>Haskell<br><a href="https://github.com/DzyubSpirit/JSTPHaskellParser">DzyubSpirit/JSTPHaskellParser</a></td>
+<td>Haskell<br><a href="https://github.com/DzyubSpirit/JSTPHaskell">DzyubSpirit/JSTPHaskell</a></td>
 <td align="center">✓</td>
 <td align="center">✓</td>
 <td align="center">✓</td>
 <td align="center">✗</td>
 <td align="center">✗</td>
-<td>stable</td>
-</tr>
-<tr>
-<td>PHP<br><a href="https://github.com/Romm17/JSTPParserInPHP">Romm17/JSTPParserInPHP</a></td>
-<td align="center">✓</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td>stable</td>
-</tr>
-<tr>
-<td>GoLang<br><a href="https://github.com/belochub/jstp-go">belochub/jstp-go</a></td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td align="center">✗</td>
-<td>in development</td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<p>Old and abandoned implementations based on the early draft specs:</p>
+<p>| C++<br><a href="https://github.com/NechaiDO/JSTP-cpp">NechaiDO/JSTP-cpp</a> | ✓ | ✗ | ✗ | ✗ | ✗ |
+| Qt C++<br><a href="https://github.com/NechaiDO/QJSTP">NechaiDO/QJSTP</a> | ✓ | ✗ | ✗ | ✗ | ✗ |
+| C#<br><a href="https://github.com/JSTPKPI/JSTP-CS">JSTPKPI/JSTP-CS</a> | ✓ | ✗ | ✗ | ✗ | ✗ |
+| PHP<br><a href="https://github.com/Romm17/JSTPParserInPHP">Romm17/JSTPParserInPHP</a> | ✓ | ✗ | ✗ | ✗ | ✗ |</p>
+<p>(The first one evolved into a native addon of this library.)</p>
               
             </div>
           </div>
@@ -448,5 +401,5 @@ processing that are based on some simple assumptions:</p>
 
 <!--
 MkDocs version : 0.16.0
-Build Date UTC : 2016-11-17 21:31:34
+Build Date UTC : 2017-01-17 14:59:55
 -->
