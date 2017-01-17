@@ -88,7 +88,7 @@ processing that are based on some simple assumptions:
 ## Implementations
 
 | Implementation | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server |
-| --- | :---: | :---: | :---: | :---: | :---: | --- |
+| --- | :---: | :---: | :---: | :---: | :---: |
 | JavaScript<br>[metarhia/Impress](https://github.com/metarhia/JSTP) | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Swift<br>[JSTPMobile/iOS](https://github.com/JSTPMobile/iOS) | ✓ | ✓ | ✗ | ✗ | ✗ |
 | Java<br>[JSTPMobile/Java](https://github.com/JSTPMobile/Java) | ✓ | ✓ | ✗ | ✗ | ✗ |
@@ -97,7 +97,7 @@ processing that are based on some simple assumptions:
 Old and abandoned implementations based on the early draft specs:
 
 | Implementation | Parser | TCP Client | TCP Server | WebSocket Client | WebSocket Server |
-| --- | :---: | :---: | :---: | :---: | :---: | --- |
+| --- | :---: | :---: | :---: | :---: | :---: |
 | C++<br>[NechaiDO/JSTP-cpp](https://github.com/NechaiDO/JSTP-cpp) | ✓ | ✗ | ✗ | ✗ | ✗ |
 | Qt C++<br>[NechaiDO/QJSTP](https://github.com/NechaiDO/QJSTP) | ✓ | ✗ | ✗ | ✗ | ✗ |
 | C#<br>[JSTPKPI/JSTP-CS](https://github.com/JSTPKPI/JSTP-CS) | ✓ | ✗ | ✗ | ✗ | ✗ |
