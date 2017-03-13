@@ -1,5 +1,78 @@
 # `metarhia-jstp` changelog
 
+## Version 0.6.7 (2017-03-14, @aqrln)
+
+This is a bugfix release.
+
+Notable changes:
+
+ * **lib:** make failed addon loading more informative
+   *(Alexey Orlenko)*
+   [#90](https://github.com/metarhia/JSTP/pull/90)
+ * **w3c-ws:** emit missing error event
+   *(Alexey Orlenko)*
+   [#93](https://github.com/metarhia/JSTP/pull/93)
+ * **w3c-ws:** fix invalid property access
+   *(Alexey Orlenko)*
+   [#94](https://github.com/metarhia/JSTP/pull/94)
+ * **connection:** check that method arguments exist
+   *(Alexey Orlenko)*
+   [#100](https://github.com/metarhia/JSTP/pull/100)
+
+All changes:
+
+ * **doc:** fix linter warning in CHANGELOG.md
+   *(Alexey Orlenko)*
+   [#80](https://github.com/metarhia/JSTP/pull/80)
+ * **tools:** remove crlf.js from dot-ignore files
+   *(Alexey Orlenko)*
+   [#83](https://github.com/metarhia/JSTP/pull/83)
+ * **npm:** don't include doc/ and mkdocs.yml to package
+   *(Alexey Orlenko)*
+   [#82](https://github.com/metarhia/JSTP/pull/82)
+ * **doc:** add session WG meeting
+   *(Mykola Bilochub)*
+   [#81](https://github.com/metarhia/JSTP/pull/81)
+ * **lint:** update remark
+   *(Alexey Orlenko)*
+   [#87](https://github.com/metarhia/JSTP/pull/87)
+ * **test:** add Node.js 6.10 and 7.6 to .travis.yml
+   *(Alexey Orlenko)*
+   [#86](https://github.com/metarhia/JSTP/pull/86)
+ * **tools:** move build-native.js to tools
+   *(Alexey Orlenko)*
+   [#89](https://github.com/metarhia/JSTP/pull/89)
+ * **lib:** make failed addon loading more informative
+   *(Alexey Orlenko)*
+   [#90](https://github.com/metarhia/JSTP/pull/90)
+ * **w3c-ws:** emit missing error event
+   *(Alexey Orlenko)*
+   [#93](https://github.com/metarhia/JSTP/pull/93)
+ * **w3c-ws:** fix invalid property access
+   *(Alexey Orlenko)*
+   [#94](https://github.com/metarhia/JSTP/pull/94)
+ * **test:** add Node.js 7.7 to .travis.yml
+   *(Alexey Orlenko)*
+   [#95](https://github.com/metarhia/JSTP/pull/95)
+ * **connection:** change style of a forward declaration
+   *(Alexey Orlenko)*
+   [#96](https://github.com/metarhia/JSTP/pull/96)
+ * **lib:** change multiline function signatures style
+   *(Alexey Orlenko)*
+   [#97](https://github.com/metarhia/JSTP/pull/97)
+ * **tools:** generate authors list automatically
+   *(Alexey Orlenko)*
+   [#88](https://github.com/metarhia/JSTP/pull/88)
+ * **meta:** update AUTHORS and .mailmap
+   *(Alexey Orlenko)*
+   [#88](https://github.com/metarhia/JSTP/pull/88)
+ * **meta:** fix misleading language in LICENSE
+   *(Alexey Orlenko)*
+   [#88](https://github.com/metarhia/JSTP/pull/88)
+ * **connection:** check that method arguments exist
+   *(Alexey Orlenko)*
+   [#100](https://github.com/metarhia/JSTP/pull/100)
+
 ## Version 0.6.6 (2017-02-20, @aqrln)
 
 This is mostly a bugfix release. Additionally, parser performance is improved.
