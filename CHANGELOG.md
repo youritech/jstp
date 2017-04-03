@@ -1,5 +1,27 @@
 # `metarhia-jstp` changelog
 
+## Version 0.6.8 (2017-03-03, @aqrln)
+
+This is a tiny semver-patch release.
+
+Notable changes:
+
+ * **client:** handle errors in connectAndInspect
+   *(Alexey Orlenko)*
+   [#106](https://github.com/metarhia/JSTP/pull/106)
+
+All changes:
+
+ * **client:** handle errors in connectAndInspect
+   *(Alexey Orlenko)*
+   [#106](https://github.com/metarhia/JSTP/pull/106)
+ * **src:** fix incorrect indentation in CodePointToUtf8
+   *(Alexey Orlenko)*
+   [#103](https://github.com/metarhia/JSTP/pull/103)
+ * **test:** add Node.js 7.8 to .travis.yml
+   *(Alexey Orlenko)*
+   [#119](https://github.com/metarhia/JSTP/pull/119)
+
 ## Version 0.6.7 (2017-03-14, @aqrln)
 
 This is a bugfix release.
