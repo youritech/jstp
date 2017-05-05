@@ -24,14 +24,68 @@ const log = (msg) => {
   if (userInput) rl.write(userInput);
 };
 
+function complete(input, completions) {
+  if (!input) return completions;
+  return completions.filter(c => c.startsWith(input));
+}
+
+function tryComplete(input, completer) {
+  const completions = completer.complete([input], 0)[0];
+  if (completions.length === 1) return completions[0];
+  return input;
+}
+
+function completer(line) {
+  const inputs = _split(line, ' ', 0, true);
+  const [completions, help] = iterativeCompletion(inputs, 0, commandProcessor);
+  if (help) log('\n' + help);
+  // to allow partial completion, as method above gives
+  // completions for the latest command part
+  const lastPart = inputs.length === 0 ? line : inputs[inputs.length - 1];
+  return [completions, lastPart];
+}
+
+// inputs - array of user inputs
+// depth - level of nested completion (index in inputs array)
+// completer - object that has '_complete(inputs, depth)' function or ._help()
+//             or neither (no completions or help available)
+function iterativeCompletion(inputs, depth, completer) {
+  function helper(depth, oldDepth, completer, completions) {
+    let help = '';
+
+    if (completions.length !== 1) return [completions, help];
+    const nextCompleter = completer[completions[0]];
+    if (!nextCompleter) return [completions, help];
+
+    if (nextCompleter.complete && depth < inputs.length) {
+      const [newCompletions, newDepth] = nextCompleter.complete(inputs, depth);
+      return helper(newDepth, depth, nextCompleter, newCompletions);
+    }
+    if (inputs[oldDepth] === completions[0]) {
+      if (nextCompleter.help) help = nextCompleter.help();
+      return [[], help];
+    }
+    return [completions, help];
+  }
+  if (completer.complete) {
+    const [newCompletions, newDepth] = completer.complete(inputs, depth);
+    return helper(newDepth, depth, completer, newCompletions);
+  }
+  if (completer.help) return [[], completer.help()];
+  return [[], ''];
+}
+
 rl.on('line', (line) => {
   const [type, leftover] = _split(line.trim(), ' ', 1);
   if (!type) {
     return rl.prompt(true);
   }
-  const processor = lineProcessor[type];
+
+  const cmd = tryComplete(type, commandProcessor);
+
+  const processor = lineProcessor[cmd];
   if (!processor) {
-    log(`Unknown command ${type}`);
+    log(`Unknown command '${cmd}'`);
   } else {
     processor(leftover, (err, result) => {
       if (err) return log(`${err.name} occurred: ${err.message}`);
@@ -50,13 +104,15 @@ rl.on('close', () => {
   process.exit();
 });
 
-function completer(line) {
-  return [[], line];
-}
-
 const state = {
   client: null,
   connection: null
+};
+
+commandProcessor.complete = (inputs, depth) => {
+  const completions = ['call', 'connect', 'disconnect', 'event', 'exit'];
+  const cmd = inputs[depth];
+  return [complete(cmd, completions), depth + 1];
 };
 
 commandProcessor.call = (interfaceName, methodName, args, callback) => {
@@ -64,11 +120,19 @@ commandProcessor.call = (interfaceName, methodName, args, callback) => {
   state.connection.callMethod(interfaceName, methodName, args, callback);
 };
 
+commandProcessor.call.help = () => (
+  'call <interfaceName> <methodName> [ <arg> [ , ... ] ]'
+);
+
 commandProcessor.event = (interfaceName, eventName, args, callback) => {
   if (!state.client) return callback(new Error('Not connected'));
   state.connection.emitRemoteEvent(interfaceName, eventName, args);
   callback();
 };
+
+commandProcessor.event.help = () => (
+  'event <interfaceName> <eventName> [ <arg> [ , ... ] ]'
+);
 
 commandProcessor.connect = (host, port, appName, callback) => {
   state.client = jstp.tcp.createClient({ host, port, secure: true });
@@ -84,6 +148,10 @@ commandProcessor.connect = (host, port, appName, callback) => {
       }
   );
 };
+
+commandProcessor.connect.help = () => (
+  'connect <host>:<port> <application name>'
+);
 
 commandProcessor.disconnect = (callback) => {
   if (state.client) {
@@ -106,7 +174,7 @@ commandProcessor.exit = () => {
 // limit - resulting length of output array - 1 (last one is what's left),
 //         if !limit === true => means no limit and split till no more
 //         separators found
-// leaveEmpty - if true multiple separators in sequence will be added as empty
+// leaveEmpty - if true multiple separators in sequence will be added as
 //              empty string, else they are skipped
 //
 // returns an array of strings
@@ -117,23 +185,20 @@ commandProcessor.exit = () => {
 //  resulting array as one empty string (''), else they are skipped
 //  and doesn't get counted to limit
 function _split(str, separator, limit, leaveEmpty) {
-  const isLastEmpty = arr => !arr[arr.length - 1];
-
   const result = [];
   let start = 0;
 
+  const shouldPush = end =>
+    start !== end || (leaveEmpty && result[result.length - 1] !== '');
+
   // eslint-disable-next-line no-unmodified-loop-condition
-  while (!limit || limit - result.length > 0) {
+  while (!limit || result.length < limit) {
     const split = str.indexOf(separator, start);
     if (split === -1) break;
-    if (start !== split || leaveEmpty && !isLastEmpty(result)) {
-      result.push(str.slice(start, split));
-    }
+    if (shouldPush(split)) result.push(str.slice(start, split));
     start = split + separator.length;
   }
-  if (start !== str.length || leaveEmpty && !isLastEmpty(result)) {
-    result.push(str.slice(start));
-  }
+  if (shouldPush(str.length)) result.push(str.slice(start));
   return result;
 }
 
