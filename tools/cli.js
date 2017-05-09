@@ -29,7 +29,7 @@ function complete(input, completions) {
   return completions.filter(c => c.startsWith(input));
 }
 
-function tryComplete(input, completer) {
+function tryCompleter(input, completer) {
   const completions = completer.complete([input], 0)[0];
   if (completions.length === 1) return completions[0];
   return input;
@@ -65,6 +65,8 @@ function iterativeCompletion(inputs, depth, completer) {
       }
     } while (newDepth < inputs.length && completer.complete);
   }
+  // reset completions if we didn't reach last input because
+  // they'll be not valid (those are completions for previous inputs)
   if (newDepth <= inputs.length - 1) completions = [];
   if (!completions[0] ||
       completions.length === 1 && completions[0] === inputs[depth]) {
@@ -80,7 +82,7 @@ rl.on('line', (line) => {
     return rl.prompt(true);
   }
 
-  const cmd = tryComplete(type, commandProcessor);
+  const cmd = tryCompleter(type, commandProcessor);
 
   const processor = lineProcessor[cmd];
   if (!processor) {
@@ -105,7 +107,8 @@ rl.on('close', () => {
 
 const state = {
   client: null,
-  connection: null
+  connection: null,
+  api: {}
 };
 
 commandProcessor.complete = (inputs, depth) => {
@@ -117,6 +120,31 @@ commandProcessor.complete = (inputs, depth) => {
 commandProcessor.call = (interfaceName, methodName, args, callback) => {
   if (!state.client) return callback(new Error('Not connected'));
   state.connection.callMethod(interfaceName, methodName, args, callback);
+};
+
+commandProcessor.call.complete = (inputs, depth) => {
+  if (!state.api) return [[], depth];
+
+  const iface = inputs[depth++];
+  let method = inputs[depth];
+  // there may be multiple spaces between interface and method names
+  // this function completes both of them so handle empty element ('')
+  // in between (just skip it)
+  if (method === '' && inputs[depth + 1] !== undefined) {
+    method = inputs[++depth];
+  }
+
+  let completions = complete(iface, Object.keys(state.api));
+  if (method === undefined || !completions.some(el => el === iface)) {
+    return [completions, depth];
+  }
+
+  completions = complete(method, state.api[iface]);
+  if (completions.length === 1 && method === completions[0]) {
+    // full method name -> show help
+    return [[], depth + 1];
+  }
+  return [completions, depth + 1];
 };
 
 commandProcessor.call.help = () => (
@@ -133,7 +161,19 @@ commandProcessor.event.help = () => (
   'event <interfaceName> <eventName> [ <arg> [ , ... ] ]'
 );
 
-commandProcessor.connect = (protocol, host, port, appName, callback) => {
+function filterApiCompletions(rawApi) {
+  const api = {};
+  const forbidden = ['_', 'domain'];
+  Object.keys(rawApi).forEach((int) => {
+    api[int] = Object.keys(
+      rawApi[int]).filter(c => forbidden.every(el => !c.startsWith(el)));
+  });
+  return api;
+}
+
+commandProcessor.connect = (
+  protocol, host, port, appName, interfaces, callback
+) => {
   let transport;
 
   switch (protocol) {
@@ -152,10 +192,11 @@ commandProcessor.connect = (protocol, host, port, appName, callback) => {
   const url = `${protocol}://${host}:${port}`;
 
   state.client = transport.createClient(url);
-  state.client.connectAndHandshake(appName, null, null,
-      (err, connection) => {
+  state.client.connectAndInspect(appName, null, null, interfaces,
+      (err, connection, api) => {
         if (err) return callback(err);
         state.connection = connection;
+        state.api = filterApiCompletions(api);
         // TODO: make event registering generic
         connection.on('event', (data) => {
           log(`Received remote event: ${jstp.stringify(data)}`);
@@ -166,7 +207,8 @@ commandProcessor.connect = (protocol, host, port, appName, callback) => {
 };
 
 commandProcessor.connect.help = () => (
-  'connect [<protocol>://]<host>:<port> <application name>'
+  'connect [<protocol>://]<host>:<port> <application name> ' +
+  '[ <interface> [ ... ] ]'
 );
 
 commandProcessor.disconnect = (callback) => {
@@ -286,7 +328,8 @@ lineProcessor.connect = (tokens, callback) => {
   if (appName === undefined) {
     return callback(reportMissingArgument('Application name'));
   }
-  commandProcessor.connect(scheme, host, port, appName, (err) => {
+  const interfaces = args[2] ? _split(args[2], ' ') : [];
+  commandProcessor.connect(scheme, host, port, appName, interfaces, (err) => {
     if (err) return callback(err);
     callback(null, 'Connection established');
   });
