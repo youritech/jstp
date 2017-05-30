@@ -7,7 +7,25 @@ const login = 'login';
 const password = 'password';
 const sessionId = '12892e85-5bd7-4c77-a0c5-a0aecfcbc93a';
 
-const interfaces = {};
+const expectedErrorMessage = 'Zero division';
+
+const interfaces = {
+  calculator: {
+    answer(connection, callback) {
+      callback(null, 42);
+    },
+    divide(connection, divident, divisor, callback) {
+      if (!divisor) {
+        callback(new Error(expectedErrorMessage));
+      } else {
+        callback(null, divident / divisor);
+      }
+    },
+    doNothing(connection, callback) {
+      callback(null);
+    }
+  }
+};
 
 const authCallback = (
   connection, application, strategy, credentials, callback
@@ -42,5 +60,6 @@ module.exports = {
   login,
   password,
   sessionId,
-  authCallback
+  authCallback,
+  expectedErrorMessage
 };
