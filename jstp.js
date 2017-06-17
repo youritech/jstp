@@ -21,4 +21,5 @@ jstp.wss = require('./lib/wss');
 jstp.SimpleAuthPolicy = require('./lib/simple-auth-policy');
 jstp.SimpleConnectPolicy = require('./lib/simple-connect-policy');
 
+jstp.consoleLogger = require('./lib/console-logger');
 jstp.setLogger = require('./lib/logger').set;
