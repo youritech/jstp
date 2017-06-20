@@ -21,5 +21,11 @@ jstp.wss = require('./lib/wss');
 jstp.SimpleAuthPolicy = require('./lib/simple-auth-policy');
 jstp.SimpleConnectPolicy = require('./lib/simple-connect-policy');
 
-jstp.consoleLogger = require('./lib/console-logger');
-jstp.setLogger = require('./lib/logger').set;
+const logger = require('./lib/logger');
+jstp.log = {
+  consoleLogger: require('./lib/console-logger'),
+  set: logger.set,
+  winstonLevelCallback: logger.winstonLevelCallback,
+  bunyanLevelCallback: logger.bunyanLevelCallback,
+  defaultLevelCallback: logger.defaultLevelCallback
+};
