@@ -60,16 +60,20 @@ void ParseNetworkMessages(const FunctionCallbackInfo<Value>& args) {
     THROW_EXCEPTION(TypeError, "Wrong number of arguments");
     return;
   }
-  if (!args[0]->IsString() || !args[1]->IsArray()) {
+  if (!args[0]->IsUint8Array() || !args[1]->IsArray()) {
     THROW_EXCEPTION(TypeError, "Wrong argument type");
     return;
   }
 
   HandleScope scope(isolate);
 
-  String::Utf8Value str(args[0]->ToString());
+  Local<Uint8Array> buf = args[0].As<Uint8Array>();
+  std::size_t length = buf->ByteLength();
+  void* data = buf->Buffer()->GetContents().Data();
+  const char* str = static_cast<const char*>(data) + buf->ByteOffset();
   auto array = args[1].As<Array>();
-  auto result = jstp::message_parser::ParseNetworkMessages(isolate, str, array);
+  auto result = jstp::message_parser::ParseNetworkMessages(isolate,
+      str, length, array);
   args.GetReturnValue().Set(result);
 }
 
