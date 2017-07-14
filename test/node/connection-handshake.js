@@ -126,3 +126,21 @@ test.test('must not accept handshakes on a client', (test) => {
   const connection = new jstp.Connection(transport, null, {});
   transport.emitPacket(handshake);
 });
+
+test.test(
+  'must drop connection after HANDSHAKE_TIMEOUT if no handshake recieved',
+  (test) => {
+    test.plan(3);
+    server.on('handshakeTimeout', () => {
+      test.pass('handshake timeout must occur');
+    });
+
+    const port = server.address().port;
+    net.connect(port, (error) => {
+      test.assertNot(error, 'must connect to server');
+      server.getClients()[0].on('close', () => {
+        test.pass('connection must be closed');
+      });
+    });
+  }
+);
