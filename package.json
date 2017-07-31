@@ -52,7 +52,8 @@
     "remark-lint": "^6.0.1",
     "remark-validate-links": "^6.1.0",
     "tap": "^10.7.2",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "yargs": "^8.0.2"
   },
   "scripts": {
     "test": "npm run lint && npm run test-node && npm run test-integration",
