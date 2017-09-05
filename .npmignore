@@ -14,8 +14,7 @@ dev/
 build/
 
 # Docs
-doc/
-_book/
+docs/
 
 # Python bytecode
 *.pyc
