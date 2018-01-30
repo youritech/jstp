@@ -1,5 +1,45 @@
 # `metarhia-jstp` changelog
 
+## Version 1.1.0 (2018-01-30, @belochub)
+
+This is mostly a bugfix release. Additionally, events for logging are
+emitted on the server now.
+
+Notable changes:
+
+ * **connection:** fix remoteAddress being undefined
+   *(Mykola Bilochub)*
+   [#313](https://github.com/metarhia/jstp/pull/313)
+ * **lib:** emit logging info from connection on a server
+   *(Dmytro Nechai)*
+   [#312](https://github.com/metarhia/jstp/pull/312)
+   **\[semver-minor\]**
+ * **connection:** reject invalid event message
+   *(Mykola Bilochub)*
+   [#315](https://github.com/metarhia/jstp/pull/315)
+
+All changes:
+
+ * **connection:** fix remoteAddress being undefined
+   *(Mykola Bilochub)*
+   [#313](https://github.com/metarhia/jstp/pull/313)
+ * **meta:** update year in LICENSE
+   *(Mykola Bilochub)*
+   [#314](https://github.com/metarhia/jstp/pull/314)
+ * **lib:** emit logging info from connection on a server
+   *(Dmytro Nechai)*
+   [#312](https://github.com/metarhia/jstp/pull/312)
+   **\[semver-minor\]**
+ * **connection:** reject invalid event message
+   *(Mykola Bilochub)*
+   [#315](https://github.com/metarhia/jstp/pull/315)
+ * **lib:** fix incorrect comment
+   *(Mykola Bilochub)*
+   [#316](https://github.com/metarhia/jstp/pull/316)
+ * **server:** fix comment explaining authPolicy argument
+   *(Mykola Bilochub)*
+   [#317](https://github.com/metarhia/jstp/pull/317)
+
 ## Version 1.0.0 (2018-01-22, @belochub)
 
 This is a new and shiny first major release for `metarhia-jstp`.
