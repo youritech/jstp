@@ -1,5 +1,72 @@
 # `metarhia-jstp` changelog
 
+## Version 1.1.1 (2018-06-09, @belochub)
+
+This is a bugfix release.
+
+Notable changes:
+
+ * **lib:** add missing callback call
+   *(Mykola Bilochub)*
+   [#329](https://github.com/metarhia/jstp/pull/329)
+ * **deps:** update dependencies
+   *(Mykola Bilochub)*
+   [#331](https://github.com/metarhia/jstp/pull/331)
+ * **doc,deps:** remove gitbook dependency
+   *(Mykola Bilochub)*
+   [#336](https://github.com/metarhia/jstp/pull/336)
+ * **deps:** update dependencies
+   *(Mykola Bilochub)*
+   [#337](https://github.com/metarhia/jstp/pull/337)
+ * **connection:** fix incorrect client-side message IDs
+   *(Mykola Bilochub)*
+   [#339](https://github.com/metarhia/jstp/pull/339)
+
+All changes:
+
+ * **connection:** use Map for storing callbacks
+   *(Mykola Bilochub)*
+   [#319](https://github.com/metarhia/jstp/pull/319)
+ * **test:** remove obsolete lines
+   *(Dmytro Nechai)*
+   [#321](https://github.com/metarhia/jstp/pull/321)
+ * **test:** run node tests in parallel
+   *(Dmytro Nechai)*
+   [#322](https://github.com/metarhia/jstp/pull/322)
+ * **build:** fix native addon building on AppVeyor
+   *(Mykola Bilochub)*
+   [#324](https://github.com/metarhia/jstp/pull/324)
+ * **build:** fail CI if native addon build fails
+   *(Dmytro Nechai)*
+   [#325](https://github.com/metarhia/jstp/pull/325)
+ * **test:** fix `connection-emit-actions` test
+   *(Dmytro Nechai)*
+   [#326](https://github.com/metarhia/jstp/pull/326)
+ * **doc:** fix invalid documentation
+   *(Dmytro Nechai)*
+   [#328](https://github.com/metarhia/jstp/pull/328)
+ * **lib:** add missing callback call
+   *(Mykola Bilochub)*
+   [#329](https://github.com/metarhia/jstp/pull/329)
+ * **deps:** update dependencies
+   *(Mykola Bilochub)*
+   [#331](https://github.com/metarhia/jstp/pull/331)
+ * **test:** fix AppVeyor builds on Node.js 6
+   *(Mykola Bilochub)*
+   [#334](https://github.com/metarhia/jstp/pull/334)
+ * **doc,deps:** remove gitbook dependency
+   *(Mykola Bilochub)*
+   [#336](https://github.com/metarhia/jstp/pull/336)
+ * **deps:** update dependencies
+   *(Mykola Bilochub)*
+   [#337](https://github.com/metarhia/jstp/pull/337)
+ * **doc:** add AppVeyor and Coveralls badges to README
+   *(Alexey Orlenko)*
+   [#338](https://github.com/metarhia/jstp/pull/338)
+ * **connection:** fix incorrect client-side message IDs
+   *(Mykola Bilochub)*
+   [#339](https://github.com/metarhia/jstp/pull/339)
+
 ## Version 1.1.0 (2018-01-30, @belochub)
 
 This is mostly a bugfix release. Additionally, events for logging are
