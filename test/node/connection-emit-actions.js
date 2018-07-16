@@ -237,5 +237,5 @@ test.test('must emit heartbeat messages in development mode', (test) => {
     test.assert(received.serverPong, 'server must receive pong message');
     test.assert(received.clientPing, 'client must receive ping message');
     test.assert(received.clientPing, 'client must receive pong message');
-  }, 2 * HEARTBEAT_INTERVAL);
+  }, 3 * HEARTBEAT_INTERVAL);
 });
