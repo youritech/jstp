@@ -65,12 +65,12 @@ test.test('must not resend messages received by other side', (test) => {
         'session must be an instance of jstp.Session');
       conn.callMethod('calculator', 'doNothing', [], (error) => {
         test.assertNot(error, 'call must not return an error');
-      });
-      jstp.net.reconnect(conn, port, (error, conn, session) => {
-        connection = conn;
-        test.assertNot(error,
-          'must successfully reconnect to existing session');
-        test.assertNot(session, 'must not return Session object');
+        jstp.net.reconnect(conn, port, (error, conn, session) => {
+          connection = conn;
+          test.assertNot(error,
+            'must successfully reconnect to existing session');
+          test.assertNot(session, 'must not return Session object');
+        });
       });
     });
   });
