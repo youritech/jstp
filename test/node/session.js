@@ -44,6 +44,7 @@ test.test('must reconnect to existing session', (test) => {
 
 test.test('must not resend messages received by other side', (test) => {
   test.plan(7);
+
   server = jstp.net.createServer({
     applications: [
       new jstp.Application('testApp', {
@@ -56,6 +57,7 @@ test.test('must not resend messages received by other side', (test) => {
       }),
     ],
   });
+
   server.listen(0, () => {
     port = server.address().port;
     jstp.net.connect(app.name, null, port, (error, conn, session) => {
@@ -65,12 +67,12 @@ test.test('must not resend messages received by other side', (test) => {
         'session must be an instance of jstp.Session');
       conn.callMethod('calculator', 'doNothing', [], (error) => {
         test.assertNot(error, 'call must not return an error');
-      });
-      jstp.net.reconnect(conn, port, (error, conn, session) => {
-        connection = conn;
-        test.assertNot(error,
-          'must successfully reconnect to existing session');
-        test.assertNot(session, 'must not return Session object');
+        jstp.net.reconnect(conn, port, (error, conn, session) => {
+          connection = conn;
+          test.assertNot(error,
+            'must successfully reconnect to existing session');
+          test.assertNot(session, 'must not return Session object');
+        });
       });
     });
   });
