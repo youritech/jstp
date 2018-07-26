@@ -42,39 +42,36 @@ test.test('must reconnect to existing session', (test) => {
   });
 });
 
-for (let i = 0; i < 1000; i++) {
-  // eslint-disable-next-line no-loop-func
-  test.test('must not resend messages received by other side', (test) => {
-    test.plan(7);
-    server = jstp.net.createServer({
-      applications: [
-        new jstp.Application('testApp', {
-          calculator: {
-            doNothing(connection, callback) {
-              test.pass('method must only be called once');
-              callback(null);
-            },
+test.test('must not resend messages received by other side', (test) => {
+  test.plan(7);
+  server = jstp.net.createServer({
+    applications: [
+      new jstp.Application('testApp', {
+        calculator: {
+          doNothing(connection, callback) {
+            test.pass('method must only be called once');
+            callback(null);
           },
-        }),
-      ],
-    });
-    server.listen(0, () => {
-      port = server.address().port;
-      jstp.net.connect(app.name, null, port, (error, conn, session) => {
-        test.assertNot(error, 'handshake must not return an error');
-        test.equal(conn.username, null, 'username must be null');
-        test.assert(session instanceof jstp.Session,
-          'session must be an instance of jstp.Session');
-        conn.callMethod('calculator', 'doNothing', [], (error) => {
-          test.assertNot(error, 'call must not return an error');
-          jstp.net.reconnect(conn, port, (error, conn, session) => {
-            connection = conn;
-            test.assertNot(error,
-              'must successfully reconnect to existing session');
-            test.assertNot(session, 'must not return Session object');
-          });
+        },
+      }),
+    ],
+  });
+  server.listen(0, () => {
+    port = server.address().port;
+    jstp.net.connect(app.name, null, port, (error, conn, session) => {
+      test.assertNot(error, 'handshake must not return an error');
+      test.equal(conn.username, null, 'username must be null');
+      test.assert(session instanceof jstp.Session,
+        'session must be an instance of jstp.Session');
+      conn.callMethod('calculator', 'doNothing', [], (error) => {
+        test.assertNot(error, 'call must not return an error');
+        jstp.net.reconnect(conn, port, (error, conn, session) => {
+          connection = conn;
+          test.assertNot(error,
+            'must successfully reconnect to existing session');
+          test.assertNot(session, 'must not return Session object');
         });
       });
     });
   });
-}
+});
