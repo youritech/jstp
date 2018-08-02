@@ -1,0 +1,7 @@
+site_name: JSTP Documentation
+repo_url: https://github.com/metarhia/jstp
+
+docs_dir: doc
+
+theme:
+  name: 'material'
