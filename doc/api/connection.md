@@ -1,160 +1,145 @@
 # Connection
 
-* [Class: Connection](#class-connection)
-  * [new Connection(transport, server, client)](#new-connectiontransport-server-client)
-  * [Methods](#methods)
-    * [handshake(app, \[login\], \[password\], callback)](#handshakeapp-login-password-callback)
-    * [inspectInterface(interfaceName, callback)](#inspectinterfaceinterfacename-callback)
-    * [callMethod(interfaceName, methodName, args, callback)](#callmethodinterfacename-methodname-args-callback)
-    * [emitRemoteEvent(interfaceName, eventName, args)](#emitremoteeventinterfacename-eventname-args)
-    * [ping(callback)](#pingcallback)
-    * [pong()](#pong)
-    * [startHeartbeat(interval)](#startheartbeatinterval)
-    * [stopHeartbeat()](#stopheartbeat)
-    * [close()](#close)
-    * [getTransport()](#gettransport)
-  * [Properties](#properties)
-    * [server](#server)
-    * [client](#client)
-    * [id](#id)
-    * [remoteAddress](#remoteaddress)
-    * [handshakeDone](#handshakedone)
-    * [username](#username)
-    * [sessionId](#sessionid)
-    * [application](#application)
-    * [remoteProxies](#remoteproxies)
+## Class: `Connection`
 
-## Class: Connection
+### `new Connection(transport, server, client)`
 
-### new Connection(transport, server, client)
+* `transport` [`<Transport>`][Transport]
+* `server` [`<Server>`][Server]
+* `client` [`<Client>`][Client]
 
-* transport: `Transport`.
-* server: `Server` — JSTP server instance, used only for server-side parts
-  of connections (optional, but either server or client is required).
-* client: [`Client`](./client.md#object-client) — JSTP client instance,
-  used only for client-side parts of connections (optional,
-  but either server or client is required).
+Both `server` and `client` are optional but one of them is required.
+`server` is required for server side connection, whereas `client` is required
+for client side connection.
 
-Don't call this constructor manually unless you use custom tranport.
-Recommended approach is to call `connect()` function provided by these modules:
+You **should not** call this constructor manually,
+unless you implement a custom JSTP transport.
 
-* [net](./net.md#connectapp-client-options-callback)
-* [tls](./tls.md#connectapp-client-options-callback)
-* [ws](./ws.md#connectapp-client-options-callback)
-* [ws-browser](./ws-browser.md#connectapp-client-options-callback)
-* [wss](./wss.md#connectapp-client-options-callback)
+Recommended approach is to call `connect()` or `connectAndInspect()` functions
+provided by these modules:
 
-### Methods
+* [net](./net.md)
+* [tls](./tls.md)
+* [ws](./ws.md)
+* [ws-browser](./ws-browser.md)
+* [wss](./wss.md)
 
-#### handshake(app, \[login\], \[password\], callback)
+### handshake(app, \[login\], \[password\], callback)
 
-* app: `String || Object` — application to connect to as `'name'` or
-  `'name@version'` or `{ name, version }`, where version must be
-  a valid semver range.
-* login: `String` — user name.
-* password: `String` — user password.
-* callback(error, sessionId) — callback function to invoke after the handshake
-  is completed.
-  * error: `Error`.
-  * sessionId: `string`.
+* `app` [`<string>`][string] | [`<Object>`][Object]
+    * `name` [`<string>`][string]
+    * `version` [`<string>`][string]
+* `login` [`<string>`][string]
+* `password` [`<string>`][string]
+* `callback` [`<Function>`][Function]
+    * `error` [`<RemoteError>`][RemoteError]
+    * `sessionId` [`<string>`][string]
+
+`app` may be `'name'`, `'name@version'` or `{ name, version }`,
+where version must be a valid semver range.
 
 Send a handshake message over the connection.
 
-#### inspectInterface(interfaceName, callback)
+### inspectInterface(interfaceName, callback)
 
-* interfaceName: `String` — name of an interface to inspect.
-* callback(error, proxy) — callback function to invoke after another side
-  responds to an interface introspection.
-  * error: `Error`.
-  * proxy: `RemoteProxy` — remote proxy for the interface.
+* `interfaceName` [`<string>`][string]
+* `callback` [`<Function>`][Function]
+    * `error` [`<RemoteError>`][RemoteError]
+    * `proxy` [`<RemoteProxy>`][RemoteProxy]
 
 Send an inspect message over the connection.
 
-#### callMethod(interfaceName, methodName, args, callback)
+### callMethod(interfaceName, methodName, args, callback)
 
-* interfaceName: `String` — name of an interface.
-* methodName: `String` — name of a method.
-* args: `Array` — method arguments.
-* callback(error, ...args) — callback function that is invoked after a callback
-  message has been received.
-  * error: `Error`.
+* `interfaceName` [`<string>`][string]
+* `methodName` [`<string>`][string]
+* `args` [`<Object[]>`][Object]
+* `callback` [`<Function>`][Function]
+    * `error` [`<RemoteError>`][RemoteError]
+    * `...args` [`<Object[]>`][Object]
 
 Send a call message over the connection.
 
-#### emitRemoteEvent(interfaceName, eventName, args)
+### emitRemoteEvent(interfaceName, eventName, args)
 
-* interfaceName: `String` — name of an interface.
-* eventName: `String` — name of an event.
-* args: `Array` — event arguments.
+* `interfaceName` [`<string>`][string]
+* `eventName` [`<string>`][string]
+* `args` [`<Object[]>`][Object]
 
 Send an event message over the connection.
 
-#### ping(callback)
+### ping(callback)
 
-* callback(error, ...args) — callback function to invoke after another side
-  responds with a pong message.
-  * error: `Error`.
+* `callback` [`<Function>`][Function]
 
 Send a ping message.
 
-#### pong()
+### startHeartbeat(interval)
 
-Send a pong message.
+* `interval` [`<number>`][number]
 
-#### startHeartbeat(interval)
+Start periodically sending ping messages every `interval` milliseconds.
 
-* interval: `number` — heartbeat interval in milliseconds.
+### stopHeartbeat()
 
-Start sending heartbeat messages.
+Start periodically sending ping messages.
 
-#### stopHeartbeat()
-
-Stop sending heartbeat messages.
-
-#### close()
+### close()
 
 Close the connection.
 
-#### getTransport()
+### getTransport()
 
-* Returns: `Transport`.
+* Returns: [`<Transport>`][Transport]
 
 Returns underlying transport.
 
-### Properties
+### server
 
-#### server
+* [`<Server>`][Server]
 
-* Type: `Server`.
+### client
 
-#### client
+* [`<Client>`][Client]
 
-* Type: [`Client`](./client.md#object-client).
+### id
 
-#### id
+* [`<number>`][number]
 
-* Type: `number`.
+### remoteAddress
 
-#### remoteAddress
+* [`<Object>`][Object]
 
-* Type: `Object`.
+### handshakeDone
 
-#### handshakeDone
+* [`<boolean>`][boolean]
 
-* Type: `boolean`.
+### username
 
-#### username
+* [`<string>`][string]
 
-* Type: `string`.
+### session
 
-#### sessionId
+* [`<Session>`][Session]
 
-* Type: `number`.
+### application
 
-#### application
+* [`<Application>`][Application]
 
-* Type: `Application`.
+### remoteProxies
 
-#### remoteProxies
+* [`<Object>`][Object]
+    * `[interface]` [`<RemoteProxy>`][RemoteProxy]
 
-* Type: `Map of RemoteProxy`.
+[Application]: ./application.md
+[Transport]: ./transport.md
+[Server]: ./server.md
+[Client]: ./client.md
+[Session]: ./session.md
+[RemoteError]: ./remote-error.md
+[RemoteProxy]: ./remote-proxy.md
+[string]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
+[number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number
+[boolean]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[Object]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
+[Function]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
