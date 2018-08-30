@@ -1,4 +1,166 @@
-# `metarhia-jstp` changelog
+# `@metarhia/jstp` changelog
+
+## Version 2.0.0 (2018-08-30, @belochub)
+
+Next major release of the package marks the addition of built-in reconnection
+functionality, using UMD for browser bundle, support for asynchronous
+SessionStorageProviders, support for custom logging on client-side and support
+for custom authentication errors. CLI was also updated to support some of the
+features above. Reconnection is enabled by default and uses the binary
+exponential backoff algorithm; this is considered a breaking change.
+
+The other breaking change is decoupling of the parser and serializer into the
+separate package: <https://github.com/metarhia/mdsf>. This means that methods
+`parse()`, `stringify()` and `parseNetworkMessages()` are no longer available
+as part of the jstp package.
+
+Starting with this release `metarhia-jstp` is being moved into the @metarhia
+organization on npm, the new name of the package is `@metarhia/jstp`.
+
+Notable changes:
+
+ * **lib:** add support for async SessionStorageProvider
+   *(Mykola Bilochub)*
+   [#323](https://github.com/metarhia/jstp/pull/323)
+   **\[semver-minor\]**
+ * **lib:** realize reconnection by transport replacement
+   *(Mykola Bilochub)*
+   [#332](https://github.com/metarhia/jstp/pull/332)
+   **\[semver-major\]**
+ * **server:** enable returning errors from authPolicy
+   *(Igor Gorodetskyy)*
+   [#342](https://github.com/metarhia/jstp/pull/342)
+   **\[semver-minor\]**
+ * **lib:** add utility for call messages resending
+   *(Mykola Bilochub)*
+   [#320](https://github.com/metarhia/jstp/pull/320)
+   **\[semver-minor\]**
+ * **connection:** enable custom logging on client
+   *(Mykola Bilochub)*
+   [#354](https://github.com/metarhia/jstp/pull/354)
+ * **build:** use UMD for browser bundle
+   *(Alexey Orlenko)*
+   [#355](https://github.com/metarhia/jstp/pull/355)
+   **\[semver-minor\]**
+ * **lib,build:** use Web Crypto API in browser
+   *(Mykola Bilochub)*
+   [#360](https://github.com/metarhia/jstp/pull/360)
+ * **serde:** remove serde implementation and use mdsf
+   *(Mykola Bilochub)*
+   [#367](https://github.com/metarhia/jstp/pull/367)
+   **\[semver-major\]**
+ * **cli:** use new jstp features
+   *(Dmytro Nechai)*
+   [#366](https://github.com/metarhia/jstp/pull/366)
+
+All changes:
+
+ * **lib:** add support for async SessionStorageProvider
+   *(Mykola Bilochub)*
+   [#323](https://github.com/metarhia/jstp/pull/323)
+   **\[semver-minor\]**
+ * **lib:** add required functionality to common
+   *(Mykola Bilochub)*
+   [#332](https://github.com/metarhia/jstp/pull/332)
+   **\[semver-minor\]**
+ * **lib:** realize reconnection by transport replacement
+   *(Mykola Bilochub)*
+   [#332](https://github.com/metarhia/jstp/pull/332)
+   **\[semver-major\]**
+ * **test:** add tests for reconnection
+   *(Dmytro Nechai)*
+   [#335](https://github.com/metarhia/jstp/pull/335)
+ * **server:** enable returning errors from authPolicy
+   *(Igor Gorodetskyy)*
+   [#342](https://github.com/metarhia/jstp/pull/342)
+   **\[semver-minor\]**
+ * **meta:** update AUTHORS
+   *(Mykola Bilochub)*
+   [#343](https://github.com/metarhia/jstp/pull/343)
+ * **connection:** fix reconnect throwing in some cases
+   *(Mykola Bilochub)*
+   [#345](https://github.com/metarhia/jstp/pull/345)
+ * **server:** fix call to async sessionStorageProvider
+   *(Mykola Bilochub)*
+   [#346](https://github.com/metarhia/jstp/pull/346)
+ * **test:** increase timeout for heartbeat test to end
+   *(Dmytro Nechai)*
+   [#347](https://github.com/metarhia/jstp/pull/347)
+ * **dist:** remove tern configuration file
+   *(Mykola Bilochub)*
+   [#351](https://github.com/metarhia/jstp/pull/351)
+ * **dist:** remove bitHound configuration file
+   *(Mykola Bilochub)*
+   [#350](https://github.com/metarhia/jstp/pull/350)
+ * **test:** fix flaky session test
+   *(Dmytro Nechai)*
+   [#352](https://github.com/metarhia/jstp/pull/352)
+ * **lib:** add utility for call messages resending
+   *(Mykola Bilochub)*
+   [#320](https://github.com/metarhia/jstp/pull/320)
+   **\[semver-minor\]**
+ * **connection:** enable custom logging on client
+   *(Mykola Bilochub)*
+   [#354](https://github.com/metarhia/jstp/pull/354)
+ * **deps,lint:** update eslint config
+   *(Dmytro Nechai)*
+   [#353](https://github.com/metarhia/jstp/pull/353)
+ * **build:** use UMD for browser bundle
+   *(Alexey Orlenko)*
+   [#355](https://github.com/metarhia/jstp/pull/355)
+   **\[semver-minor\]**
+ * **test:** update Travis config to use the current Node
+   *(Mykola Bilochub)*
+   [#356](https://github.com/metarhia/jstp/pull/356)
+ * **test:** add tests for SimpleSessionStorageProvider
+   *(Dmytro Nechai)*
+   [#358](https://github.com/metarhia/jstp/pull/358)
+ * **test:** add a missing regression test for GH-329
+   *(Alexey Orlenko)*
+   [#359](https://github.com/metarhia/jstp/pull/359)
+ * **build:** shorten npm error logs when build fails
+   *(Alexey Orlenko)*
+   [#362](https://github.com/metarhia/jstp/pull/362)
+ * **lib,build:** use Web Crypto API in browser
+   *(Mykola Bilochub)*
+   [#360](https://github.com/metarhia/jstp/pull/360)
+ * **npm:** add development related files to .npmignore
+   *(Mykola Bilochub)*
+   [#364](https://github.com/metarhia/jstp/pull/364)
+ * **test:** fix typos s/recieve/receive
+   *(Denys Otrishko)*
+   [#365](https://github.com/metarhia/jstp/pull/365)
+ * **test:** fix flaky tests
+   *(Dmytro Nechai)*
+   [#363](https://github.com/metarhia/jstp/pull/363)
+ * **lib:** fix resendable calls being sent twice
+   *(Mykola Bilochub)*
+   [#369](https://github.com/metarhia/jstp/pull/369)
+ * **test:** add test for async sessionStorageProvider
+   *(Dmytro Nechai)*
+   [#370](https://github.com/metarhia/jstp/pull/370)
+ * **test:** simplify resendable call tests
+   *(Dmytro Nechai)*
+   [#368](https://github.com/metarhia/jstp/pull/368)
+ * **serde:** remove serde implementation and use mdsf
+   *(Mykola Bilochub)*
+   [#367](https://github.com/metarhia/jstp/pull/367)
+   **\[semver-major\]**
+ * **cli:** use new jstp features
+   *(Dmytro Nechai)*
+   [#366](https://github.com/metarhia/jstp/pull/366)
+ * **deps,lint:** update eslint-config-metarhia
+   *(Mykola Bilochub)*
+   [#371](https://github.com/metarhia/jstp/pull/371)
+ * **deps:** update dependencies
+   *(Mykola Bilochub)*
+   [#372](https://github.com/metarhia/jstp/pull/372)
+ * **deps:** update babel and webpack
+   *(Mykola Bilochub)*
+   [#373](https://github.com/metarhia/jstp/pull/373)
+ * **build:** deduplicate Babel helpers
+   *(Alexey Orlenko)*
+   [#374](https://github.com/metarhia/jstp/pull/374)
 
 ## Version 1.1.1 (2018-06-09, @belochub)
 
