@@ -1,5 +1,18 @@
 # `@metarhia/jstp` changelog
 
+## Version 2.0.1 (2018-09-05, @belochub)
+
+This release fixes UMD browser build and updates links in README.
+
+All changes:
+
+ * **doc:** update package name in documentation
+   *(Mykola Bilochub)*
+   [#376](https://github.com/metarhia/jstp/pull/376)
+ * **build:** tell Babel parser the correct source type
+   *(Alexey Orlenko)*
+   [#378](https://github.com/metarhia/jstp/pull/378)
+
 ## Version 2.0.0 (2018-08-30, @belochub)
 
 Next major release of the package marks the addition of built-in reconnection
