@@ -5,7 +5,7 @@ repo_url: 'https://github.com/metarhia/jstp'
 docs_dir: 'doc'
 
 pages:
-- 'index.md'
+- 'README.md'
 - 'Tutorial': 'tutorial/README.md'
 - 'API Documentation':
   - 'Connection': 'api/connection.md'
@@ -34,5 +34,7 @@ extra:
       link: 'https://github.com/metarhia'
 
 markdown_extensions:
-  - codehilite(guess_lang=false)
-  - toc(permalink=true)
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
