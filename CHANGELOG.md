@@ -1,5 +1,70 @@
 # `@metarhia/jstp` changelog
 
+## Version 2.2.0 (2018-12-26, @belochub)
+
+This minor version release features multiple fixes and improvements to the
+client implementation and the CLI, including the addition of the persistent
+history, pretty-printing, and man page. It also features a fix for a potential
+WebSocket server vulnerability.
+
+All changes:
+
+ * **lib:** move RemoteError to es6 class
+   *(Denys Otrishko)*
+   [#385](https://github.com/metarhia/jstp/pull/385)
+ * **conn:** make reconnection consistent
+   *(Mykola Bilochub)*
+   [#386](https://github.com/metarhia/jstp/pull/386)
+ * **lib:** fix unhandled error events on connection
+   *(Mykola Bilochub)*
+   [#389](https://github.com/metarhia/jstp/pull/389)
+ * **conn:** return error when handshake is not received
+   *(Mykola Bilochub)*
+   [#387](https://github.com/metarhia/jstp/pull/387)
+   **\[semver-minor\]**
+ * **test:** fix invalid test
+   *(Dmytro Nechai)*
+   [#388](https://github.com/metarhia/jstp/pull/388)
+ * **cli:** add persistent history implementation
+   *(Mykola Bilochub)*
+   [#390](https://github.com/metarhia/jstp/pull/390)
+   **\[semver-minor\]**
+ * **cli:** enable reconnection reporting
+   *(Mykola Bilochub)*
+   [#391](https://github.com/metarhia/jstp/pull/391)
+   **\[semver-minor\]**
+ * **ws,server:** avoid forwarding 'clientError' event
+   *(Mykola Bilochub)*
+   [#392](https://github.com/metarhia/jstp/pull/392)
+ * **lib:** change the default reconnector behavior
+   *(Mykola Bilochub)*
+   [#393](https://github.com/metarhia/jstp/pull/393)
+ * **deps,lint:** update dependencies
+   *(Mykola Bilochub)*
+   [#394](https://github.com/metarhia/jstp/pull/394)
+ * **cli:** add pretty-print option
+   *(Mykola Bilochub)*
+   [#395](https://github.com/metarhia/jstp/pull/395)
+   **\[semver-minor\]**
+ * **cli:** fix incorrect --verbose option behavior
+   *(Mykola Bilochub)*
+   [#397](https://github.com/metarhia/jstp/pull/397)
+ * **cli:** add --version option, print version in help
+   *(Mykola Bilochub)*
+   [#398](https://github.com/metarhia/jstp/pull/398)
+   **\[semver-minor\]**
+ * **cli,doc:** add man page for jstp-cli
+   *(Mykola Bilochub)*
+   [#396](https://github.com/metarhia/jstp/pull/396)
+   **\[semver-minor\]**
+ * **cli:** add --help option to the man page
+   *(Mykola Bilochub)*
+   [#401](https://github.com/metarhia/jstp/pull/401)
+   **\[semver-minor\]**
+ * **doc:** add a notice about the CLI to the README.md
+   *(Mykola Bilochub)*
+   [#400](https://github.com/metarhia/jstp/pull/400)
+
 ## Version 2.1.0 (2018-10-02, @belochub)
 
 This release fixes and improves WebSocket transport.
