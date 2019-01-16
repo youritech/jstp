@@ -1,5 +1,27 @@
 # `@metarhia/jstp` changelog
 
+## Version 2.2.1 (2019-01-16, @belochub)
+
+Remove unsupported Web Crypto API browser warning.
+
+All changes:
+
+- **deps:** use prettier for code formatting
+  _(Dmytro Nechai)_
+  [#402](https://github.com/metarhia/jstp/pull/402)
+- **deps:** update devDependencies
+  _(Mykola Bilochub)_
+  [#403](https://github.com/metarhia/jstp/pull/403)
+- **lib:** remove unsupported Web Crypto API warning
+  _(Alexey Orlenko)_
+  [#404](https://github.com/metarhia/jstp/pull/404)
+- **meta:** update year in LICENSE
+  _(Mykola Bilochub)_
+  [#405](https://github.com/metarhia/jstp/pull/405)
+- **meta:** update .mailmap
+  _(Mykola Bilochub)_
+  [#406](https://github.com/metarhia/jstp/pull/406)
+
 ## Version 2.2.0 (2018-12-26, @belochub)
 
 This minor version release features multiple fixes and improvements to the
